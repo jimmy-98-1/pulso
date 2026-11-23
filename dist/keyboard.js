@@ -38,34 +38,6 @@ for(const row of rows){
   byId("keys").append(line);
 }
 
-const svgNS="http://www.w3.org/2000/svg";
-const svgElement=(tag,attributes)=>{
-  const element=document.createElementNS(svgNS,tag);
-  for(const [key,value] of Object.entries(attributes)) element.setAttribute(key,value);
-  return element;
-};
-const fingers=[];
-const hands=svgElement("svg",{viewBox:"0 0 166 65"});
-for(let side=0;side<2;side++){
-  const group=svgElement("g",{transform:side?"translate(166,0) scale(-1,1)":"translate(0,0)"});
-  group.append(svgElement("path",{class:"palm",d:"M 13,34 C 18,29 55,29 58,39 L 60,49 Q 59,60 48,62 H 28 Q 15,61 13,50 Z"}));
-  const digits=[
-    ["M15 37 L12 25",0],
-    ["M25 34 L23 14",1],
-    ["M35 32 L34 8",2],
-    ["M46 34 L46 13",3],
-    ["M56 45 L68 29",8]
-  ];
-  for(const [d,index] of digits){
-    const position=side && index!==8 ? 7-index : index;
-    const finger=svgElement("path",{class:"finger",d,"data-finger":colors[position]});
-    group.append(finger);
-    fingers.push({position,finger});
-  }
-  hands.append(group);
-}
-byId("hands").append(hands);
-
 function identify(char){
   if(!char) return null;
   const nfd=char.normalize("NFD");
@@ -83,7 +55,6 @@ function identify(char){
 
 export function guideKey(char, enabled, finished){
   for(const tile of tiles.values()) tile.classList.remove("active","modifier");
-  for(const {finger} of fingers) finger.classList.remove("active");
   const next=byId("nextKey");
   const name=byId("finger");
   const action=byId("keyAction");
@@ -105,7 +76,6 @@ export function guideKey(char, enabled, finished){
   if(accent) tiles.get("´")?.classList.add("modifier");
   if(shift || accent==="¨") tiles.get(finger<4 && accent!=="¨"?"Mayús der.":"Mayús izq.")?.classList.add("modifier");
   if(altGr) tiles.get("Alt Gr")?.classList.add("modifier");
-  for(const item of fingers) item.finger.classList.toggle("active",item.position===finger);
   next.textContent=char===" "?"␣":char;
   next.dataset.finger=colors[finger]??"";
   prompt.dataset.finger=next.dataset.finger;

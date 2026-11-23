@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="#0b0c13">
+  <meta name="theme-color" content="#20283b">
   <meta name="description" content="Un simulador de vuelo para aprender mecanografía en español.">
   <title>Pulso — Mecanografía arcade</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='9' fill='%23dcfc79'/%3E%3Cpath d='M7 21h8l4-9 4 16 4-7h6' fill='none' stroke='%2312150b' stroke-width='2.5'/%3E%3C/svg%3E">
@@ -19,7 +19,7 @@
         <button type="button" data-view="map"><span aria-hidden="true">⌘</span> Misiones</button>
         <button type="button" data-view="lab"><span aria-hidden="true">⌁</span> Progreso</button>
       </nav>
-      <button id="sound" class="sound" type="button" aria-pressed="false" aria-label="Activar sonido"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path id="waves" d="m16 10 5 5m0-5-5 5"/></svg></button>
+      <div class="top-tools"><button id="openGuide" class="secondary" type="button">Cómo jugar</button><button id="sound" class="sound" type="button" aria-pressed="false" aria-label="Activar sonido"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path id="waves" d="m16 10 5 5m0-5-5 5"/></svg></button></div>
     </div>
   </header>
 
@@ -29,6 +29,14 @@
         <div><h1 id="flyTitle">Aprende tecla a tecla<span>.</span></h1><p>Un vuelo a la vez, a tu ritmo.</p></div>
         <div class="profile-label"><span aria-hidden="true">✦</span><div><strong id="rank">Cadete</strong><small id="xp">0 XP</small></div></div>
       </div>
+          <section class="flight panel" aria-label="Simulador de vuelo">
+            <div class="flight-head"><span><i></i> VUELO / <b id="flightName">DESPEGUE</b></span><span id="phase">EN HANGAR</span></div>
+            <div class="scene">
+              <canvas id="space" width="1200" height="350" aria-hidden="true"></canvas>
+              <div class="scene-hud"><span class="scene-label"><b>✦</b> <span id="sector">ÓRBITA BAJA</span></span><span id="combo">RACHA ×0</span></div>
+              <div class="scene-bottom"><span><b id="distance">0</b>% DE TRAYECTO</span><div class="track" role="progressbar" aria-label="Trayecto" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="progress"></span><i id="ghostMarker" hidden></i></div><span class="goal" aria-hidden="true">◇</span></div>
+            </div>
+          </section>
       <div class="cockpit">
         <div class="flight-column">
           <section class="practice panel" aria-label="Ejercicio de mecanografía">
@@ -43,6 +51,7 @@
             <ol id="lessonSteps" aria-label="Pasos de la guía">
               <li><span>1</span> Índice izquierdo</li><li><span>2</span> Índice derecho</li><li><span>3</span> Combina las manos</li>
             </ol>
+            <div class="flight-rules" id="flightRules" hidden><div id="lives" role="img" aria-label="Vidas"></div><strong id="deadline" hidden></strong></div>
             <div class="typing" id="typing">
               <div class="typing-head"><label id="typingLabel" for="input">SECUENCIA DEL EJERCICIO</label><span id="letterCount"></span></div>
               <textarea id="input" rows="1" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" disabled></textarea>
@@ -61,7 +70,6 @@
             <div class="key-coach">
               <div class="next-key" id="nextKey" aria-hidden="true"></div>
               <div class="key-coach-text"><strong id="finger"></strong><span id="keyAction"></span></div>
-              <div id="hands" aria-hidden="true"></div>
             </div>
             <div class="keyboard-case"><div id="keys" aria-hidden="true"></div></div>
             <div class="key-legend"><span>Índice</span><span>Medio</span><span>Anular</span><span>Meñique</span><span>Pulgar</span></div>
@@ -69,19 +77,6 @@
         </div>
 
         <aside class="flight-side">
-          <section class="flight panel" aria-label="Simulador de vuelo">
-            <div class="flight-head"><span><i></i> VUELO / <b id="flightName">DESPEGUE</b></span><span id="phase">EN HANGAR</span></div>
-            <div class="scene">
-              <canvas id="space" width="900" height="350" aria-hidden="true"></canvas>
-              <div class="scene-hud"><span class="scene-label"><b>✦</b> <span id="sector">ÓRBITA BAJA</span></span><span id="combo">RACHA ×0</span></div>
-              <div class="scene-bottom"><span><b id="distance">0</b>% DE TRAYECTO</span><div class="track" role="progressbar" aria-label="Trayecto" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="progress"></span><i id="ghostMarker" hidden></i></div><span class="goal" aria-hidden="true">◇</span></div>
-            </div>
-          </section>
-          <section class="panel briefing" id="guideCard">
-            <h2>¿Es tu primera vez?</h2>
-            <p>Aprende a colocar las manos y prueba las letras F y J en tres pasos.</p>
-            <button class="secondary wide" id="tutorial" type="button">Abrir guía inicial</button>
-          </section>
           <section class="panel telemetry" aria-labelledby="telemetryTitle">
             <div class="card-title"><h2 id="telemetryTitle">Estadísticas</h2><span class="badge" id="timer">00:00</span></div>
             <div class="metrics">
@@ -98,6 +93,8 @@
 
     <section id="map" hidden aria-labelledby="mapTitle">
       <div class="page-title"><div><div class="eyebrow"><span class="beam"></span> CAMPAÑA</div><h1 id="mapTitle">Elige una misión<span>.</span></h1><p>Empieza por la fila central o salta a las teclas que quieras practicar.</p></div></div>
+      <div id="tierPicker" class="tier-picker" role="group" aria-label="Dificultad"></div>
+      <div class="tier-overview"><div><h2 id="tierName"></h2><p id="tierDesc"></p></div><strong id="tierProgress"></strong></div>
       <div id="missions" class="mission-grid"></div>
     </section>
 
@@ -110,6 +107,19 @@
     </section>
     <footer><span>PULSO / Mecanografía en español</span><span>Progreso guardado en este navegador</span></footer>
   </main>
+
+  <dialog id="welcome" aria-labelledby="welcomeTitle">
+    <div class="welcome-art" aria-hidden="true"><span>F</span><span>J</span></div>
+    <div class="eyebrow">GUÍA DE VUELO</div>
+    <h2 id="welcomeTitle">¿Es tu primera vez?</h2>
+    <p>En PULSO escribes para pilotar. Cada acierto acerca la nave al planeta.</p>
+    <ol class="welcome-steps">
+      <li><div><strong>Coloca los dedos.</strong><p>Busca el relieve de F y J. Apoya un índice en cada tecla.</p></div></li>
+      <li><div><strong>Sigue la tecla que late.</strong><p>Pulsa Empezar y escribe con tu teclado. El color y la pista te indican qué dedo usar.</p></div></li>
+      <li><div><strong>Cuida tus vidas.</strong><p>Cada fallo en una misión cuesta una vida. Si las agotas, repites esa misión y conservas las anteriores.</p></div></li>
+    </ol>
+    <div class="report-buttons"><button class="primary" id="tutorial" type="button" autofocus>Practicar F y J</button><button class="secondary" id="closeGuide" type="button">Ir a la cabina</button></div>
+  </dialog>
 
   <dialog id="report" aria-labelledby="reportTitle">
     <div class="eyebrow"><span class="beam"></span> INFORME DE VUELO</div>
