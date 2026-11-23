@@ -1,4 +1,5 @@
 import {burst, drawOrbit} from "./orbit.js";
+import {flashKey, guideKey} from "./keyboard.js";
 
 const missions = [
   {id:"launch",name:"Despegue",sector:"Órbita baja",skill:"Fila central",level:"Iniciación",tags:["A S D F","J K L Ñ"],desc:"Encuentra las marcas de F y J con los índices. Desde ahí, activa los motores sin mirar el teclado.",texts:["asdf jklñ fj dk sl añ faja sala ja lla", "fj dk sl añ asdf jklñ falda salsa dallas", "f j d k s l a ñ faja ala sala dada"]},
@@ -9,10 +10,20 @@ const missions = [
   {id:"rescue",name:"Balizas de rescate",sector:"Luna exterior",skill:"Elección de objetivos",level:"Operación",tags:["3 GRUPOS DE BALIZAS","RUTA LIBRE"],desc:"Escribe la primera letra de cualquier baliza del radar para fijar el objetivo. Termina el nombre, pulsa Espacio y rescata la siguiente en el orden que quieras.",texts:["faro hielo nube radio señal valle cima pulso zenit", "cable duna eco faro giro isla lago marea norte", "alba balsa clave delta eje faro huella orbe torre"]},
   {id:"storm",name:"Tormenta de iones",sector:"Frente de iones",skill:"Supervivencia",level:"Desafío",tags:["6 ESCUDOS","Racha +1"],desc:"Cada error quita un escudo. Un impulso de 10 aciertos seguidos recupera uno. Llega al otro lado con la nave intacta.",texts:["¡Misión 21! Esquiva el relámpago, gira a babor y vuelve a órbita.", "La tormenta cayó encima. ¡Sube a 750 y mantén el rumbo!", "¿Ves la señal? A las 08:30 giramos. ¡Confía en tu tripulación!"]}
 ];
+const tutorial = {
+  id:"tutorial", name:"Primeras teclas", level:"Primer ejercicio", sector:"Hangar de prácticas",
+  texts:["f j fj jf fjf jfj"],
+  desc:"Coloca el índice izquierdo en F y el derecho en J. Las dos teclas tienen un pequeño relieve."
+};
+const steps = [
+  "Pulsa F con el índice izquierdo. Usa un pulgar para el espacio.",
+  "Pulsa J con el índice derecho. Deja el otro índice sobre F.",
+  "Alterna las manos. Si te equivocas, prueba de nuevo la misma tecla."
+];
 const adaptive = {id:"adaptive",name:"Vuelo a medida",sector:"Zona de pruebas",skill:"Tus teclas",level:"Adaptativo",tags:[],desc:"El laboratorio ha preparado una secuencia con las teclas que más has fallado."};
 const words = "agua quietud whisky teclado kiwi jazz zigzag extraño xilófono luna planeta radio cámara órbita nave motor volver bruma cima vecino zorro cosmos viaje veloz equipo juego queso qué quién cuándo dónde pingüino vergüenza año cañón señal pequeña mañana niño botón acción ágil héroe vídeo fútbol útil cráter éter ícaro misión túnel ciudad jinete kilómetro kilo control extra meteorito base espacio estación ruta salto dedos pulso colonia casco láser revolución".split(" ");
 const storeKey = "pulso-arcade-v1";
-const defaults = {xp:0,records:{},errors:{},history:[],sound:false};
+const defaults = {xp:0,records:{},errors:{},history:[],sound:false,hints:true,guideDone:false};
 let saved;
 try {saved = {...defaults,...JSON.parse(localStorage.getItem(storeKey)||"{}")};} catch {saved = {...defaults};}
 function persist(){try {localStorage.setItem(storeKey,JSON.stringify(saved));} catch {/* Session play remains available. */}}
@@ -93,31 +104,6 @@ function show(target){
   window.scrollTo(0,0);
 }
 
-const rows = [
-  ["º","1","2","3","4","5","6","7","8","9","0","'","¡"],
-  ["q","w","e","r","t","y","u","i","o","p","\u0060","+"],
-  ["a","s","d","f","g","h","j","k","l","ñ","´","ç"],
-  ["Mayús izq.","<","z","x","c","v","b","n","m",",",".","-","Mayús der."],
-  [" "]
-];
-const keys = new Map();
-const home = "asdfjklñ";
-for(const row of rows){
-  const line = make("div",undefined,"keyrow");
-  for(const key of row){
-    const label = key===" "?"Espacio":key.startsWith("Mayús")?"⇧":key.length===1?key.toUpperCase():key;
-    const tile = make("span",label,"key");
-    if(home.includes(key)) tile.classList.add("home");
-    if(key===" ") tile.classList.add("space");
-    keys.set(key,tile);
-    line.append(tile);
-  }
-  $("keys").append(line);
-}
-const left = ["1qazº<","2wsx","3edc","4rfv5tgb"];
-const right = ["6yhn7ujm","8ik,","9ol.","0pñ'¡\u0060+´ç-"];
-const fingerNames = ["Meñique izquierdo","Anular izquierdo","Medio izquierdo","Índice izquierdo","Índice derecho","Medio derecho","Anular derecho","Meñique derecho"];
-const shifted = {"!":"1",'"':"2","·":"3","$":"4","%":"5","&":"6","/":"7","(":"8",")":"9","=":"0","?":"'","¿":"¡",";":",",":":".","_":"-"};
 function rescueOptions(){
   if(mission.id!=="rescue" || position>=chars.length) return [];
   const prefix=chars.slice(0,position).join("");
@@ -151,18 +137,29 @@ function selectBeacon(char){
   announce("Baliza "+match.word+" fijada.");
 }
 function keyGuide(char){
-  for(const key of keys.values()) key.classList.remove("active","dead");
-  if(!char){$("finger").textContent="Dedos sobre F y J";return;}
-  const normalized=char.normalize("NFD");
-  const accent=normalized.includes("\u0301");
-  const umlaut=normalized.includes("\u0308");
-  const base=shifted[char]??normalized[0].toLowerCase();
-  const finger=[...left,...right].findIndex(group=>group.includes(base));
-  const shift=Object.hasOwn(shifted,char) || char!==char.toLowerCase();
-  keys.get(base)?.classList.add("active");
-  if(shift || umlaut) keys.get(finger<4?"Mayús der.":"Mayús izq.")?.classList.add("dead");
-  if(accent || umlaut) keys.get("´")?.classList.add("dead");
-  $("finger").textContent=base===" "?"Pulgar · Espacio":accent || umlaut?`Primero ${umlaut?"¨":"´"}, luego ${shift?"Mayús + ":""}${base.toUpperCase()}`:shift?`Mayús + ${base.toUpperCase()}`:fingerNames[finger]??"";
+  guideKey(char,saved.hints,position===chars.length);
+}
+function paintHints(){
+  $("hints").setAttribute("aria-pressed",String(saved.hints));
+  $("hints").textContent=saved.hints?"Pistas activadas":"Pistas desactivadas";
+  keyGuide(chars[position]);
+}
+function paintLesson(){
+  const isGuide=mission===tutorial;
+  $("lessonLevel").textContent=mission.level;
+  $("missionTitle").textContent=mission.name;
+  $("missionDesc").textContent=mission.desc;
+  $("lessonSteps").hidden=!isGuide;
+  $("guideCard").hidden=isGuide;
+  if(!isGuide) return;
+  const step=position<2?0:position<4?1:2;
+  for(const [index,item] of [...$("lessonSteps").children].entries()){
+    item.classList.toggle("complete",index<step || state==="won");
+    if(index===step && state!=="won") item.setAttribute("aria-current","step");
+    else item.removeAttribute("aria-current");
+  }
+  if(state==="active" || state==="paused") $("missionDesc").textContent=steps[step];
+  if(state==="won") $("missionDesc").textContent="Has completado los tres pasos. Puedes seguir con Despegue desde Misiones.";
 }
 function renderPrompt(){
   const prompt = $("prompt");
@@ -235,7 +232,9 @@ function paintState(){
   $("combo").textContent="RACHA ×"+combo;
   $("combo").classList.toggle("hot",combo>=5);
   $("start").hidden=state==="active";
-  $("start").firstChild.textContent=state==="paused"?"Reanudar ":state==="won" || state==="lost"?"Volver a volar ":"Despegar ";
+  $("start").firstChild.textContent=state==="paused"?"Continuar ":state==="won" || state==="lost"?"Repetir ejercicio ":"Empezar ";
+  $("letterCount").textContent=position+" / "+chars.length;
+  paintLesson();
   $("pause").hidden=state!=="active";
   $("restart").hidden=state==="idle";
   $("help").replaceChildren();
@@ -244,9 +243,10 @@ function paintState(){
   else if(state==="idle") $("help").append("Pulsa ",make("kbd","Enter")," para empezar");
   const record=saved.records[mission.id];
   $("record").textContent=record?record.ppm+" PPM":"—";
+  $("ghost").hidden=mission===tutorial;
   $("ghost").disabled=!record || ["active","paused"].includes(state);
   $("ghost").textContent=ghost?"Desactivar fantasma":"Activar fantasma";
-  $("ghostCopy").textContent=ghost?"El fantasma morado repite los tiempos de tu récord.":record?"Vuela la misma secuencia contra tu mejor tiempo.":"Completa un vuelo para competir contra tu marca.";
+  $("ghostCopy").textContent=mission===tutorial?"En esta guía puedes tomarte el tiempo que necesites.":ghost?"El fantasma morado repite los tiempos de tu récord.":record?"Vuela la misma secuencia contra tu mejor tiempo.":"Completa un vuelo para competir contra tu marca.";
 }
 function prepare(challenge,sequence=null,opponent=null){
   clearTimeout(badTimer);
@@ -263,9 +263,7 @@ function prepare(challenge,sequence=null,opponent=null){
   input.disabled=true;
   $("flightName").textContent=mission.name.toUpperCase();
   $("sector").textContent=mission.sector.toUpperCase();
-  $("missionTitle").textContent=mission.name;
-  $("missionDesc").textContent=mission.desc;
-  $("missionTarget").replaceChildren(...mission.tags.map(tag=>make("span",tag)));
+  $("typingFeedback").textContent="";
   paintState();renderPrompt();paintBeacons();telemetry();
 }
 function begin(){
@@ -276,7 +274,8 @@ function begin(){
   state="active";
   input.focus({preventScroll:true});
   paintState();
-  announce("En vuelo.");
+  $("typingFeedback").textContent="";
+  announce("Ejercicio en marcha. Escribe la tecla marcada.");
   sound("tap");
 }
 function pause(){
@@ -295,11 +294,12 @@ function finish(success){
   input.disabled=true;
   const final=metrics();
   const previous=saved.records[mission.id];
-  const improved=success && (!previous || final.ppm>previous.ppm || (final.ppm===previous.ppm && final.ms<previous.ms));
+  const improved=mission!==tutorial && success && (!previous || final.ppm>previous.ppm || (final.ppm===previous.ppm && final.ms<previous.ms));
   if(improved) saved.records[mission.id]={text,splits:[...splits],ppm:final.ppm,ms:final.ms};
   const ahead=ghost && elapsedBefore<ghost.ms;
   const xp=success?Math.round((32+maxCombo*.8)*final.accuracy/100):0;
   saved.xp+=xp;
+  if(mission===tutorial && success) saved.guideDone=true;
   for(const [key,count] of Object.entries(errors)) saved.errors[key]=(saved.errors[key]??0)+count;
   saved.history.unshift({name:mission.name,ppm:final.ppm,accuracy:final.accuracy,won:success});
   saved.history=saved.history.slice(0,12);
@@ -308,23 +308,26 @@ function finish(success){
   paintBeacons();
   burst(success?"finish":"error");
   sound(success?"finish":"error");
-  $("reportTitle").textContent=success?(ahead?"¡Fantasma superado!":"¡Destino alcanzado!"):"Escudos agotados";
+  $("reportTitle").textContent=mission===tutorial?"¡Ya sabes dónde empezar!":success?(ahead?"¡Fantasma superado!":"¡Destino alcanzado!"):"Escudos agotados";
   const toughest=Object.entries(errors).sort((a,b)=>b[1]-a[1])[0];
-  const notes=[improved?"Nuevo récord de misión.":success?"Vuelo registrado.":"Cada error ha quedado registrado en el laboratorio."];
+  const notes=[mission===tutorial?"Ya has practicado F y J. En Despegue aprenderás el resto de la fila central.":improved?"Nuevo récord de misión.":success?"Vuelo registrado.":"Cada error ha quedado registrado en el laboratorio."];
   if(toughest && success) notes.push("Tecla más fallada: "+keyLabel(toughest[0])+".");
   $("reportCopy").textContent=notes.join(" ");
-  $("reportMetrics").replaceChildren(...[[final.ppm,"PPM"],[final.accuracy+"%","Precisión"],[success?"+"+xp:"×"+maxCombo,success?"XP":"Mejor racha"]].map(([value,label])=>{
+  $("reportMetrics").replaceChildren(...[[final.ppm,"Palabras/min"],[final.accuracy+"%","Precisión"],[success?"+"+xp:"×"+maxCombo,success?"XP":"Mejor racha"]].map(([value,label])=>{
     const tile=make("div");tile.append(make("strong",value),make("span",label));return tile;
   }));
   const index=missions.findIndex(item=>item.id===mission.id);
-  $("next").textContent=success && index>=0 && index<missions.length-1?"Siguiente misión":"Volver a volar";
+  $("next").textContent=mission===tutorial?"Ir a Despegue":success && index>=0 && index<missions.length-1?"Siguiente misión":"Repetir ejercicio";
   report.showModal();
 }
 function hit(char){
   if(state!=="active") return;
   attempts++;
   selectBeacon(char);
-  if(char===chars[position]){
+  const correct=char===chars[position];
+  flashKey(char,correct);
+  $("typingFeedback").textContent="";
+  if(correct){
     position++;
     splits.push(elapsed());
     combo++;
@@ -346,7 +349,9 @@ function hit(char){
     clearTimeout(badTimer);
     badTimer=setTimeout(()=>mark?.classList.remove("bad"),260);
     burst("error");sound("error");
-    announce("La siguiente tecla es "+keyLabel(target)+".");
+    const retry=target===" "?"Pulsa Espacio para seguir.":"Prueba otra vez con «"+target+"».";
+    $("typingFeedback").textContent=retry;
+    announce(retry);
     if(mission.id==="storm" && --shields===0){finish(false);return;}
   }
   paintState();telemetry();
@@ -392,12 +397,25 @@ $("ghost").addEventListener("click",()=>{
 for(const button of document.querySelectorAll("[data-view],[data-go]")){
   button.addEventListener("click",()=>show(button.dataset.view??button.dataset.go));
 }
+$("hints").addEventListener("click",()=>{
+  saved.hints=!saved.hints;
+  persist();
+  paintHints();
+  if(state==="active") input.focus({preventScroll:true});
+});
+$("tutorial").addEventListener("click",()=>{
+  saved.hints=true;
+  persist();
+  prepare(tutorial);
+  paintHints();
+  $("start").focus();
+});
 $("closeReport").addEventListener("click",()=>report.close());
 $("next").addEventListener("click",()=>{
   const index=missions.findIndex(item=>item.id===mission.id);
   const move=state==="won" && index>=0 && index<missions.length-1;
   report.close();
-  if(move){prepare(missions[index+1]);$("start").focus();}
+  if(mission===tutorial || move){prepare(missions[index+1]);$("start").focus();}
   else begin();
 });
 
@@ -405,12 +423,12 @@ function paintMissions(){
   $("missions").replaceChildren(...missions.map(item=>{
     const card=make("article",undefined,"panel mission-card");
     const record=saved.records[item.id];
-    const button=make("button",item===mission?"Volver a la cabina":"Elegir misión","secondary");
+    const button=make("button",item===mission?"Volver a practicar":item===missions[0]?"Practicar en Despegue":"Elegir misión",item===missions[0]?"primary":"secondary");
     button.type="button";
     button.addEventListener("click",()=>{if(item!==mission) prepare(item);show("fly");$("start").focus();});
     const tags=make("div",undefined,"mission-target");
     tags.append(...item.tags.map(tag=>make("span",tag)));
-    card.append(make("span",item.level.toUpperCase(),"eyebrow"),make("h2",item.name),make("p",item.skill+" · "+(record?record.ppm+" PPM de récord":"Por completar")),make("p",item.desc),tags,button);
+    card.append(make("span",item.level.toUpperCase(),"eyebrow"),make("h2",item.name),make("p",item.skill+" · "+(record?record.ppm+" PPM de récord":item===missions[0]?"Recomendado para empezar":"Por completar")),make("p",item.desc),tags,button);
     return card;
   }));
 }
@@ -447,7 +465,7 @@ $("drill").addEventListener("click",()=>{
   $("start").focus();
 });
 
-paintSound();paintProfile();prepare(mission);
+paintSound();paintProfile();prepare(saved.guideDone || saved.history.length?mission:tutorial);paintHints();
 function frame(now){
   if(view==="fly" && !document.hidden){
     if(state==="active" && now-lastTelemetry>120) telemetry(now);
