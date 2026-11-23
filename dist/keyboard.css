@@ -1,0 +1,359 @@
+[data-finger=index], .key-legend span:nth-child(1) { --finger-color: #c3e8dd; }
+[data-finger=middle], .key-legend span:nth-child(2) { --finger-color: #cad9f6; }
+[data-finger=ring], .key-legend span:nth-child(3) { --finger-color: #e5d4f5; }
+[data-finger=pinky], .key-legend span:nth-child(4) { --finger-color: #f3ccd6; }
+[data-finger=thumb], .key-legend span:nth-child(5) { --finger-color: #f0e6b7; }
+
+.keyboard {
+  background: radial-gradient(ellipse at 83% 0%, #4a5771, transparent 67%), var(--panel);
+  padding: 14px 19px 14px;
+}
+
+.keyboard-title {
+  margin-block-end: 11px;
+}
+
+.keyboard-title h2 {
+  font-size: 20px;
+}
+
+#hints {
+  min-height: 34px;
+  white-space: nowrap;
+  font-size: 12px;
+}
+
+#hints[aria-pressed=true] {
+  background: #4b4663;
+  border-color: #8a7ca2;
+}
+
+.key-coach {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  min-height: 57px;
+  margin-block-end: 11px;
+  padding: 8px 11px;
+  border: 1px solid #657491;
+  border-radius: 10px;
+  background: linear-gradient(110deg, #3e4963, #2a374e 67%);
+}
+
+.next-key {
+  display: grid;
+  place-items: center;
+  flex: 0 0 43px;
+  height: 42px;
+  border: 1px solid #ffffff85;
+  border-radius: 8px;
+  background: linear-gradient(145deg, #f7f3f3, var(--finger-color, var(--purple)));
+  box-shadow: inset 0 0 0 3px #fff5, 0 4px 0 #172439, 0 6px 9px #19253c66;
+  color: #192738;
+  font: 800 25px var(--mono);
+}
+
+.key-coach-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.key-coach-text strong, .key-coach-text span {
+  display: block;
+}
+
+.key-coach-text strong {
+  font-size: 15px;
+}
+
+.key-coach-text span {
+  margin-top: 2px;
+  color: #dfe6f3;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.key-chord {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 4px;
+}
+
+.key-chord kbd {
+  padding: 4px 6px;
+  background: #d9e1ef;
+  border: 1px solid #ebeff7;
+  border-bottom: 3px solid #9fadc6;
+  color: #233148;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.key-operator {
+  color: #c7d2e4;
+  font: 700 12px var(--mono);
+}
+
+.keyboard-case {
+  --key-height: 44px;
+  --key-gutter: 5px;
+  position: relative;
+  padding: 0 10px;
+  border: 1px solid #a5b0bf;
+  border-bottom-color: #172236;
+  border-radius: 15px;
+  background: linear-gradient(145deg, #929dae 0%, #66758b 14%, #60718a 76%, #3d4d64 100%);
+  box-shadow: inset 0 1px 0 #ecf1fa78, inset 0 -2px 0 #7587a052, 0 6px 0 #172338, 0 11px 16px #18223787;
+}
+
+.keyboard-rail {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 23px;
+  padding-inline: 5px;
+  color: #fcfdff;
+  font: 700 10px var(--mono);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.keyboard-rail span:first-child {
+  width: 23px;
+  height: 3px;
+  border-radius: 4px;
+  background: #d4e5c8;
+  box-shadow: 0 0 7px #e4f4cd9c;
+}
+
+.keyboard-well {
+  padding: 7px 4px 9px;
+  border: 1px solid #364359;
+  border-radius: 9px;
+  background: #253248;
+  box-shadow: inset 0 2px 7px #111d30;
+}
+
+.keyboard-edge {
+  display: flex;
+  justify-content: space-between;
+  min-height: 16px;
+  padding: 5px 5px 0;
+}
+
+.keyboard-edge i {
+  align-self: start;
+  display: grid;
+  place-items: center;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: linear-gradient(45deg, #abb5c4, #3d4c64);
+  box-shadow: 0 1px 1px #25334b;
+}
+
+.keyboard-edge i::before {
+  content: "";
+  width: 4px;
+  height: 1px;
+  background: #303e54;
+  transform: rotate(26deg);
+}
+
+#keys {
+  display: grid;
+  gap: var(--key-gutter);
+}
+
+.keyrow {
+  display: grid;
+  grid-template-columns: repeat(60, minmax(0, 1fr));
+  grid-auto-rows: var(--key-height);
+}
+
+.key {
+  --key-tint: color-mix(in srgb, var(--finger-color, #c2cddd) 46%, #e4e8ed);
+  --key-top: color-mix(in srgb, var(--key-tint) 80%, #fff);
+  --key-wall: color-mix(in srgb, var(--key-tint) 68%, #526680);
+  --key-floor: color-mix(in srgb, var(--key-tint) 47%, #3e516c);
+  position: relative;
+  grid-column: span var(--units);
+  min-width: 0;
+  margin-inline: calc(var(--key-gutter) / 2);
+  border-radius: 7px;
+  background: #151f32;
+  box-shadow: 0 2px 3px #0c1627a8;
+  color: #18283d;
+  user-select: none;
+}
+
+.keycap {
+  position: absolute;
+  inset: 0 0 1px;
+  display: block;
+  border-radius: inherit;
+  background: linear-gradient(140deg, var(--key-top), var(--key-wall) 53%, var(--key-floor));
+  box-shadow: inset 0 1px 0 #ffffff9d;
+  transform-origin: bottom center;
+  transition: transform .12s ease, filter .16s ease;
+}
+
+.key-face {
+  position: absolute;
+  inset: 2px 3px 8px;
+  display: grid;
+  place-items: center;
+  border-radius: 5px;
+  background: linear-gradient(155deg, var(--key-top), var(--key-tint) 82%);
+  box-shadow: inset 0 1px 0 #fff9, 0 1px 1px #41516c54;
+  font: 800 clamp(12px, 1.35vw, 17px) var(--mono);
+}
+
+.key-value {
+  white-space: nowrap;
+}
+
+.key-shift, .key-alt {
+  position: absolute;
+  top: 2px;
+  color: #42546c;
+  font: 700 9px var(--mono);
+}
+
+.key-shift { left: 4px; }
+.key-alt { right: 4px; }
+.key.special .key-face { font-size: 13px; }
+
+.key.home-marker .key-face::after {
+  position: absolute;
+  inset: auto auto 3px;
+  width: 10px;
+  height: 2px;
+  border-radius: 5px;
+  background: #667e91;
+  box-shadow: 0 1px 0 #fff8;
+  content: "";
+}
+
+.key.enter-tail {
+  visibility: hidden;
+}
+
+.key.enter-head {
+  z-index: 1;
+  height: calc(var(--key-height) * 2 + var(--key-gutter));
+}
+
+.key.enter-head, .key.enter-head .keycap, .key.enter-head .key-face {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 17% 100%, 17% 47%, 0 47%);
+}
+
+.key.enter-head .key-value {
+  margin-inline-start: 15%;
+}
+
+.key.active {
+  --key-tint: var(--finger-color, #e7eed1);
+  --key-top: color-mix(in srgb, var(--key-tint) 67%, #fff);
+  --key-wall: color-mix(in srgb, var(--key-tint) 82%, #6a7a94);
+  --key-floor: color-mix(in srgb, var(--key-tint) 70%, #556881);
+  z-index: 2;
+  outline: 2px solid #fff3ce;
+  outline-offset: 1px;
+}
+
+.key.active::after {
+  position: absolute;
+  inset: auto 24% 3px;
+  height: 3px;
+  border-radius: 6px;
+  background: #fff7db;
+  box-shadow: 0 0 8px #fff5d9d9;
+  content: "";
+}
+
+.key.modifier {
+  --key-tint: #e2d5f3;
+}
+
+.key.modifier .key-face {
+  outline: 1px dashed #6e5b95;
+  outline-offset: -2px;
+}
+
+.key.pressed {
+  --key-tint: #d7e8ae;
+}
+
+.key.missed {
+  --key-tint: #f2b5bf;
+}
+
+.key.pressed .keycap, .key.missed .keycap {
+  transform: translateY(4px) scaleY(.94);
+  filter: saturate(1.3);
+}
+
+.key.missed {
+  outline: 2px solid #f3bdc5;
+  outline-offset: 1px;
+}
+
+.neutral .key {
+  --finger-color: #c2cddd;
+}
+
+.key-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  margin-top: 16px;
+  color: #e4eaf8;
+  font-size: 12px;
+}
+
+.key-legend span::before {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: 5px;
+  border-radius: 50%;
+  background: var(--finger-color);
+  content: "";
+}
+
+@keyframes key-beacon {
+  0%, 100% { box-shadow: 0 0 0 1px #fff1cf4d, 0 0 7px #fff1cf55; }
+  50% { box-shadow: 0 0 0 2px #fff1cfbb, 0 0 17px #fff1cf9c; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  [data-flight-state=active] .key.active:not(.pressed):not(.missed),
+  [data-flight-state=idle] .key.active { animation: key-beacon 1.15s ease-in-out infinite; }
+}
+
+@media (max-width: 1000px) {
+  .keyboard { padding: 13px 14px; }
+  .keyboard-case { --key-height: 43px; --key-gutter: 4px; }
+  .key-shift, .key-alt { font-size: 8px; }
+}
+
+@media (max-width: 560px) {
+  .keyboard { padding: 11px 9px; }
+  .key-coach { gap: 8px; min-height: 56px; }
+  .key-coach-text span { font-size: 12px; }
+  .key-chord { display: none; }
+  .keyboard-case { --key-height: 33px; --key-gutter: 3px; padding-inline: 4px; }
+  .keyboard-well { padding: 4px 1px 6px; }
+  .keyboard-rail { min-height: 20px; }
+  .key { border-radius: 4px; }
+  .key-face { inset: 1px 1px 5px; border-radius: 3px; font-size: 11px; }
+  .key.special .key-face { font-size: 9px; }
+  .key-shift, .key-alt { top: 1px; font-size: 6px; }
+  .key-shift { left: 2px; }
+  .key-alt { right: 2px; }
+  .key.home-marker .key-face::after { width: 7px; bottom: 2px; }
+  .key.active::after { bottom: 2px; height: 2px; }
+}

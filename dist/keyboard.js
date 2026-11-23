@@ -1,16 +1,16 @@
 const rows = [
-  [["º","ª"],["1","!"],["2",'"',"@"],["3","·","#"],["4","$"],["5","%"],["6","&","¬"],["7","/"],["8","("],["9",")"],["0","="],["'","?"],["¡","¿"],["Retroceso","",null,1.8]],
-  [["Tab","",null,1.45],["q"],["w"],["e","","€"],["r"],["t"],["y"],["u"],["i"],["o"],["p"],["`","^","["],["+","*","]"],["Intro","",null,1.35]],
-  [["Bloq Mayús","",null,1.7],["a"],["s"],["d"],["f"],["g"],["h"],["j"],["k"],["l"],["ñ"],["´","¨","{"],["ç","","}"],["","",null,1.1]],
-  [["Mayús izq.","",null,1.25],["<",">"],["z"],["x"],["c"],["v"],["b"],["n"],["m"],[",",";"],[".",":"],["-","_"],["Mayús der.","",null,2.55]],
-  [["Ctrl","",null,1.35],["Alt","",null,1.3],[" ","",null,6],["Alt Gr","",null,1.3],["Ctrl der.","",null,1.35]]
+  [["º","ª"],["1","!","|"],["2",'"',"@"],["3","·","#"],["4","$","~"],["5","%"],["6","&","¬"],["7","/"],["8","("],["9",")"],["0","="],["'","?"],["¡","¿"],["Retroceso","",null,2]],
+  [["Tab","",null,1.5],["q"],["w"],["e","","€"],["r"],["t"],["y"],["u"],["i"],["o"],["p"],["`","^","["],["+","*","]"],["Intro","",null,1.5]],
+  [["Bloq Mayús","",null,1.75],["a"],["s"],["d"],["f"],["g"],["h"],["j"],["k"],["l"],["ñ"],["´","¨","{"],["ç","","}"],["","",null,1.25]],
+  [["Mayús izq.","",null,1.25],["<",">"],["z"],["x"],["c"],["v"],["b"],["n"],["m"],[",",";"],[".",":"],["-","_"],["Mayús der.","",null,2.75]],
+  [["Ctrl","",null,1.25],["Super izq.","",null,1.25],["Alt","",null,1.25],[" ","",null,6.25],["Alt Gr","",null,1.25],["Super der.","",null,1.25],["Menú","",null,1.25],["Ctrl der.","",null,1.25]]
 ];
 const groups = ["º1qaz<","2wsx","3edc","45rtfgvb","67yuhjnm","8ik,","9ol.","0'¡p`+ñ´ç-"," "];
 const names = ["Meñique izquierdo","Anular izquierdo","Medio izquierdo","Índice izquierdo","Índice derecho","Medio derecho","Anular derecho","Meñique derecho","Pulgar"];
 const colors = ["pinky","ring","middle","index","index","middle","ring","pinky","thumb"];
 const shifted = Object.fromEntries(rows.flat().filter(([,alt])=>alt).map(([key,alt])=>[alt,key]));
 const altGraphics = Object.fromEntries(rows.flat().filter(([, ,alt])=>alt).map(([key,,alt])=>[alt,key]));
-const labels = {" ":"Espacio","Retroceso":"⌫","Intro":"↵","Mayús izq.":"⇧","Mayús der.":"⇧","Ctrl der.":"Ctrl"};
+const labels = {" ":"Espacio","Retroceso":"⌫","Intro":"↵","Tab":"↹","Bloq Mayús":"⇪","Mayús izq.":"⇧","Mayús der.":"⇧","Ctrl der.":"Ctrl","Super izq.":"⊞","Super der.":"⊞","Menú":"☰"};
 const byId = id => document.getElementById(id);
 const create = (tag,className="",text="") => {
   const node=document.createElement(tag);
@@ -24,14 +24,18 @@ for(const row of rows){
   for(const [key,alt,altGr,weight=1] of row){
     const tile=create("span","key");
     if(key.length===1) tile.dataset.finger=colors[groups.findIndex(group=>group.includes(key))]??"";
-    tile.style.setProperty("--weight",weight);
-    if(alt) tile.append(create("span","key-shift",alt));
-    if(altGr) tile.append(create("span","key-alt",altGr));
-    tile.append(create("span","key-value",labels[key]??key.toUpperCase()));
+    tile.style.setProperty("--units",weight*4);
+    const cap=create("span","keycap");
+    const face=create("span","key-face");
+    if(alt) face.append(create("span","key-shift",alt));
+    if(altGr) face.append(create("span","key-alt",altGr));
+    face.append(create("span","key-value",labels[key]??key.toUpperCase()));
+    cap.append(face);
+    tile.append(cap);
     if(key==="f" || key==="j") tile.classList.add("home-marker");
-    if("asdfjklñ".includes(key) && key) tile.classList.add("home");
     if(Object.hasOwn(labels,key) || weight!==1) tile.classList.add("special");
     if(!key) tile.classList.add("enter-tail");
+    if(key==="Intro") tile.classList.add("enter-head");
     tiles.set(key,tile);
     line.append(tile);
   }
@@ -59,6 +63,9 @@ export function guideKey(char, enabled, finished){
   const name=byId("finger");
   const action=byId("keyAction");
   const hint=identify(char);
+  const chord=byId("keyChord");
+  chord.hidden=true;
+  chord.replaceChildren();
   const prompt=byId("prompt");
   prompt.removeAttribute("data-finger");
   next.dataset.finger="";
@@ -76,6 +83,16 @@ export function guideKey(char, enabled, finished){
   if(accent) tiles.get("´")?.classList.add("modifier");
   if(shift || accent==="¨") tiles.get(finger<4 && accent!=="¨"?"Mayús der.":"Mayús izq.")?.classList.add("modifier");
   if(altGr) tiles.get("Alt Gr")?.classList.add("modifier");
+  if(accent || shift || altGr){
+    const parts=[];
+    if(accent==="¨") parts.push("Mayús","+","´","·");
+    else if(accent) parts.push(accent,"·");
+    if(shift) parts.push("Mayús","+");
+    if(altGr) parts.push("Alt Gr","+");
+    parts.push(base);
+    chord.append(...parts.map(part=>part==="+" || part==="·"?create("span","key-operator",part):create("kbd","",part)));
+    chord.hidden=false;
+  }
   next.textContent=char===" "?"␣":char;
   next.dataset.finger=colors[finger]??"";
   prompt.dataset.finger=next.dataset.finger;

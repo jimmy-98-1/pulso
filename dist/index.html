@@ -8,6 +8,7 @@
   <title>Pulso — Mecanografía arcade</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='9' fill='%23dcfc79'/%3E%3Cpath d='M7 21h8l4-9 4 16 4-7h6' fill='none' stroke='%2312150b' stroke-width='2.5'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="keyboard.css">
   <script type="module" src="game.js"></script>
 </head>
 <body>
@@ -29,14 +30,6 @@
         <div><h1 id="flyTitle">Aprende tecla a tecla<span>.</span></h1><p>Un vuelo a la vez, a tu ritmo.</p></div>
         <div class="profile-label"><span aria-hidden="true">✦</span><div><strong id="rank">Cadete</strong><small id="xp">0 XP</small></div></div>
       </div>
-          <section class="flight panel" aria-label="Simulador de vuelo">
-            <div class="flight-head"><span><i></i> VUELO / <b id="flightName">DESPEGUE</b></span><span id="phase">EN HANGAR</span></div>
-            <div class="scene">
-              <canvas id="space" width="1200" height="350" aria-hidden="true"></canvas>
-              <div class="scene-hud"><span class="scene-label"><b>✦</b> <span id="sector">ÓRBITA BAJA</span></span><span id="combo">RACHA ×0</span></div>
-              <div class="scene-bottom"><span><b id="distance">0</b>% DE TRAYECTO</span><div class="track" role="progressbar" aria-label="Trayecto" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="progress"></span><i id="ghostMarker" hidden></i></div><span class="goal" aria-hidden="true">◇</span></div>
-            </div>
-          </section>
       <div class="cockpit">
         <div class="flight-column">
           <section class="practice panel" aria-label="Ejercicio de mecanografía">
@@ -64,19 +57,32 @@
           </section>
           <section class="keyboard panel" aria-label="Guía de teclado español">
             <div class="card-title keyboard-title">
-              <div><h2>Teclado guía</h2><p>Los colores indican qué dedo usar.</p></div>
+              <h2>Teclado guía</h2>
               <button type="button" id="hints" class="secondary" aria-pressed="true">Pistas activadas</button>
             </div>
             <div class="key-coach">
               <div class="next-key" id="nextKey" aria-hidden="true"></div>
               <div class="key-coach-text"><strong id="finger"></strong><span id="keyAction"></span></div>
+              <div id="keyChord" class="key-chord" aria-hidden="true" hidden></div>
             </div>
-            <div class="keyboard-case"><div id="keys" aria-hidden="true"></div></div>
+            <div class="keyboard-case">
+              <div class="keyboard-rail"><span aria-hidden="true"></span><span>Español · ISO</span></div>
+              <div class="keyboard-well"><div id="keys" aria-hidden="true"></div></div>
+              <div class="keyboard-edge" aria-hidden="true"><i></i><i></i></div>
+            </div>
             <div class="key-legend"><span>Índice</span><span>Medio</span><span>Anular</span><span>Meñique</span><span>Pulgar</span></div>
           </section>
         </div>
 
         <aside class="flight-side">
+          <section class="flight panel" aria-label="Simulador de vuelo">
+            <div class="flight-head"><span><i></i> VUELO / <b id="flightName">DESPEGUE</b></span><span id="phase">EN HANGAR</span></div>
+            <div class="scene">
+              <canvas id="space" width="1200" height="350" aria-hidden="true"></canvas>
+              <div class="scene-hud"><span class="scene-label"><b>✦</b> <span id="sector">ÓRBITA BAJA</span></span><span id="combo">RACHA ×0</span></div>
+              <div class="scene-bottom"><span><b id="distance">0</b>% DE TRAYECTO</span><div class="track" role="progressbar" aria-label="Trayecto" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="progress"></span><i id="ghostMarker" hidden></i></div><span class="goal" aria-hidden="true">◇</span></div>
+            </div>
+          </section>
           <section class="panel telemetry" aria-labelledby="telemetryTitle">
             <div class="card-title"><h2 id="telemetryTitle">Estadísticas</h2><span class="badge" id="timer">00:00</span></div>
             <div class="metrics">
