@@ -155,15 +155,22 @@ function paintLesson(){
     else item.removeAttribute("aria-current");
   }
   if(state==="active" || state==="paused") $("missionDesc").textContent=steps[step];
-  if(state==="won") $("missionDesc").textContent="Has completado los tres pasos. Puedes seguir con Despegue desde Misiones.";
+  if(state==="won") $("missionDesc").textContent="Has completado los tres pasos. Puedes seguir con la primera misión de la fila central.";
 }
 function renderPrompt(){
   const prompt = $("prompt");
   prompt.replaceChildren();
   const chunkSize=42;
-  let begin=Math.floor(position/chunkSize)*chunkSize;
-  if(position===chars.length) begin=Math.floor((position-1)/chunkSize)*chunkSize;
-  const end=Math.min(chars.length,begin+chunkSize);
+  let begin=0;
+  let end=0;
+  do {
+    begin=end;
+    end=Math.min(chars.length,begin+chunkSize);
+    if(end===chars.length) break;
+    let boundary=end;
+    while(boundary>begin && chars[boundary-1]!==" ") boundary--;
+    if(boundary>begin) end=boundary;
+  } while(position>=end);
   letters = [];
   let word = make("span",undefined,"word");
   prompt.append(word);
@@ -354,14 +361,14 @@ function finish(success,reason="lives"){
   $("reportTitle").textContent=mission===tutorial?"¡Ya sabes dónde empezar!":success?(ahead?"¡Fantasma superado!":"¡Destino alcanzado!"):reason==="time"?"Tiempo agotado":"Te has quedado sin vidas";
   const toughest=Object.entries(errors).sort((a,b)=>b[1]-a[1])[0];
   const accuracyLabel=final.accuracy===null?"—":final.accuracy+"%";
-  const notes=[mission===tutorial?"Ya has practicado F y J. En Despegue aprenderás el resto de la fila central.":improved?"Nuevo récord de misión.":success?"Vuelo registrado.":"Vuelve a intentar esta misión. Las misiones superadas siguen registradas."];
+  const notes=[mission===tutorial?"Ya has practicado F y J. La ruta te irá presentando los demás dedos de la fila central.":improved?"Nuevo récord de misión.":success?"Vuelo registrado.":"Vuelve a intentar esta misión. Las misiones superadas siguen registradas."];
   if(toughest && success) notes.push("Tecla más fallada: "+keyLabel(toughest[0])+".");
   $("reportCopy").textContent=notes.join(" ");
   $("reportMetrics").replaceChildren(...[[final.ppm,"Palabras/min"],[accuracyLabel,"Precisión"],[success?"+"+xp:"×"+maxCombo,success?"XP":"Mejor racha"]].map(([value,label])=>{
     const tile=make("div");tile.append(make("strong",value),make("span",label));return tile;
   }));
   const index=missions.findIndex(item=>item.id===mission.id);
-  $("next").textContent=mission===tutorial?"Ir a Despegue":success && index>=0 && index<missions.length-1?"Siguiente misión":success?"Repetir ejercicio":"Reintentar esta misión";
+  $("next").textContent=mission===tutorial?"Ir a la primera misión":success && index>=0 && index<missions.length-1?"Siguiente misión":success?"Repetir ejercicio":"Reintentar esta misión";
   report.showModal();
 }
 function hit(char){
@@ -512,11 +519,31 @@ function paintMissions(){
   $("tierProgress").textContent=complete+" de "+entries.length+" superadas";
   const recommended=entries.find(item=>!saved.records[item.id]);
   const current=entries.find(item=>item.id===selectedWaypoint)??recommended??entries[0];
-  paintWaypoints(entries,recommended,current);
+  paintStages(entries,recommended,current);
+}
+
+function paintStages(entries,recommended,current){
+  const stageNames=tiers[current.tier].stages;
+  $("stagePicker").replaceChildren(...stageNames.map((name,index)=>{
+    const levels=entries.filter(item=>item.stage===index);
+    const cleared=levels.filter(item=>saved.records[item.id]).length;
+    const button=make("button",undefined,"stage-button");
+    button.type="button";
+    button.setAttribute("aria-pressed",String(index===current.stage));
+    button.append(make("strong",name),make("span",cleared+" / "+levels.length+" superadas"));
+    button.addEventListener("click",()=>{
+      const next=levels.find(item=>!saved.records[item.id])??levels[0];
+      selectedWaypoint=next.id;
+      paintStages(entries,recommended,next);
+      $("stagePicker").children[index].focus({preventScroll:true});
+    });
+    return button;
+  }));
+  paintWaypoints(entries.filter(item=>item.stage===current.stage),recommended,current);
 }
 
 function paintWaypoints(entries,recommended,current){
-  $("waypoints").replaceChildren(...entries.map(item=>{
+  $("waypoints").replaceChildren(...entries.map((item,index)=>{
     const cleared=Boolean(saved.records[item.id]);
     const stop=make("button",undefined,"waypoint");
     stop.type="button";
@@ -529,7 +556,7 @@ function paintWaypoints(entries,recommended,current){
     stop.addEventListener("click",()=>{
       selectedWaypoint=item.id;
       paintWaypoints(entries,recommended,item);
-      $("waypoints").children[item.number-1].focus({preventScroll:true});
+      $("waypoints").children[index].focus({preventScroll:true});
     });
     return stop;
   }));
@@ -541,6 +568,7 @@ function paintWaypoints(entries,recommended,current){
   const tags=make("div",undefined,"mission-target");
   tags.append(make("span","♥ "+current.lives+" "+(current.lives===1?"vida":"vidas"),"life-tag"));
   tags.append(make("span",Math.floor(current.seconds/60)+":"+String(current.seconds%60).padStart(2,"0")));
+  tags.append(make("span",current.skill));
   if(record) tags.append(make("span","Récord "+record.ppm+" PPM"));
   for(const tag of current.tags??[]) tags.append(make("span",tag));
   info.append(tags);

@@ -265,7 +265,23 @@ dialog::backdrop { background:#131b20ba; }
 
 .waypoint-panel { margin-top:14px; padding:17px 18px; }
 .tier-overview { margin:0 0 14px; }
-#waypoints { display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); gap:5px; }
+#stagePicker, #waypoints { display:grid; gap:6px; }
+#stagePicker { grid-template-columns:repeat(4,minmax(0,1fr)); margin-bottom:10px; }
+#waypoints { grid-template-columns:repeat(5,minmax(0,1fr)); }
+.stage-button {
+  display:grid;
+  gap:4px;
+  min-width:0;
+  padding:9px 10px;
+  border:1px solid var(--line);
+  border-radius:8px;
+  background:#21292d;
+  color:var(--text);
+  text-align:left;
+}
+.stage-button:hover, .stage-button[aria-pressed=true] { background:#31423d; border-color:#6d8c81; }
+.stage-button strong { font-size:13px; }
+.stage-button span { color:var(--muted); font:600 11px var(--mono); }
 .waypoint {
   display:grid;
   justify-items:center;
@@ -320,7 +336,8 @@ dialog::backdrop { background:#131b20ba; }
   .flight-side { grid-template-columns:1fr; }
   .map-heading { align-items:start; }
   #campaignProgress { max-width:10ch; font-size:11px; }
-  #waypoints { grid-template-columns:repeat(4,minmax(0,1fr)); }
+  #stagePicker { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  #waypoints { grid-template-columns:repeat(3,minmax(0,1fr)); }
   .waypoint-panel { padding:11px; }
   .mission-brief { align-items:start; flex-direction:column; }
   .planet-button strong { font-size:12px; }
