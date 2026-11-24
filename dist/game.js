@@ -38,6 +38,7 @@ const counts = {};
 let view = "fly";
 let mission = missions[0];
 let selectedTier=0;
+let selectedWaypoint;
 let text = "";
 let initialSequence = "";
 let chars = [];
@@ -205,15 +206,33 @@ function compareGhost(ms){
   }
   return low/chars.length;
 }
+const clock=$("chrono");
+const clockReadout=$("deadline");
+const compactTime=$("compactTime");
+function paintCountdown(ms){
+  const limit=mission.seconds??0;
+  const remainder=Math.max(0,limit-ms/1000);
+  const seconds=Math.ceil(remainder);
+  const formatted=String(Math.floor(seconds/60)).padStart(2,"0")+":"+String(seconds%60).padStart(2,"0");
+  const face=limit?formatted:"∞";
+  if(clockReadout.textContent!==face){
+    clockReadout.textContent=face;
+    clockReadout.setAttribute("aria-label",limit?seconds+" segundos restantes":"Sin límite de tiempo");
+    compactTime.textContent=formatted;
+    compactTime.setAttribute("aria-label",seconds+" segundos restantes");
+  }
+  clock.style.setProperty("--sweep", (limit?remainder/limit:1)*360+"deg");
+  const urgency=limit && seconds<=10;
+  clock.classList.toggle("urgent",Boolean(urgency));
+  compactTime.classList.toggle("urgent",Boolean(urgency));
+  const label=limit===0?"Sin límite":state==="idle"?"Al empezar":state==="paused"?"En pausa":state==="won"?"Completada":state==="lost"?(seconds?"Intento cerrado":"Tiempo agotado"):"En marcha";
+  if($("chronoStatus").textContent!==label) $("chronoStatus").textContent=label;
+}
 const progressTrack=document.querySelector(".track");
 function telemetry(now=performance.now()){
   lastTelemetry=now;
   const {ms,ppm,accuracy}=metrics();
-  const seconds=Math.floor(ms/1000);
-  $("timer").textContent=String(Math.floor(seconds/60)).padStart(2,"0")+":"+String(seconds%60).padStart(2,"0");
-  const timeLeft=mission.seconds?Math.max(0,Math.ceil(mission.seconds-ms/1000)):0;
-  $("deadline").textContent=timeLeft+" s restantes";
-  $("deadline").classList.toggle("urgent",timeLeft<=10);
+  paintCountdown(ms);
   $("speed").textContent=ppm;
   $("accuracy").textContent=accuracy===null?"—":accuracy+"%";
   const percent=Math.floor(100*position/chars.length);
@@ -245,8 +264,8 @@ function timeExpired(){
 function paintState(){
   const phase=state==="active"?"EN VUELO":state==="paused"?"EN PAUSA":state==="won"?"DESTINO ALCANZADO":state==="lost"?"VUELO INTERRUMPIDO":"EN HANGAR";
   $("phase").textContent=phase;
-  $("flightRules").hidden=!mission.lives;
-  $("deadline").hidden=!mission.seconds;
+  $("flightRules").hidden=!mission.lives && !mission.seconds;
+  compactTime.hidden=!mission.seconds;
   $("fly").dataset.flightState=state;
   paintLives();
   $("combo").textContent="RACHA ×"+combo;
@@ -266,12 +285,13 @@ function paintState(){
   $("ghost").hidden=mission===tutorial;
   $("ghost").disabled=!record || ["active","paused"].includes(state);
   $("ghost").textContent=ghost?"Desactivar fantasma":"Activar fantasma";
-  $("ghostCopy").textContent=mission===tutorial?"En esta guía puedes tomarte el tiempo que necesites.":ghost?"El fantasma morado repite los tiempos de tu récord.":record?"Vuela la misma secuencia contra tu mejor tiempo.":"Completa un vuelo para competir contra tu marca.";
+  $("ghostCopy").textContent=mission===tutorial?"":ghost?"El fantasma morado repite los tiempos de tu récord.":record?"Vuela la misma secuencia contra tu mejor tiempo.":"Completa un vuelo para competir contra tu marca.";
 }
 function prepare(challenge,sequence=null,opponent=null){
   clearTimeout(badTimer);
   mission=challenge;
   if(mission.tier!==undefined) selectedTier=mission.tier;
+  selectedWaypoint=undefined;
   ghost=opponent;
   text=sequence??mission.texts[(counts[mission.id]??0)%mission.texts.length];
   chars=Array.from(text);
@@ -296,7 +316,7 @@ function begin(){
   started=performance.now();
   state="active";
   input.focus({preventScroll:true});
-  paintState();
+  paintState();telemetry();
   $("typingFeedback").textContent="";
   announce("Ejercicio en marcha. Escribe la tecla marcada.");
   sound("tap");
@@ -464,19 +484,25 @@ $("next").addEventListener("click",()=>{
 function paintMissions(){
   const countsByTier=tiers.map((_,tier)=>{
     const entries=missions.filter(item=>item.tier===tier);
-    const complete=entries.filter(item=>saved.records[item.id]).length;
-    return {entries,complete};
+    return {entries,complete:entries.filter(item=>saved.records[item.id]).length};
   });
+  const total=countsByTier.reduce((sum,entry)=>sum+entry.complete,0);
+  $("campaignProgress").textContent=total+" de "+missions.length+" misiones superadas";
   $("tierPicker").replaceChildren(...tiers.map((tier,index)=>{
     const {entries,complete}=countsByTier[index];
-    const button=make("button",undefined,"tier-button");
+    const button=make("button",undefined,"planet-button");
     button.type="button";
     button.setAttribute("aria-pressed",String(index===selectedTier));
-    button.append(make("strong",tier.name),make("span",complete+" / "+entries.length));
+    button.style.setProperty("--arc",complete/entries.length*360+"deg");
+    const orbit=make("span",undefined,"planet-orbit");
+    orbit.setAttribute("aria-hidden","true");
+    orbit.append(make("span",undefined,"planet-sphere"));
+    button.append(orbit,make("strong",tier.name),make("span",complete+" / "+entries.length,"planet-count"));
     button.addEventListener("click",()=>{
       selectedTier=index;
+      selectedWaypoint=undefined;
       paintMissions();
-      $("tierPicker").children[index].focus();
+      $("tierPicker").children[index].focus({preventScroll:true});
     });
     return button;
   }));
@@ -485,24 +511,44 @@ function paintMissions(){
   $("tierDesc").textContent=tiers[selectedTier].desc;
   $("tierProgress").textContent=complete+" de "+entries.length+" superadas";
   const recommended=entries.find(item=>!saved.records[item.id]);
-  $("missions").replaceChildren(...entries.map(item=>{
-    const record=saved.records[item.id];
-    const card=make("article",undefined,"panel mission-card");
-    card.classList.toggle("recommended",item===recommended);
-    const button=make("button",record?"Repetir misión":item===mission?"Volver a practicar":"Jugar nivel "+item.number,item===recommended?"primary":"secondary");
-    button.type="button";
-    button.addEventListener("click",()=>{if(item!==mission) prepare(item);show("fly");$("start").focus();});
-    const tags=make("div",undefined,"mission-target");
-    tags.append(make("span","♥ "+item.lives+" "+(item.lives===1?"vida":"vidas"),"life-tag"));
-    if(item.seconds) tags.append(make("span",item.seconds+" s"));
-    for(const tag of item.tags??[]) tags.append(make("span",tag));
-    const marker=record?"SUPERADA":item===recommended?"SIGUIENTE":"";
-    const info=make("div",undefined,"mission-label");
-    info.append(make("span","NIVEL "+item.number,"eyebrow"));
-    if(marker) info.append(make("span",marker,"mission-marker"));
-    card.append(info,make("h2",item.name),make("p",item.skill+(record?" · Récord "+record.ppm+" PPM":"")),make("p",item.desc),tags,button);
-    return card;
+  const current=entries.find(item=>item.id===selectedWaypoint)??recommended??entries[0];
+  paintWaypoints(entries,recommended,current);
+}
+
+function paintWaypoints(entries,recommended,current){
+  $("waypoints").replaceChildren(...entries.map(item=>{
+    const cleared=Boolean(saved.records[item.id]);
+    const stop=make("button",undefined,"waypoint");
+    stop.type="button";
+    stop.setAttribute("aria-pressed",String(item===current));
+    stop.setAttribute("aria-label","Nivel "+item.number+" · "+item.name+(cleared?" · Superada":item===recommended?" · Siguiente":""));
+    stop.classList.toggle("cleared",cleared);
+    const number=make("span",cleared?"✓":String(item.number),"waypoint-number");
+    number.setAttribute("aria-hidden","true");
+    stop.append(number,make("span",item.name,"waypoint-name"));
+    stop.addEventListener("click",()=>{
+      selectedWaypoint=item.id;
+      paintWaypoints(entries,recommended,item);
+      $("waypoints").children[item.number-1].focus({preventScroll:true});
+    });
+    return stop;
   }));
+  const record=saved.records[current.id];
+  const card=make("article",undefined,"mission-brief");
+  const info=make("div");
+  const label="Nivel "+current.number+(record?" · Superada":current===recommended?" · Siguiente":"");
+  info.append(make("div",label,"eyebrow"),make("h3",current.name),make("p",current.desc));
+  const tags=make("div",undefined,"mission-target");
+  tags.append(make("span","♥ "+current.lives+" "+(current.lives===1?"vida":"vidas"),"life-tag"));
+  tags.append(make("span",Math.floor(current.seconds/60)+":"+String(current.seconds%60).padStart(2,"0")));
+  if(record) tags.append(make("span","Récord "+record.ppm+" PPM"));
+  for(const tag of current.tags??[]) tags.append(make("span",tag));
+  info.append(tags);
+  const button=make("button",record?"Repetir misión":"Jugar nivel "+current.number,"primary");
+  button.type="button";
+  button.addEventListener("click",()=>{if(current!==mission) prepare(current);show("fly");$("start").focus();});
+  card.append(info,button);
+  $("missions").replaceChildren(card);
 }
 function weaknesses(){return Object.entries(saved.errors).sort((a,b)=>b[1]-a[1] || a[0].localeCompare(b[0],"es")).slice(0,4);}
 function paintLab(){

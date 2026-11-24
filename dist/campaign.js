@@ -11,7 +11,7 @@ const original = Object.fromEntries(classics.map(mission=>[mission.id,mission]))
 
 const sections = [
   {
-    name:"Acabo de empezar", sector:"Órbita baja", lives:[8,8,7,7,6,6,6],
+    name:"Acabo de empezar", sector:"Órbita baja", lives:[8,8,7,7,6,6,6], timers:[95,75,72,70,68,66,64],
     desc:"Coloca los dedos en la fila central y practica unas pocas teclas cada vez.",
     entries:[
       "launch",
@@ -24,7 +24,7 @@ const sections = [
     ]
   },
   {
-    name:"Principiante", sector:"Anillos de Saturno", lives:[7,7,6,6,5,5,5],
+    name:"Principiante", sector:"Anillos de Saturno", lives:[7,7,6,6,5,5,5], timers:[72,70,68,66,64,62,60],
     desc:"Añade las filas superior e inferior y aprende a regresar a la posición base.",
     entries:[
       ["re","Radar cercano","R, T y E","fer ter red tres tarde arte radar ruta","Sube con el índice para R y T y con el dedo medio para E."],
@@ -37,7 +37,7 @@ const sections = [
     ]
   },
   {
-    name:"Intermedio", sector:"Frecuencia lunar", lives:[6,6,5,5,4,4,4],
+    name:"Intermedio", sector:"Frecuencia lunar", lives:[6,6,5,5,4,4,4], timers:[75,72,70,68,66,64,62],
     desc:"Combina Mayús, tildes y puntuación en mensajes cortos.",
     entries:[
       ["caps","Lista de tripulación","Mayúsculas","Alba, Julia, Marcos, Elena, Gonzalo y Azucena.","Usa la tecla Mayús del lado contrario a la mano que escribe la letra."],
@@ -50,7 +50,7 @@ const sections = [
     ]
   },
   {
-    name:"Avanzado", sector:"Luna exterior", lives:[5,5,4,4,3,3,3],
+    name:"Avanzado", sector:"Luna exterior", lives:[5,5,4,4,3,3,3], timers:[71,70,68,66,64,62,58],
     desc:"Cambia de ritmo y alterna entre signos, números y palabras menos comunes.",
     entries:[
       "rescue",
@@ -63,7 +63,7 @@ const sections = [
     ]
   },
   {
-    name:"Experto", sector:"Espacio profundo", lives:[4,4,3,3,2,2,2],
+    name:"Experto", sector:"Espacio profundo", lives:[4,4,3,3,2,2,2], timers:[78,69,66,63,61,58,55],
     desc:"Vuelos largos con combinaciones exigentes y poco margen de error.",
     entries:[
       ["cartografia","Cartografía nocturna","Texto largo","Volamos sobre un océano oscuro. A estribor, una grieta azul dibujaba una línea perfecta; a babor, los relámpagos revelaban el perfil de los glaciares.","Mantén la precisión durante todo un párrafo."],
@@ -94,5 +94,5 @@ export const tiers=sections.map(({name,desc})=>({name,desc}));
 export const missions=sections.flatMap((section,tier)=>section.entries.map((entry,index)=>{
   const [id,name,skill,sequence,desc]=typeof entry==="string"?[]:entry;
   const mission=typeof entry==="string"?original[entry]:{id,name,skill,texts:[sequence],desc,sector:section.sector};
-  return {...mission,tier,number:index+1,level:section.name,lives:section.lives[index],seconds:section.timers?.[index]};
+  return {...mission,tier,number:index+1,level:section.name,lives:section.lives[index],seconds:section.timers[index]};
 }));

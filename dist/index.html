@@ -3,12 +3,13 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="#20283b">
+  <meta name="theme-color" content="#191817">
   <meta name="description" content="Un simulador de vuelo para aprender mecanografía en español.">
   <title>Pulso — Mecanografía arcade</title>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='9' fill='%23dcfc79'/%3E%3Cpath d='M7 21h8l4-9 4 16 4-7h6' fill='none' stroke='%2312150b' stroke-width='2.5'/%3E%3C/svg%3E">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='9' fill='%23dda477'/%3E%3Cpath d='M7 21h8l4-9 4 16 4-7h6' fill='none' stroke='%2312150b' stroke-width='2.5'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="keyboard.css">
+  <link rel="stylesheet" href="flight-deck.css">
   <script type="module" src="game.js"></script>
 </head>
 <body>
@@ -27,7 +28,7 @@
   <main class="shell">
     <section id="fly" aria-labelledby="flyTitle">
       <div class="page-title">
-        <div><h1 id="flyTitle">Aprende tecla a tecla<span>.</span></h1><p>Un vuelo a la vez, a tu ritmo.</p></div>
+        <div><h1 id="flyTitle">Aprende tecla a tecla<span>.</span></h1></div>
         <div class="profile-label"><span aria-hidden="true">✦</span><div><strong id="rank">Cadete</strong><small id="xp">0 XP</small></div></div>
       </div>
       <div class="cockpit">
@@ -44,7 +45,7 @@
             <ol id="lessonSteps" aria-label="Pasos de la guía">
               <li><span>1</span> Índice izquierdo</li><li><span>2</span> Índice derecho</li><li><span>3</span> Combina las manos</li>
             </ol>
-            <div class="flight-rules" id="flightRules" hidden><div id="lives" role="img" aria-label="Vidas"></div><strong id="deadline" hidden></strong></div>
+            <div class="flight-rules" id="flightRules" hidden><div id="lives" role="img" aria-label="Vidas"></div><strong id="compactTime" hidden></strong></div>
             <div class="typing" id="typing">
               <div class="typing-head"><label id="typingLabel" for="input">SECUENCIA DEL EJERCICIO</label><span id="letterCount"></span></div>
               <textarea id="input" rows="1" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" disabled></textarea>
@@ -84,7 +85,7 @@
             </div>
           </section>
           <section class="panel telemetry" aria-labelledby="telemetryTitle">
-            <div class="card-title"><h2 id="telemetryTitle">Estadísticas</h2><span class="badge" id="timer">00:00</span></div>
+            <div class="card-title"><h2 id="telemetryTitle">Estadísticas</h2></div>
             <div class="metrics">
               <div><strong id="speed">0</strong><span title="Palabras por minuto, calculadas a cinco caracteres por palabra">Palabras por minuto</span></div>
               <div><strong id="accuracy">—</strong><span>Precisión</span></div>
@@ -93,15 +94,30 @@
             <button class="secondary wide" id="ghost" type="button" disabled>Activar fantasma</button>
             <p id="ghostCopy">Completa un vuelo para competir contra tu marca.</p>
           </section>
+          <section class="panel chrono" id="chrono" aria-labelledby="chronoTitle">
+            <h2 id="chronoTitle">Cuenta atrás</h2>
+            <div class="chrono-dial">
+              <div class="chrono-ticks" aria-hidden="true"></div>
+              <time id="deadline" role="timer">—</time>
+              <span id="chronoStatus"></span>
+            </div>
+          </section>
         </aside>
       </div>
     </section>
 
     <section id="map" hidden aria-labelledby="mapTitle">
-      <div class="page-title"><div><div class="eyebrow"><span class="beam"></span> CAMPAÑA</div><h1 id="mapTitle">Elige una misión<span>.</span></h1><p>Empieza por la fila central o salta a las teclas que quieras practicar.</p></div></div>
-      <div id="tierPicker" class="tier-picker" role="group" aria-label="Dificultad"></div>
-      <div class="tier-overview"><div><h2 id="tierName"></h2><p id="tierDesc"></p></div><strong id="tierProgress"></strong></div>
-      <div id="missions" class="mission-grid"></div>
+      <div class="page-title map-heading"><div><h1 id="mapTitle">Ruta estelar<span>.</span></h1><p>Elige un planeta y un nivel de vuelo.</p></div><span id="campaignProgress"></span></div>
+      <div class="stellar-map">
+        <div class="orbital-path" aria-hidden="true"></div>
+        <div class="passing-ufo" aria-hidden="true"><i></i></div>
+        <div id="tierPicker" class="planet-picker" role="group" aria-label="Planetas por dificultad"></div>
+      </div>
+      <section class="panel waypoint-panel" aria-labelledby="tierName">
+        <div class="tier-overview"><div><h2 id="tierName"></h2><p id="tierDesc"></p></div><strong id="tierProgress"></strong></div>
+        <div id="waypoints" role="group" aria-label="Niveles de este planeta"></div>
+        <div id="missions"></div>
+      </section>
     </section>
 
     <section id="lab" hidden aria-labelledby="labTitle">
@@ -122,7 +138,7 @@
     <ol class="welcome-steps">
       <li><div><strong>Coloca los dedos.</strong><p>Busca el relieve de F y J. Apoya un índice en cada tecla.</p></div></li>
       <li><div><strong>Sigue la tecla que late.</strong><p>Pulsa Empezar y escribe con tu teclado. El color y la pista te indican qué dedo usar.</p></div></li>
-      <li><div><strong>Cuida tus vidas.</strong><p>Cada fallo en una misión cuesta una vida. Si las agotas, repites esa misión y conservas las anteriores.</p></div></li>
+      <li><div><strong>Cuida tus vidas.</strong><p>Acaba antes de que el reloj llegue a cero. Cada fallo cuesta una vida. Puedes reintentar cada misión.</p></div></li>
     </ol>
     <div class="report-buttons"><button class="primary" id="tutorial" type="button" autofocus>Practicar F y J</button><button class="secondary" id="closeGuide" type="button">Ir a la cabina</button></div>
   </dialog>

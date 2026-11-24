@@ -9,11 +9,11 @@ nav{display:flex;gap:5px}nav button,.sound{background:transparent;border:1px sol
 #prompt{padding:11px 13px;margin:11px 0 13px;background:#0b0d17;border:1px solid #2b3047;border-radius:8px;min-height:53px;display:flex;gap:0;align-content:center;flex-wrap:wrap;font:600 clamp(1.15rem,2.6vw,1.68rem)/1.48 var(--mono);color:#a5acc7;letter-spacing:.035em;cursor:text;overflow-wrap:anywhere}.word{white-space:nowrap;max-width:100%}.letter{display:inline-block;min-width:.61em;text-align:center;white-space:pre;border-radius:3px}.letter.done{color:#d7f393}.letter.current{background:var(--lime);color:#141809;box-shadow:0 0 15px #dcfc7945}.letter.current.bad{background:var(--rose);color:#260d16}.typing-actions,.report-buttons{display:flex;align-items:center;gap:13px;flex-wrap:wrap}.typing-actions #help{color:var(--muted);font-size:13px}.primary,.secondary{min-height:38px;border:1px solid transparent;border-radius:7px;padding:8px 13px;font-weight:750;font-size:14px}.primary{background:var(--lime);color:#171c0b}.primary:hover{background:#efffbb}.primary span{font-size:11px;margin-left:9px}.secondary{background:#191c2c;border-color:#333850;color:#e6e7f4}.secondary:hover:not(:disabled){border-color:var(--purple);background:#22253a}.wide{width:100%}kbd{font:11px var(--mono);background:#202338;border:1px solid #353b55;border-radius:4px;padding:2px 5px;color:#ebebf6}
 .briefing,.telemetry,.keyboard,.lab-card{padding:16px}.briefing{position:relative;background:radial-gradient(ellipse at 100% 0,#292149 0,transparent 57%),var(--panel)}.briefing .eyebrow{color:var(--purple)}.briefing .beam{background:var(--purple);box-shadow:none}.mission-glyph{height:59px;width:59px;border:1px solid #554673;background:#2a2243;border-radius:10px;margin:16px 0 12px;display:grid;place-items:center;color:var(--purple)}.mission-glyph svg{width:44px;stroke:currentColor;stroke-width:1.5;fill:none}.briefing h2{font-size:25px;letter-spacing:-.045em;margin-bottom:5px}.briefing p,.telemetry p{font-size:14px}.mission-target{display:flex;flex-wrap:wrap;gap:5px;margin:13px 0 15px}.badge,.mission-target span{font:11px var(--mono);letter-spacing:.035em;background:#202337;border:1px solid #343951;border-radius:5px;color:#d7d8ec;padding:4px 6px}.mission-target span{color:#ded3ff;background:#231e38;border-color:#433557}
 .card-title h2{font-size:15px;letter-spacing:-.015em}.metrics{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}.metrics>div,.report-metrics>div{background:#0d0f1a;border:1px solid #2b3044;border-radius:8px;padding:9px;min-width:0}.metrics strong,.report-metrics strong{display:block;font:700 24px var(--mono);color:var(--lime);letter-spacing:-.07em}.metrics span,.report-metrics span{display:block;font-size:12px;color:var(--muted);margin-top:3px}.record{margin:10px 0 13px;color:var(--muted);font-size:13px}.record strong{color:var(--text);white-space:nowrap}.telemetry p{margin-top:9px;font-size:12px}
-.mission-grid,.lab-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.lab-grid{grid-template-columns:1fr 1fr}.mission-card{padding:18px;display:flex;flex-direction:column;align-items:flex-start;gap:9px;background:radial-gradient(ellipse at 100% 0,#242045,transparent 65%),var(--panel)}.mission-card h2,.lab-card h2{font-size:22px;letter-spacing:-.04em}.mission-card p,.lab-card p{font-size:14px}.mission-card .mission-target{margin:2px 0 5px}.mission-card button{margin-top:auto}.lab-card p{margin:8px 0}.lab-card #drill{margin-top:12px}.history-row,.weak-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px}.history-row span,.weak-row span{color:var(--muted);text-align:right}.weak-row strong{font-family:var(--mono);color:var(--lime)}footer{color:var(--dim);display:flex;justify-content:space-between;gap:14px;padding:20px 0;font-size:12px}
+.lab-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.lab-card h2{font-size:22px;letter-spacing:-.04em}.lab-card p{font-size:14px}.lab-card p{margin:8px 0}.lab-card #drill{margin-top:12px}.history-row,.weak-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px}.history-row span,.weak-row span{color:var(--muted);text-align:right}.weak-row strong{font-family:var(--mono);color:var(--lime)}footer{color:var(--dim);display:flex;justify-content:space-between;gap:14px;padding:20px 0;font-size:12px}
 dialog{width:min(460px,calc(100% - 28px));border:1px solid #565076;border-radius:14px;background:#18192a;color:var(--text);padding:23px;box-shadow:0 20px 100px #000a}dialog::backdrop{background:#080913bd;backdrop-filter:blur(4px)}dialog h2{font-size:34px;letter-spacing:-.06em;margin:7px 0}dialog p{font-size:15px}.report-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:15px 0}.report-metrics strong{font-size:20px}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
 @media(max-width:950px){.shell{width:calc(100% - 36px)}.cockpit{grid-template-columns:minmax(0,1fr) 245px;gap:12px}.briefing,.telemetry,.keyboard{padding:13px}}
-@media(max-width:720px){.cockpit,.lab-grid{grid-template-columns:1fr}.flight-side{grid-template-columns:1fr 1fr;gap:10px}.mission-grid{grid-template-columns:1fr 1fr}.scene{height:clamp(220px,43vw,290px)}.top-inner{height:auto;min-height:61px;flex-wrap:wrap;gap:8px;padding:9px 0}.top-inner nav{order:3;width:100%;justify-content:center}.page-title{padding:21px 0}.brand strong{font-size:20px}}
-@media(max-width:450px){.shell{width:calc(100% - 22px)}.flight-side,.mission-grid{grid-template-columns:1fr}.scene{height:210px}.flight-head,.typing{padding-inline:11px}.scene-hud,.scene-bottom{left:10px;right:10px}.flight-head{font-size:10px}.profile-label{padding:6px 8px;gap:4px}.profile-label>span{font-size:15px}.profile-label strong{font-size:12px}.page-title p{font-size:14px}}
+@media(max-width:720px){.cockpit,.lab-grid{grid-template-columns:1fr}.flight-side{grid-template-columns:1fr 1fr;gap:10px}.scene{height:clamp(220px,43vw,290px)}.top-inner{height:auto;min-height:61px;flex-wrap:wrap;gap:8px;padding:9px 0}.top-inner nav{order:3;width:100%;justify-content:center}.page-title{padding:21px 0}.brand strong{font-size:20px}}
+@media(max-width:450px){.shell{width:calc(100% - 22px)}.flight-side{grid-template-columns:1fr}.scene{height:210px}.flight-head,.typing{padding-inline:11px}.scene-hud,.scene-bottom{left:10px;right:10px}.flight-head{font-size:10px}.profile-label{padding:6px 8px;gap:4px}.profile-label>span{font-size:15px}.profile-label strong{font-size:12px}.page-title p{font-size:14px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
 .primary span{font-family:var(--mono)}@media(max-width:450px){#beacons{left:10px;right:10px}.typing-actions #help{display:none}.typing-actions #start:not([hidden])+#pause[hidden]+#restart[hidden]+#help{display:inline}}
 
@@ -81,12 +81,6 @@ dialog{width:min(460px,calc(100% - 28px));border:1px solid #565076;border-radius
   #lessonSteps span{min-width:14px;height:14px}
   .keyboard{padding:10px}
 
-
-
-
-
-
-
   .flight-side{grid-template-columns:1fr}
   .scene{height:195px}
 }
@@ -144,8 +138,7 @@ nav button[aria-current],.profile-label,.secondary{background:#354158;border-col
 .life{font-size:19px;line-height:1;color:#f0abb6;text-shadow:0 1px 3px #1b2238}
 .life.spent{color:#6b748a;text-shadow:none}
 #lives.critical .life:not(.spent){color:#ffc6c9}
-#deadline{font:700 12px var(--mono);color:#f1e8bb;background:#403f46;border:1px solid #79746a;padding:4px 7px;border-radius:5px}
-#deadline.urgent{color:#ffe2e4;border-color:#b28092;background:#554052}
+
 @keyframes next-letter{0%,100%{box-shadow:0 0 0 0 #eef3ffb0}50%{box-shadow:0 0 0 3px #eef3ff66,0 0 14px #eef3ff55}}
 @media(prefers-reduced-motion:no-preference){
   [data-flight-state=idle] #prompt .current,
@@ -153,21 +146,11 @@ nav button[aria-current],.profile-label,.secondary{background:#354158;border-col
 }
 @media(prefers-reduced-motion:reduce){#prompt .current{outline:2px solid #e8ecfb;outline-offset:1px}}
 
-.tier-picker{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px}
-.tier-button{display:flex;flex-direction:column;align-items:flex-start;gap:4px;min-height:61px;padding:9px 12px;text-align:left;background:#283349;border:1px solid #50607c;border-radius:8px;color:var(--text)}
-.tier-button strong{font-size:14px}
-.tier-button span{font:12px var(--mono);color:#c9d3e6}
-.tier-button:hover,.tier-button[aria-pressed=true]{background:#424e65;border-color:#acbad4}
-.tier-button[aria-pressed=true] strong{color:var(--lime)}
 .tier-overview{margin:20px 0 12px;display:flex;justify-content:space-between;align-items:center;gap:12px}
 .tier-overview h2{font-size:24px;letter-spacing:-.04em}
 .tier-overview p{font-size:14px}
 .tier-overview>strong{white-space:nowrap;color:var(--lime);font-size:13px}
-.mission-card{background:linear-gradient(145deg,#334059,#293449)}
-.mission-card.recommended{background:linear-gradient(145deg,#404b52,#2c374c);border-color:#85947b}
-.mission-label{display:flex;align-items:center;gap:10px;justify-content:space-between;width:100%}
-.mission-label .eyebrow{color:#e4daf3}
-.mission-marker{color:#e6edbd;font:700 10px var(--mono)}
+
 .mission-target span{background:#424963;border-color:#616a88;color:#e8e9f6}
 .mission-target .life-tag{color:#ffdce1}
 .beacon{background:#3e4565;color:#f0ebfc}
@@ -184,9 +167,6 @@ dialog::backdrop{background:#151e32ad}
 .welcome-steps strong{font-size:14px}
 .welcome-steps p{font-size:13px}
 
-@media(max-width:900px){
-  .tier-picker{grid-template-columns:repeat(3,minmax(0,1fr))}
-}
 @media(max-width:780px){
   .cockpit{grid-template-columns:minmax(0,1fr)}
   .flight-side{grid-template-columns:1fr 1fr}
@@ -198,13 +178,9 @@ dialog::backdrop{background:#151e32ad}
   .scene-hud,.scene-bottom{left:10px;right:10px}
   .flight-head{padding-inline:10px}
 
-
-
   .top-tools{gap:5px}
   .top-tools #openGuide{padding-inline:7px}
   .flight-rules{margin-inline:15px}
-  .tier-picker{gap:5px}
-  .tier-button{padding:6px 7px;min-height:53px}
-  .tier-button strong{font-size:12px}
+
   .tier-overview{align-items:flex-start}
 }
