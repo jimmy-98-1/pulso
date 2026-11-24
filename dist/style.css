@@ -139,7 +139,7 @@ nav button[aria-current],.profile-label,.secondary{background:#354158;border-col
 .life.spent{color:#6b748a;text-shadow:none}
 #lives.critical .life:not(.spent){color:#ffc6c9}
 
-@keyframes next-letter{0%,100%{box-shadow:0 0 0 0 #eef3ffb0}50%{box-shadow:0 0 0 3px #eef3ff66,0 0 14px #eef3ff55}}
+@keyframes next-letter{0%,100%{box-shadow:0 0 0 0 #d3e6d28a}50%{box-shadow:0 0 0 3px #d3e6d24d,0 0 14px #d3e6d230}}
 @media(prefers-reduced-motion:no-preference){
   [data-flight-state=idle] #prompt .current,
   [data-flight-state=active] #prompt .current:not(.bad){animation:next-letter 1.15s ease-in-out infinite}

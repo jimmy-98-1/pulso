@@ -225,7 +225,7 @@ function paintCountdown(ms){
   const urgency=limit && seconds<=10;
   clock.classList.toggle("urgent",Boolean(urgency));
   compactTime.classList.toggle("urgent",Boolean(urgency));
-  const label=limit===0?"Sin límite":state==="idle"?"Al empezar":state==="paused"?"En pausa":state==="won"?"Completada":state==="lost"?(seconds?"Intento cerrado":"Tiempo agotado"):"En marcha";
+  const label=limit===0?"Sin límite":state==="idle"?"Al empezar":state==="paused"?"En pausa":state==="won"?"Completada":state==="lost"?(seconds?"Intento cerrado":"Tiempo agotado"):urgency?"Últimos segundos":"En marcha";
   if($("chronoStatus").textContent!==label) $("chronoStatus").textContent=label;
 }
 const progressTrack=document.querySelector(".track");

@@ -1,11 +1,11 @@
-[data-finger=index], .key-legend span:nth-child(1) { --finger-color: #e9b58d; }
-[data-finger=middle], .key-legend span:nth-child(2) { --finger-color: #ccaf96; }
-[data-finger=ring], .key-legend span:nth-child(3) { --finger-color: #d6baa8; }
-[data-finger=pinky], .key-legend span:nth-child(4) { --finger-color: #d9a08c; }
-[data-finger=thumb], .key-legend span:nth-child(5) { --finger-color: #dec393; }
+[data-finger=index], .key-legend span:nth-child(1) { --finger-color: #cee0d0; }
+[data-finger=middle], .key-legend span:nth-child(2) { --finger-color: #bcd1d8; }
+[data-finger=ring], .key-legend span:nth-child(3) { --finger-color: #cbc7d7; }
+[data-finger=pinky], .key-legend span:nth-child(4) { --finger-color: #d6bdba; }
+[data-finger=thumb], .key-legend span:nth-child(5) { --finger-color: #d7d0b0; }
 
 .keyboard {
-  background: radial-gradient(ellipse at 83% 0%, #2f2925, transparent 67%), var(--panel);
+  background: radial-gradient(ellipse at 83% 0%, #303d3e, transparent 67%), var(--panel);
   padding: 14px 19px 14px;
 }
 
@@ -24,8 +24,8 @@
 }
 
 #hints[aria-pressed=true] {
-  background: #332a25;
-  border-color: #634e40;
+  background: #354643;
+  border-color: #5c7670;
 }
 
 .key-coach {
@@ -35,9 +35,9 @@
   min-height: 57px;
   margin-block-end: 11px;
   padding: 8px 11px;
-  border: 1px solid #4b4038;
+  border: 1px solid #4c5d60;
   border-radius: 10px;
-  background: linear-gradient(110deg, #2b2521, #25221f 67%);
+  background: linear-gradient(110deg, #303d40, #293438 67%);
 }
 
 .next-key {
@@ -45,11 +45,11 @@
   place-items: center;
   flex: 0 0 43px;
   height: 42px;
-  border: 1px solid #ffffff85;
+  border: 1px solid #d9e5de75;
   border-radius: 8px;
-  background: linear-gradient(145deg, #e4bfaa, var(--finger-color, var(--purple)));
-  box-shadow: inset 0 0 0 3px #fff5, 0 4px 0 #172439, 0 6px 9px #19253c66;
-  color: #2b201a;
+  background: linear-gradient(145deg, #d1ddd5, var(--finger-color, var(--purple)));
+  box-shadow: inset 0 0 0 3px #fff5, 0 4px 0 #142024, 0 6px 9px #15202466;
+  color: #21302b;
   font: 800 25px var(--mono);
 }
 
@@ -68,7 +68,7 @@
 
 .key-coach-text span {
   margin-top: 2px;
-  color: #d9cbc0;
+  color: #c8d7d1;
   font-size: 13px;
   line-height: 1.4;
 }
@@ -83,16 +83,16 @@
 
 .key-chord kbd {
   padding: 4px 6px;
-  background: #e0bc9d;
-  border: 1px solid #e8c6a8;
-  border-bottom: 3px solid #93715c;
-  color: #33251c;
+  background: #cbd9d1;
+  border: 1px solid #d2dfd9;
+  border-bottom: 3px solid #758a81;
+  color: #25342e;
   font-weight: 800;
   white-space: nowrap;
 }
 
 .key-operator {
-  color: #d4b6a1;
+  color: #c4d3ce;
   font: 700 12px var(--mono);
 }
 
@@ -101,11 +101,11 @@
   --key-gutter: 5px;
   position: relative;
   padding: 0 10px;
-  border: 1px solid #685448;
-  border-bottom-color: #130e0b;
+  border: 1px solid #607174;
+  border-bottom-color: #131b1f;
   border-radius: 15px;
-  background: linear-gradient(145deg, #5c4c42 0%, #39312b 14%, #322a25 76%, #261f1b 100%);
-  box-shadow: inset 0 1px 0 #ecf1fa78, inset 0 -2px 0 #91796752, 0 6px 0 #12100e, 0 11px 16px #18223787;
+  background: linear-gradient(145deg, #576568 0%, #3a464a 14%, #303d42 76%, #263137 100%);
+  box-shadow: inset 0 1px 0 #e3eee65c, inset 0 -2px 0 #7c959152, 0 6px 0 #131c20, 0 11px 16px #151f2487;
 }
 
 .keyboard-rail {
@@ -114,7 +114,7 @@
   justify-content: space-between;
   min-height: 23px;
   padding-inline: 5px;
-  color: #e8d5bf;
+  color: #d5e0da;
   font: 700 10px var(--mono);
   letter-spacing: .08em;
   text-transform: uppercase;
@@ -124,16 +124,16 @@
   width: 23px;
   height: 3px;
   border-radius: 4px;
-  background: #d0976f;
-  box-shadow: 0 0 7px #dc9e6d55;
+  background: #b7caba;
+  box-shadow: 0 0 7px #b1caaf36;
 }
 
 .keyboard-well {
   padding: 7px 4px 9px;
-  border: 1px solid #504034;
+  border: 1px solid #44565b;
   border-radius: 9px;
-  background: #171413;
-  box-shadow: inset 0 2px 7px #100d0b;
+  background: #1b2529;
+  box-shadow: inset 0 2px 7px #121c21;
 }
 
 .keyboard-edge {
@@ -150,15 +150,15 @@
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: linear-gradient(45deg, #a18b7e, #473931);
-  box-shadow: 0 1px 1px #241b16;
+  background: linear-gradient(45deg, #98a9aa, #405156);
+  box-shadow: 0 1px 1px #1d292e;
 }
 
 .keyboard-edge i::before {
   content: "";
   width: 4px;
   height: 1px;
-  background: #34251e;
+  background: #314348;
   transform: rotate(26deg);
 }
 
@@ -174,18 +174,18 @@
 }
 
 .key {
-  --key-tint: color-mix(in srgb, var(--finger-color, #5a4d44) 14%, #252423);
-  --key-top: color-mix(in srgb, var(--key-tint) 78%, #493e36);
-  --key-wall: color-mix(in srgb, var(--key-tint) 64%, #29201b);
-  --key-floor: color-mix(in srgb, var(--key-tint) 38%, #17110e);
+  --key-tint: color-mix(in srgb, var(--finger-color, #57676a) 14%, #2b373c);
+  --key-top: color-mix(in srgb, var(--key-tint) 78%, #465459);
+  --key-wall: color-mix(in srgb, var(--key-tint) 64%, #283337);
+  --key-floor: color-mix(in srgb, var(--key-tint) 38%, #192328);
   position: relative;
   grid-column: span var(--units);
   min-width: 0;
   margin-inline: calc(var(--key-gutter) / 2);
   border-radius: 7px;
-  background: #100e0c;
-  box-shadow: 0 2px 3px #0a0706a8;
-  color: #e6d6c9;
+  background: #152025;
+  box-shadow: 0 2px 3px #0e181ca8;
+  color: #dbe5e1;
   user-select: none;
 }
 
@@ -195,7 +195,7 @@
   display: block;
   border-radius: inherit;
   background: linear-gradient(140deg, var(--key-top), var(--key-wall) 53%, var(--key-floor));
-  box-shadow: inset 0 1px 0 #f4d5b858;
+  box-shadow: inset 0 1px 0 #dceae254;
   transform-origin: bottom center;
   transition: transform .12s ease, filter .16s ease;
 }
@@ -207,7 +207,7 @@
   place-items: center;
   border-radius: 5px;
   background: linear-gradient(152deg, var(--key-top), var(--key-tint) 79%);
-  box-shadow: inset 0 1px 0 #ffe0c348, 0 1px 1px #110b0955;
+  box-shadow: inset 0 1px 0 #d4e7df40, 0 1px 1px #15222755;
   font: 800 clamp(12px, 1.35vw, 17px) var(--mono);
 }
 
@@ -218,7 +218,7 @@
 .key-shift, .key-alt {
   position: absolute;
   top: 2px;
-  color: #c3ab97;
+  color: #b3c6c1;
   font: 700 9px var(--mono);
 }
 
@@ -232,7 +232,7 @@
   width: 10px;
   height: 2px;
   border-radius: 5px;
-  background: #92725f;
+  background: #819b93;
   box-shadow: 0 1px 0 #fff8;
   content: "";
 }
@@ -255,43 +255,43 @@
 }
 
 .key.active {
-  --key-tint: var(--finger-color, #e7eed1);
-  --key-top: color-mix(in srgb, var(--key-tint) 87%, #e2c0a4);
-  --key-wall: color-mix(in srgb, var(--key-tint) 70%, #8c634b);
-  --key-floor: color-mix(in srgb, var(--key-tint) 59%, #6e4936);
+  --key-tint: var(--finger-color, #cee0d0);
+  --key-top: color-mix(in srgb, var(--key-tint) 87%, #d7e4da);
+  --key-wall: color-mix(in srgb, var(--key-tint) 70%, #819a90);
+  --key-floor: color-mix(in srgb, var(--key-tint) 59%, #637e75);
   z-index: 2;
-  outline: 2px solid #dbad87;
+  outline: 2px solid #c4dcca;
   outline-offset: 1px;
 }
 
-.key.active .key-face {color:#2b1a11}
-.key.active .key-face :is(.key-shift, .key-alt) {color:#573725}
+.key.active .key-face {color:#26382f}
+.key.active .key-face :is(.key-shift, .key-alt) {color:#40574d}
 
 .key.active::after {
   position: absolute;
   inset: auto 24% 3px;
   height: 3px;
   border-radius: 6px;
-  background: #e9b98e;
-  box-shadow: 0 0 8px #dda57f88;
+  background: #d8e6da;
+  box-shadow: 0 0 8px #b8d3be51;
   content: "";
 }
 
 .key.modifier {
-  --key-tint: #785643;
+  --key-tint: #4e6864;
 }
 
 .key.modifier .key-face {
-  outline: 1px dashed #ddb28f;
+  outline: 1px dashed #b0c8bf;
   outline-offset: -2px;
 }
 
 .key.pressed {
-  --key-tint: #84674c;
+  --key-tint: #527062;
 }
 
 .key.missed {
-  --key-tint: #864b45;
+  --key-tint: #775351;
 }
 
 .key.pressed .keycap, .key.missed .keycap {
@@ -300,12 +300,12 @@
 }
 
 .key.missed {
-  outline: 2px solid #f3bdc5;
+  outline: 2px solid #d9aba4;
   outline-offset: 1px;
 }
 
 .neutral .key {
-  --finger-color: #5a4d44;
+  --finger-color: #57676a;
 }
 
 .key-legend {
@@ -313,7 +313,7 @@
   flex-wrap: wrap;
   gap: 6px 14px;
   margin-top: 16px;
-  color: #daccc1;
+  color: #c1cfca;
   font-size: 12px;
 }
 
@@ -328,8 +328,8 @@
 }
 
 @keyframes key-beacon {
-  0%, 100% { box-shadow: 0 0 0 1px #e2aa7842, 0 0 7px #e2aa7840; }
-  50% { box-shadow: 0 0 0 2px #e2aa78aa, 0 0 17px #d08f5950; }
+  0%, 100% { box-shadow: 0 0 0 1px #c1dacc38, 0 0 7px #c1dacc35; }
+  50% { box-shadow: 0 0 0 2px #c1dacc88, 0 0 17px #a6c6b343; }
 }
 
 @media (prefers-reduced-motion: no-preference) {
