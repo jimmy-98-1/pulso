@@ -1,8 +1,8 @@
-[data-finger=index], .key-legend span:nth-child(1) { --finger-color: #cee0d0; }
-[data-finger=middle], .key-legend span:nth-child(2) { --finger-color: #bcd1d8; }
-[data-finger=ring], .key-legend span:nth-child(3) { --finger-color: #cbc7d7; }
-[data-finger=pinky], .key-legend span:nth-child(4) { --finger-color: #d6bdba; }
-[data-finger=thumb], .key-legend span:nth-child(5) { --finger-color: #d7d0b0; }
+[data-finger=index], .key-legend span:nth-child(1) { --finger-color: #aedaca; }
+[data-finger=middle], .key-legend span:nth-child(2) { --finger-color: #afcee8; }
+[data-finger=ring], .key-legend span:nth-child(3) { --finger-color: #cebee6; }
+[data-finger=pinky], .key-legend span:nth-child(4) { --finger-color: #e4bac4; }
+[data-finger=thumb], .key-legend span:nth-child(5) { --finger-color: #e6cda3; }
 
 .keyboard {
   background: radial-gradient(ellipse at 83% 0%, #303d3e, transparent 67%), var(--panel);
@@ -255,7 +255,7 @@
 }
 
 .key.active {
-  --key-tint: var(--finger-color, #cee0d0);
+  --key-tint: var(--finger-color, #aedaca);
   --key-top: color-mix(in srgb, var(--key-tint) 87%, #d7e4da);
   --key-wall: color-mix(in srgb, var(--key-tint) 70%, #819a90);
   --key-floor: color-mix(in srgb, var(--key-tint) 59%, #637e75);

@@ -34,7 +34,6 @@ const input = $("input");
 input.setAttribute("aria-describedby","sequence");
 const report = $("report");
 const coach = $("coach");
-let coachText;
 let reportAction;
 const welcome = $("welcome");
 const reduced = matchMedia("(prefers-reduced-motion: reduce)");
@@ -364,10 +363,13 @@ function finish(success,reason="lives"){
   saved.history=saved.history.slice(0,12);
   if(success) counts[mission.id]=(counts[mission.id]??0)+1;
   reportAction=undefined;
-  coachText=success && saved.pilotName ? chooseCoachMessage({
+  const coachText=success && saved.pilotName ? chooseCoachMessage({
     accuracy:final.accuracy,record:Boolean(previous && improved),elapsed:final.ms/1000,
     limit:mission.seconds,lives
   },saved.coachSeen):null;
+  coach.hidden=!coachText;
+  $("coachTitle").textContent=coachText?"Para "+saved.pilotName:"";
+  $("coachMessage").textContent=coachText??"";
   persist();paintProfile();paintState();telemetry();
   paintBeacons();
   burst(success?"finish":"error");
@@ -444,7 +446,7 @@ input.addEventListener("keydown",event=>{
 const freePractice=initFreePractice({onOpen:pause,onClose:paintHints});
 
 document.addEventListener("keydown",event=>{
-  if(freePractice.open || report.open || coach.open || welcome.open || event.isComposing || view!=="fly") return;
+  if(freePractice.open || report.open || welcome.open || event.isComposing || view!=="fly") return;
   if(event.key==="Escape" && state==="active"){event.preventDefault();pause();$("start").focus();return;}
   if(event.key==="Enter" && state!=="active" && !event.target.closest("button,textarea")){
     event.preventDefault();begin();
@@ -521,15 +523,7 @@ $("next").addEventListener("click",()=>{
   }:begin;
   report.close();
 });
-report.addEventListener("close",()=>{
-  if(!coachText){applyReportAction();return;}
-  $("coachTitle").textContent="Para "+saved.pilotName;
-  $("coachMessage").textContent=coachText;
-  coachText=null;
-  coach.showModal();
-});
-$("dismissCoach").addEventListener("click",()=>coach.close());
-coach.addEventListener("close",applyReportAction);
+report.addEventListener("close",applyReportAction);
 
 function paintMissions(){
   const countsByTier=tiers.map((_,tier)=>{

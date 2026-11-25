@@ -20,6 +20,7 @@ export function initFreePractice({onOpen,onClose}){
   const track=document.querySelector("#freeTrack");
   const reducedMotion=matchMedia("(prefers-reduced-motion: reduce)");
   const spokenWord=document.querySelector("#freeWord");
+  const readyLabel=document.querySelector("#freeReady");
   const keyboard=document.querySelector(".keyboard-case");
   const keyboardHome=keyboard.parentElement;
   const afterKeyboard=keyboard.nextSibling;
@@ -79,6 +80,8 @@ export function initFreePractice({onOpen,onClose}){
 
   function paintActive(){
     position=0;
+    prompt.classList.remove("awaiting-space");
+    readyLabel.textContent="";
     const slot=track.children[activeIndex];
     slot.classList.add("free-active-word");
     letters=[...slot.firstElementChild.children];
@@ -181,6 +184,15 @@ export function initFreePractice({onOpen,onClose}){
     const value=input.value.normalize("NFC");
     input.value="";
     for(const character of value){
+      if(position===letters.length){
+        if(character===" "){
+          hits.push(performance.now());
+          flashKey(" ",true);
+          countLabel.textContent=++completed;
+          advanceWord();
+        }
+        continue;
+      }
       if(/\s/u.test(character)) continue;
       const now=performance.now();
       started??=now;
@@ -198,8 +210,9 @@ export function initFreePractice({onOpen,onClose}){
       current.classList.add("done");
       position++;
       if(position===letters.length){
-        countLabel.textContent=++completed;
-        advanceWord();
+        prompt.classList.add("awaiting-space");
+        readyLabel.textContent="Palabra completa. Pulsa Espacio.";
+        highlightKey(" ");
       } else markNext();
     }
     refreshStats();
