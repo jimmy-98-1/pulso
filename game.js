@@ -1,6 +1,7 @@
 import {burst, drawOrbit} from "./orbit.js";
 import {flashKey, guideKey} from "./keyboard.js";
 import {initFreePractice} from "./free-practice.js";
+import {chooseCoachMessage} from "./coach.js";
 
 import {missions, tiers} from "./campaign.js";
 
@@ -17,7 +18,7 @@ const steps = [
 const adaptive = {id:"adaptive",name:"Vuelo a medida",sector:"Zona de pruebas",skill:"Tus teclas",level:"Adaptativo",tags:[],desc:"El laboratorio ha preparado una secuencia con las teclas que más has fallado."};
 const words = "agua quietud whisky teclado kiwi jazz zigzag extraño xilófono luna planeta radio cámara órbita nave motor volver bruma cima vecino zorro cosmos viaje veloz equipo juego queso qué quién cuándo dónde pingüino vergüenza año cañón señal pequeña mañana niño botón acción ágil héroe vídeo fútbol útil cráter éter ícaro misión túnel ciudad jinete kilómetro kilo control extra meteorito base espacio estación ruta salto dedos pulso colonia casco láser revolución".split(" ");
 const storeKey = "pulso-arcade-v1";
-const defaults = {xp:0,records:{},errors:{},history:[],sound:false,hints:true,guideDone:false,welcomeSeen:false};
+const defaults = {xp:0,records:{},errors:{},history:[],sound:false,hints:true,guideDone:false,welcomeSeen:false,pilotName:"",coachSeen:{}};
 let saved;
 try {saved = {...defaults,...JSON.parse(localStorage.getItem(storeKey)||"{}")};} catch {saved = {...defaults};}
 function persist(){try {localStorage.setItem(storeKey,JSON.stringify(saved));} catch {/* Session play remains available. */}}
@@ -32,6 +33,9 @@ const make = (tag,text,klass) => {
 const input = $("input");
 input.setAttribute("aria-describedby","sequence");
 const report = $("report");
+const coach = $("coach");
+let coachText;
+let reportAction;
 const welcome = $("welcome");
 const reduced = matchMedia("(prefers-reduced-motion: reduce)");
 const views = ["fly","map","lab"];
@@ -98,7 +102,11 @@ function show(target){
     else button.removeAttribute("aria-current");
   }
   if(target==="map") paintMissions();
-  if(target==="lab") paintLab();
+  if(target==="lab"){
+    $("pilotName").value=saved.pilotName;
+    $("pilotStatus").textContent="";
+    paintLab();
+  }
   window.scrollTo(0,0);
 }
 
@@ -355,6 +363,11 @@ function finish(success,reason="lives"){
   saved.history.unshift({name:mission.name,ppm:final.ppm,accuracy:final.accuracy,won:success});
   saved.history=saved.history.slice(0,12);
   if(success) counts[mission.id]=(counts[mission.id]??0)+1;
+  reportAction=undefined;
+  coachText=success && saved.pilotName ? chooseCoachMessage({
+    accuracy:final.accuracy,record:Boolean(previous && improved),elapsed:final.ms/1000,
+    limit:mission.seconds,lives
+  },saved.coachSeen):null;
   persist();paintProfile();paintState();telemetry();
   paintBeacons();
   burst(success?"finish":"error");
@@ -431,7 +444,7 @@ input.addEventListener("keydown",event=>{
 const freePractice=initFreePractice({onOpen:pause,onClose:paintHints});
 
 document.addEventListener("keydown",event=>{
-  if(freePractice.open || report.open || welcome.open || event.isComposing || view!=="fly") return;
+  if(freePractice.open || report.open || coach.open || welcome.open || event.isComposing || view!=="fly") return;
   if(event.key==="Escape" && state==="active"){event.preventDefault();pause();$("start").focus();return;}
   if(event.key==="Enter" && state!=="active" && !event.target.closest("button,textarea")){
     event.preventDefault();begin();
@@ -482,14 +495,41 @@ $("tutorial").addEventListener("click",()=>{
   paintHints();
   $("start").focus();
 });
+$("pilotForm").addEventListener("submit",event=>{
+  event.preventDefault();
+  const field=$("pilotName");
+  saved.pilotName=field.value.trim().replace(/\s+/gu," ");
+  field.value=saved.pilotName;
+  persist();
+  $("pilotStatus").textContent=saved.pilotName?"Nombre guardado.":"Nombre borrado.";
+});
+
+function applyReportAction(){
+  const action=reportAction;
+  reportAction=undefined;
+  if(action) action();
+  else $("start").focus({preventScroll:true});
+}
+
 $("closeReport").addEventListener("click",()=>report.close());
 $("next").addEventListener("click",()=>{
   const index=missions.findIndex(item=>item.id===mission.id);
   const move=state==="won" && index>=0 && index<missions.length-1;
+  reportAction=mission===tutorial || move?()=>{
+    prepare(missions[index+1]);
+    $("start").focus();
+  }:begin;
   report.close();
-  if(mission===tutorial || move){prepare(missions[index+1]);$("start").focus();}
-  else begin();
 });
+report.addEventListener("close",()=>{
+  if(!coachText){applyReportAction();return;}
+  $("coachTitle").textContent="Para "+saved.pilotName;
+  $("coachMessage").textContent=coachText;
+  coachText=null;
+  coach.showModal();
+});
+$("dismissCoach").addEventListener("click",()=>coach.close());
+coach.addEventListener("close",applyReportAction);
 
 function paintMissions(){
   const countsByTier=tiers.map((_,tier)=>{
