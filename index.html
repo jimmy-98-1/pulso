@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#1b2225">
+  <meta name="description" content="Un simulador de vuelo para aprender mecanografía en español.">
+  <title>Pulso — Mecanografía arcade</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='9' fill='%23b9d1bb'/%3E%3Cpath d='M7 21h8l4-9 4 16 4-7h6' fill='none' stroke='%2312150b' stroke-width='2.5'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="keyboard.css">
+  <link rel="stylesheet" href="flight-deck.css">
+  <script type="module" src="game.js"></script>
+</head>
+<body>
+  <header class="top">
+    <div class="shell top-inner">
+      <div class="brand"><span class="logo" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M4 16h6l4-8 4 16 4-8h6"/></svg></span><div><strong>PULSO<span>.</span></strong><small>MECANOGRAFÍA ARCADE</small></div></div>
+      <nav aria-label="Secciones">
+        <button type="button" data-view="fly" aria-current="page"><span aria-hidden="true">◈</span> Practicar</button>
+        <button type="button" data-view="map"><span aria-hidden="true">⌘</span> Misiones</button>
+        <button type="button" data-view="lab"><span aria-hidden="true">⌁</span> Progreso</button>
+      </nav>
+      <div class="top-tools"><button id="openGuide" class="secondary" type="button">Cómo jugar</button><button id="sound" class="sound" type="button" aria-pressed="false" aria-label="Activar sonido"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path id="waves" d="m16 10 5 5m0-5-5 5"/></svg></button></div>
+    </div>
+  </header>
+
+  <main class="shell">
+    <section id="fly" aria-labelledby="flyTitle">
+      <div class="page-title">
+        <div><h1 id="flyTitle">Aprende tecla a tecla<span>.</span></h1></div>
+        <div class="profile-label"><span aria-hidden="true">✦</span><div><strong id="rank">Cadete</strong><small id="xp">0 XP</small></div></div>
+      </div>
+      <div class="cockpit">
+        <div class="flight-column">
+          <section class="practice panel" aria-label="Ejercicio de mecanografía">
+            <header class="practice-header">
+              <div>
+                <div class="eyebrow" id="lessonLevel">INICIACIÓN</div>
+                <h2 id="missionTitle">Primeras teclas</h2>
+                <p id="missionDesc"></p>
+              </div>
+              <button class="secondary lesson-picker" data-go="map" type="button">Ver misiones</button>
+            </header>
+            <ol id="lessonSteps" aria-label="Pasos de la guía">
+              <li><span>1</span> Índice izquierdo</li><li><span>2</span> Índice derecho</li><li><span>3</span> Combina las manos</li>
+            </ol>
+            <div class="flight-rules" id="flightRules" hidden><div id="lives" role="img" aria-label="Vidas"></div><strong id="compactTime" hidden></strong></div>
+            <div class="typing" id="typing">
+              <div class="typing-head"><label id="typingLabel" for="input">SECUENCIA DEL EJERCICIO</label><span id="letterCount"></span></div>
+              <textarea id="input" rows="1" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" disabled></textarea>
+              <div id="beacons" hidden aria-label="Balizas disponibles"></div>
+              <div id="prompt" aria-hidden="true"></div>
+              <div class="typing-actions"><button class="primary" id="start" type="button">Empezar <span aria-hidden="true">▶︎</span></button><button class="secondary" id="pause" type="button" hidden>Pausar</button><button class="secondary" id="restart" type="button" hidden>Reiniciar</button><span id="help">Pulsa <kbd>Enter</kbd> para empezar</span><span id="typingFeedback" aria-hidden="true"></span></div>
+              <p id="status" class="sr-only" aria-live="polite"></p>
+              <div class="sr-only" id="sequence"></div>
+            </div>
+          </section>
+          <section class="keyboard panel" aria-label="Guía de teclado español">
+            <div class="card-title keyboard-title">
+              <h2>Teclado guía</h2>
+              <button type="button" id="hints" class="secondary" aria-pressed="true">Pistas activadas</button>
+            </div>
+            <div class="key-coach">
+              <div class="next-key" id="nextKey" aria-hidden="true"></div>
+              <div class="key-coach-text"><strong id="finger"></strong><span id="keyAction"></span></div>
+              <div id="keyChord" class="key-chord" aria-hidden="true" hidden></div>
+            </div>
+            <div class="keyboard-case">
+              <div class="keyboard-rail"><span aria-hidden="true"></span><span>Español · ISO</span></div>
+              <div class="keyboard-well"><div id="keys" aria-hidden="true"></div></div>
+              <div class="keyboard-edge" aria-hidden="true"><i></i><i></i></div>
+            </div>
+            <div class="key-legend"><span>Índice</span><span>Medio</span><span>Anular</span><span>Meñique</span><span>Pulgar</span></div>
+          </section>
+        </div>
+
+        <aside class="flight-side">
+          <section class="flight panel" aria-label="Simulador de vuelo">
+            <div class="flight-head"><span><i></i> VUELO / <b id="flightName">DESPEGUE</b></span><span id="phase">EN HANGAR</span></div>
+            <div class="scene">
+              <canvas id="space" width="1200" height="350" aria-hidden="true"></canvas>
+              <div class="scene-hud"><span class="scene-label"><b>✦</b> <span id="sector">ÓRBITA BAJA</span></span><span id="combo">RACHA ×0</span></div>
+              <div class="scene-bottom"><span><b id="distance">0</b>% DE TRAYECTO</span><div class="track" role="progressbar" aria-label="Trayecto" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="progress"></span><i id="ghostMarker" hidden></i></div><span class="goal" aria-hidden="true">◇</span></div>
+            </div>
+          </section>
+          <section class="panel telemetry" aria-labelledby="telemetryTitle">
+            <div class="card-title"><h2 id="telemetryTitle">Estadísticas</h2></div>
+            <div class="metrics">
+              <div><strong id="speed">0</strong><span title="Palabras por minuto, calculadas a cinco caracteres por palabra">Palabras por minuto</span></div>
+              <div><strong id="accuracy">—</strong><span>Precisión</span></div>
+            </div>
+            <div class="record"><span>Récord de misión</span><strong id="record">—</strong></div>
+            <button class="secondary wide" id="ghost" type="button" disabled>Activar fantasma</button>
+            <p id="ghostCopy">Completa un vuelo para competir contra tu marca.</p>
+          </section>
+          <section class="panel chrono" id="chrono" aria-labelledby="chronoTitle">
+            <h2 id="chronoTitle">Cuenta atrás</h2>
+            <div class="chrono-dial">
+              <div class="chrono-ticks" aria-hidden="true"></div>
+              <time id="deadline" role="timer">—</time>
+              <span id="chronoStatus"></span>
+            </div>
+          </section>
+        </aside>
+      </div>
+    </section>
+
+    <section id="map" hidden aria-labelledby="mapTitle">
+      <div class="page-title map-heading"><div><h1 id="mapTitle">Ruta estelar<span>.</span></h1><p>Elige un planeta y un nivel de vuelo.</p></div><span id="campaignProgress"></span></div>
+      <div class="stellar-map">
+        <div class="orbital-path" aria-hidden="true"></div>
+        <div class="passing-ufo" aria-hidden="true"><i></i></div>
+        <div id="tierPicker" class="planet-picker" role="group" aria-label="Planetas por dificultad"></div>
+      </div>
+      <section class="panel waypoint-panel" aria-labelledby="tierName">
+        <div class="tier-overview"><div><h2 id="tierName"></h2><p id="tierDesc"></p></div><strong id="tierProgress"></strong></div>
+        <div id="stagePicker" role="group" aria-label="Tramos de este planeta"></div>
+        <div id="waypoints" role="group" aria-label="Niveles de este planeta"></div>
+        <div id="missions"></div>
+      </section>
+    </section>
+
+    <section id="lab" hidden aria-labelledby="labTitle">
+      <div class="page-title"><div><div class="eyebrow"><span class="beam"></span> ENTRENAMIENTO ADAPTATIVO</div><h1 id="labTitle">Tu progreso<span>.</span></h1><p>Revisa tus vuelos y practica las teclas que más te cuestan.</p></div></div>
+      <div class="lab-grid">
+        <section class="panel lab-card"><h2>Laboratorio de teclas</h2><p id="labCopy"></p><div id="weakKeys"></div><button class="primary" id="drill" type="button" disabled>Entrenar mis teclas <span aria-hidden="true">▶︎</span></button></section>
+        <section class="panel lab-card"><h2>Historial de vuelo</h2><div id="history"></div></section>
+      </div>
+    </section>
+    <footer><span>PULSO / Mecanografía en español</span><span>Progreso guardado en este navegador</span></footer>
+  </main>
+
+  <dialog id="welcome" aria-labelledby="welcomeTitle">
+    <div class="welcome-art" aria-hidden="true"><span>F</span><span>J</span></div>
+    <div class="eyebrow">GUÍA DE VUELO</div>
+    <h2 id="welcomeTitle">¿Es tu primera vez?</h2>
+    <p>En PULSO escribes para pilotar. Cada acierto acerca la nave al planeta.</p>
+    <ol class="welcome-steps">
+      <li><div><strong>Coloca los dedos.</strong><p>Busca el relieve de F y J. Apoya un índice en cada tecla.</p></div></li>
+      <li><div><strong>Sigue la tecla que late.</strong><p>Pulsa Empezar y escribe con tu teclado. El color y la pista te indican qué dedo usar.</p></div></li>
+      <li><div><strong>Cuida tus vidas.</strong><p>Acaba antes de que el reloj llegue a cero. Cada fallo cuesta una vida. Puedes reintentar cada misión.</p></div></li>
+    </ol>
+    <div class="report-buttons"><button class="primary" id="tutorial" type="button" autofocus>Practicar F y J</button><button class="secondary" id="closeGuide" type="button">Ir a la cabina</button></div>
+  </dialog>
+
+  <dialog id="report" aria-labelledby="reportTitle">
+    <div class="eyebrow"><span class="beam"></span> INFORME DE VUELO</div>
+    <h2 id="reportTitle"></h2>
+    <p id="reportCopy"></p>
+    <div class="report-metrics" id="reportMetrics"></div>
+    <div class="report-buttons"><button class="primary" id="next" type="button"></button><button class="secondary" id="closeReport" type="button">Volver a práctica</button></div>
+  </dialog>
+</body>
+</html>

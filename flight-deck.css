@@ -1,0 +1,344 @@
+:root {
+  --bg: #1b2225;
+  --panel: #252e32;
+  --panel2: #303a3e;
+  --line: #465357;
+  --muted: #c4cfcd;
+  --dim: #aebbb9;
+  --text: #e9efed;
+  --lime: #b9d1bb;
+  --purple: #c1cdca;
+  --rose: #e4aaa2;
+}
+body { min-height:100vh; background: radial-gradient(ellipse at 38% 0,#2b3839,transparent 52%),var(--bg); }
+.top { background: #21292c; border-color: #3e4b4e; }
+nav button[aria-current], .profile-label, .secondary { background: #2c373a; border-color: #4a585c; }
+.secondary:hover:not(:disabled) { background: #394644; }
+.primary:hover { background: #c9dfca; }
+.page-title h1 span { color: var(--lime); }
+#fly .page-title { align-items: center; padding-block: 16px; }
+#fly .page-title h1 { font-size:clamp(1.8rem,4.2vw,3.15rem); }
+.practice, .keyboard, .flight { border-color: var(--line); }
+.practice-header { padding-top: 14px; }
+.practice-header p { color: var(--muted); }
+.typing-head { color: var(--dim); }
+#prompt { background: #1b2428; border-color: #536367; color: #c2cfcc; }
+.typing:focus-within #prompt { border-color: #819b90; }
+#letterCount { color: var(--lime); }
+.typing-actions #help { color: var(--muted); }
+.badge, kbd { background: #344043; border-color: #526166; color: #dce6e1; }
+.flight { background: #232d30; box-shadow: none; }
+.flight-head { border-color: #414f54; }
+.scene { height: clamp(158px,15.3vw,208px); }
+.scene-label, #combo { font-size:10px; background:#233138dd; border-color:#60757b; }
+.track { background:#9eb3b570; }
+.track span { box-shadow:0 0 8px #a7c8b050; }
+.track i { box-shadow:0 0 5px #c1cdca50; }
+.flight-rules { margin-top:7px; }
+#ghostCopy:empty { display:none; }
+.life { color:#d6a9a5; text-shadow:none; }
+.life.spent { color:#706366; }
+.metrics > div, .report-metrics > div { background:#21292d; border-color:#465357; }
+.metrics { margin:9px 0; }
+.record { margin:8px 0 10px; }
+.telemetry { padding:12px 14px; }
+.telemetry p { margin-top:6px; }
+#lessonSteps li { border-color: #4c5c61; color:#dce5e2; }
+#lessonSteps span { background:#3e4d4f; }
+#lessonSteps [aria-current] { background:#3c4f47; border-color:#789388; }
+#lessonSteps .complete span { background:#455c51; }
+dialog { background:#293336; border-color:#607176; }
+dialog::backdrop { background:#131b20ba; }
+.welcome-art { background:radial-gradient(ellipse at 52% 80%,#405853,#293638 73%); border-color:#4e6262; }
+.welcome-art span, .welcome-art span:last-child { background:linear-gradient(145deg,#d2dfd4,#9fb9a7); color:#23342d; border-color:#c9d8cf; border-bottom-color:#677f74; }
+.welcome-steps li::before { background:#3f514e; color:#cde0d6; }
+
+.chrono {
+  --sweep: 360deg;
+  --dial-fill: #a3bdab;
+  padding: 11px 12px 15px;
+  background: radial-gradient(ellipse at 50% 72%,#293739 0%,#20282b 65%);
+  text-align: center;
+}
+.chrono h2 { margin:0 0 8px; font-size:14px; font-weight:700; }
+.chrono-dial {
+  position:relative;
+  isolation:isolate;
+  display:grid;
+  grid-template-rows:1fr auto auto 1fr;
+  justify-items:center;
+  align-items:center;
+  width:clamp(137px,14vw,166px);
+  aspect-ratio:1;
+  margin-inline:auto;
+  border:1px solid #4c5f60;
+  border-radius:50%;
+  background:radial-gradient(circle at 40% 37%,#303e40,#192225 72%);
+  box-shadow:0 7px 11px #11191d99, inset 0 0 0 4px #283438, inset 0 0 0 5px #576b6c;
+}
+.chrono-dial::before{
+  content:"";
+  position:absolute;
+  z-index:-1;
+  inset:9px;
+  border-radius:50%;
+  background:conic-gradient(var(--dial-fill) var(--sweep),#3e4d4f 0);
+  mask:radial-gradient(farthest-side,transparent 91%,#000 92%);
+}
+.chrono-ticks {
+  position:absolute;
+  z-index:-1;
+  inset:16px;
+  border-radius:50%;
+  background:repeating-conic-gradient(#9ab1ad55 0deg 1.3deg,transparent 1.3deg 6deg);
+  mask:radial-gradient(farthest-side,transparent 91%,#000 92%);
+}
+#deadline {
+  grid-row:2;
+  color:#dce9e0;
+  font:750 clamp(30px,3.4vw,41px)/1 var(--mono);
+  letter-spacing:-.09em;
+  padding-right:.09em;
+  font-variant-numeric:tabular-nums;
+}
+#chronoStatus {
+  grid-row:3;
+  margin-top:8px;
+  color:#bdcbc5;
+  font:650 9px/1 var(--mono);
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+.chrono.urgent { --dial-fill:#d0ac76; }
+.chrono.urgent #deadline, #compactTime.urgent { color:#e8cb99; }
+#compactTime { display:none; font:700 13px var(--mono); color:#c8dacf; }
+
+/* The orbital map is also the difficulty picker. */
+.map-heading { align-items:end; }
+#campaignProgress, #tierProgress { color:#c4d7ca; font:650 12px/1.35 var(--mono); text-align:right; }
+.stellar-map {
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+  padding:26px 20px 17px;
+  border:1px solid #4b5d60;
+  border-radius:16px;
+  background:
+    radial-gradient(ellipse at 75% 24%,#35485670,transparent 60%),
+    radial-gradient(ellipse at 28% 80%,#354b4777,transparent 65%),#202a31;
+  box-shadow:inset 0 0 28px #101c2390;
+}
+.stellar-map::before {
+  content:"";
+  position:absolute;
+  z-index:-2;
+  inset:0;
+  background:
+    radial-gradient(circle at 13px 27px,#d8e2d688 0 1px,transparent 1.45px) 0 0/129px 81px,
+    radial-gradient(circle at 16px 9px,#b8c9d463 0 .75px,transparent 1.25px) 34px 21px/99px 61px,
+    radial-gradient(circle at 38px 32px,#c8d8d745 0 .7px,transparent 1.1px) 19px 12px/67px 53px;
+}
+.orbital-path {
+  position:absolute;
+  z-index:-1;
+  left:3%;
+  right:3%;
+  top:27%;
+  height:45%;
+  border-radius:50%;
+  border-top:1px dashed #9cb4ad80;
+  transform:rotate(-4deg);
+}
+.orbital-path::after {
+  content:"";
+  position:absolute;
+  inset:18% 9% -11%;
+  border:1px solid #819a9b33;
+  border-radius:50%;
+}
+.planet-picker { display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); gap:6px; }
+.planet-button {
+  --orb-light:#d1dcd2;
+  --orb-middle:#7c9b8b;
+  --orb-shadow:#304147;
+  --bands:repeating-linear-gradient(-21deg,transparent 0 7px,#546b6668 9px,transparent 11px 17px);
+  display:grid;
+  grid-template-rows:105px auto auto;
+  justify-items:center;
+  align-items:center;
+  gap:6px;
+  min-width:0;
+  padding:6px 3px 9px;
+  border:1px solid transparent;
+  border-radius:12px;
+  background:none;
+  color:var(--text);
+  text-align:center;
+}
+.planet-button:nth-child(2) { --orb-light:#c9d2d3; --orb-middle:#7a8e95; --orb-shadow:#283b48; }
+.planet-button:nth-child(3) { --orb-light:#bdcdd5; --orb-middle:#718592; --orb-shadow:#2b3b49; }
+.planet-button:nth-child(4) { --orb-light:#d8d2c0; --orb-middle:#9c9580; --orb-shadow:#484744; }
+.planet-button:nth-child(5) { --orb-light:#c9c7d1; --orb-middle:#858392; --orb-shadow:#353b48; }
+.planet-button:nth-child(6) { --orb-light:#d3c0b2; --orb-middle:#9a7c71; --orb-shadow:#423941; }
+.planet-button[aria-pressed=true] { background:#3e5a517a; border-color:#789789; }
+.planet-button:hover { background:#3a514775; }
+.planet-button strong { font-size:14px; }
+.planet-count { font:600 11px var(--mono); color:#c5d2cf; }
+.planet-orbit {
+  display:grid;
+  place-items:center;
+  position:relative;
+  width:min(94px,94%);
+  aspect-ratio:1;
+  border-radius:50%;
+}
+.planet-orbit::before {
+  position:absolute;
+  inset:0;
+  border-radius:50%;
+  background:conic-gradient(#b7ccba var(--arc),#92a8a456 0);
+  mask:radial-gradient(farthest-side,transparent 95%,#000 96%);
+  content:"";
+}
+.planet-sphere {
+  position:relative;
+  display:block;
+  width:77%;
+  aspect-ratio:1;
+  border-radius:50%;
+  background:
+    radial-gradient(circle at 29% 20%,#fff3 0%,transparent 44%,#1a2a30b8 85%),
+    var(--bands),
+    radial-gradient(circle at 33% 24%,var(--orb-light),var(--orb-middle) 45%,var(--orb-shadow) 84%);
+  box-shadow:inset -4px -6px 9px #1623295c, inset 1px 2px 3px #fff5,0 6px 13px #1322294d;
+}
+.planet-button:nth-child(even) .planet-sphere { width:68%; }
+.planet-button:nth-child(4) .planet-sphere::after {
+  position:absolute;
+  inset:30% -22%;
+  border:2px double #c7d1c998;
+  border-radius:50%;
+  box-shadow:0 3px 0 #a8b9af55;
+  transform:rotate(-22deg);
+  content:"";
+}
+.passing-ufo {
+  position:absolute;
+  z-index:0;
+  right:-58px;
+  top:13%;
+  width:44px;
+  height:13px;
+  border:1px solid #a0adae;
+  border-radius:50%;
+  background:linear-gradient(#b4c0be,#536169 70%);
+  box-shadow:inset 0 2px 0 #fff3,0 4px 9px #182630;
+  pointer-events:none;
+  animation:ufo-transit 4.4s .45s ease-in-out both;
+}
+.passing-ufo::before {
+  position:absolute;
+  left:11px;
+  bottom:7px;
+  width:21px;
+  height:11px;
+  border-radius:55% 55% 16% 16%;
+  background:linear-gradient(#cad7d3,#556971);
+  content:"";
+}
+.passing-ufo i {
+  position:absolute;
+  left:17px;
+  top:8px;
+  width:3px;
+  height:3px;
+  border-radius:50%;
+  background:#c4d6b8;
+  box-shadow:-8px -1px #d3e0c8,8px -1px #d3e0c8,0 0 7px #bad4b266;
+}
+@keyframes ufo-transit {
+  0% { right:-58px; transform:translateY(-35px) rotate(-7deg); }
+  48% { transform:translateY(22px) rotate(2deg); }
+  100% { right:calc(100% + 58px); transform:translateY(-14px) rotate(5deg); }
+}
+@media (prefers-reduced-motion:reduce) { .passing-ufo { display:none; } }
+
+.waypoint-panel { margin-top:14px; padding:17px 18px; }
+.tier-overview { margin:0 0 14px; }
+#stagePicker, #waypoints { display:grid; gap:6px; }
+#stagePicker { grid-template-columns:repeat(4,minmax(0,1fr)); margin-bottom:10px; }
+#waypoints { grid-template-columns:repeat(5,minmax(0,1fr)); }
+.stage-button {
+  display:grid;
+  gap:4px;
+  min-width:0;
+  padding:9px 10px;
+  border:1px solid var(--line);
+  border-radius:8px;
+  background:#21292d;
+  color:var(--text);
+  text-align:left;
+}
+.stage-button:hover, .stage-button[aria-pressed=true] { background:#31423d; border-color:#6d8c81; }
+.stage-button strong { font-size:13px; }
+.stage-button span { color:var(--muted); font:600 11px var(--mono); }
+.waypoint {
+  display:grid;
+  justify-items:center;
+  align-content:start;
+  gap:6px;
+  min-width:0;
+  padding:7px 3px;
+  border:1px solid transparent;
+  border-radius:8px;
+  background:#21292d;
+  color:#c7d2ce;
+  text-align:center;
+}
+.waypoint[aria-pressed=true], .waypoint:hover { background:#31423d; border-color:#6d8c81; color:var(--text); }
+.waypoint-number {
+  display:grid;
+  place-items:center;
+  width:28px;
+  height:28px;
+  border:1px solid #637974;
+  border-radius:50%;
+  color:#d0e0d7;
+  font:750 13px var(--mono);
+}
+.waypoint.cleared .waypoint-number { background:#4a6258; color:#d7eadb; }
+.waypoint[aria-pressed=true] .waypoint-number { background:#b9d1bb; color:#23342c; border-color:#c0d6c5; }
+.waypoint-name { font-size:11px; line-height:1.2; }
+.mission-brief {
+  display:flex;
+  justify-content:space-between;
+  align-items:end;
+  gap:12px;
+  padding:15px 0 1px;
+}
+.mission-brief h3 { margin:.25rem 0 .15rem; font-size:22px; letter-spacing:-.03em; }
+.mission-brief p { font-size:14px; }
+.mission-brief .primary { flex:none; }
+.mission-brief .mission-target { margin:9px 0 0; }
+.mission-target span { background:#33413f; border-color:#506662; color:#d4e1d9; }
+
+@media(max-width:780px) {
+  .flight-side { grid-template-columns:minmax(0,1fr) minmax(0,1fr); }
+  .flight-side .chrono { grid-column:1/-1; }
+  #compactTime:not([hidden]) { display:inline-block; }
+  .planet-picker { grid-template-columns:repeat(3,minmax(0,1fr)); }
+  .orbital-path { display:none; }
+  .stellar-map { padding:12px; }
+  .planet-button { grid-template-rows:82px auto auto; }
+  .planet-orbit { width:min(78px,90%); }
+}
+@media(max-width:540px) {
+  .flight-side { grid-template-columns:1fr; }
+  .map-heading { align-items:start; }
+  #campaignProgress { max-width:10ch; font-size:11px; }
+  #stagePicker { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  #waypoints { grid-template-columns:repeat(3,minmax(0,1fr)); }
+  .waypoint-panel { padding:11px; }
+  .mission-brief { align-items:start; flex-direction:column; }
+  .planet-button strong { font-size:12px; }
+}

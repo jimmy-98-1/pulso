@@ -1,0 +1,362 @@
+[data-finger=index], .key-legend span:nth-child(1) { --finger-color: #cee0d0; }
+[data-finger=middle], .key-legend span:nth-child(2) { --finger-color: #bcd1d8; }
+[data-finger=ring], .key-legend span:nth-child(3) { --finger-color: #cbc7d7; }
+[data-finger=pinky], .key-legend span:nth-child(4) { --finger-color: #d6bdba; }
+[data-finger=thumb], .key-legend span:nth-child(5) { --finger-color: #d7d0b0; }
+
+.keyboard {
+  background: radial-gradient(ellipse at 83% 0%, #303d3e, transparent 67%), var(--panel);
+  padding: 14px 19px 14px;
+}
+
+.keyboard-title {
+  margin-block-end: 11px;
+}
+
+.keyboard-title h2 {
+  font-size: 20px;
+}
+
+#hints {
+  min-height: 34px;
+  white-space: nowrap;
+  font-size: 12px;
+}
+
+#hints[aria-pressed=true] {
+  background: #354643;
+  border-color: #5c7670;
+}
+
+.key-coach {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  min-height: 57px;
+  margin-block-end: 11px;
+  padding: 8px 11px;
+  border: 1px solid #4c5d60;
+  border-radius: 10px;
+  background: linear-gradient(110deg, #303d40, #293438 67%);
+}
+
+.next-key {
+  display: grid;
+  place-items: center;
+  flex: 0 0 43px;
+  height: 42px;
+  border: 1px solid #d9e5de75;
+  border-radius: 8px;
+  background: linear-gradient(145deg, #d1ddd5, var(--finger-color, var(--purple)));
+  box-shadow: inset 0 0 0 3px #fff5, 0 4px 0 #142024, 0 6px 9px #15202466;
+  color: #21302b;
+  font: 800 25px var(--mono);
+}
+
+.key-coach-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.key-coach-text strong, .key-coach-text span {
+  display: block;
+}
+
+.key-coach-text strong {
+  font-size: 15px;
+}
+
+.key-coach-text span {
+  margin-top: 2px;
+  color: #c8d7d1;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.key-chord {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 4px;
+}
+
+.key-chord kbd {
+  padding: 4px 6px;
+  background: #cbd9d1;
+  border: 1px solid #d2dfd9;
+  border-bottom: 3px solid #758a81;
+  color: #25342e;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.key-operator {
+  color: #c4d3ce;
+  font: 700 12px var(--mono);
+}
+
+.keyboard-case {
+  --key-height: 44px;
+  --key-gutter: 5px;
+  position: relative;
+  padding: 0 10px;
+  border: 1px solid #607174;
+  border-bottom-color: #131b1f;
+  border-radius: 15px;
+  background: linear-gradient(145deg, #576568 0%, #3a464a 14%, #303d42 76%, #263137 100%);
+  box-shadow: inset 0 1px 0 #e3eee65c, inset 0 -2px 0 #7c959152, 0 6px 0 #131c20, 0 11px 16px #151f2487;
+}
+
+.keyboard-rail {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 23px;
+  padding-inline: 5px;
+  color: #d5e0da;
+  font: 700 10px var(--mono);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.keyboard-rail span:first-child {
+  width: 23px;
+  height: 3px;
+  border-radius: 4px;
+  background: #b7caba;
+  box-shadow: 0 0 7px #b1caaf36;
+}
+
+.keyboard-well {
+  padding: 7px 4px 9px;
+  border: 1px solid #44565b;
+  border-radius: 9px;
+  background: #1b2529;
+  box-shadow: inset 0 2px 7px #121c21;
+}
+
+.keyboard-edge {
+  display: flex;
+  justify-content: space-between;
+  min-height: 16px;
+  padding: 5px 5px 0;
+}
+
+.keyboard-edge i {
+  align-self: start;
+  display: grid;
+  place-items: center;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: linear-gradient(45deg, #98a9aa, #405156);
+  box-shadow: 0 1px 1px #1d292e;
+}
+
+.keyboard-edge i::before {
+  content: "";
+  width: 4px;
+  height: 1px;
+  background: #314348;
+  transform: rotate(26deg);
+}
+
+#keys {
+  display: grid;
+  gap: var(--key-gutter);
+}
+
+.keyrow {
+  display: grid;
+  grid-template-columns: repeat(60, minmax(0, 1fr));
+  grid-auto-rows: var(--key-height);
+}
+
+.key {
+  --key-tint: color-mix(in srgb, var(--finger-color, #57676a) 14%, #2b373c);
+  --key-top: color-mix(in srgb, var(--key-tint) 78%, #465459);
+  --key-wall: color-mix(in srgb, var(--key-tint) 64%, #283337);
+  --key-floor: color-mix(in srgb, var(--key-tint) 38%, #192328);
+  position: relative;
+  grid-column: span var(--units);
+  min-width: 0;
+  margin-inline: calc(var(--key-gutter) / 2);
+  border-radius: 7px;
+  background: #152025;
+  box-shadow: 0 2px 3px #0e181ca8;
+  color: #dbe5e1;
+  user-select: none;
+}
+
+.keycap {
+  position: absolute;
+  inset: 0 0 1px;
+  display: block;
+  border-radius: inherit;
+  background: linear-gradient(140deg, var(--key-top), var(--key-wall) 53%, var(--key-floor));
+  box-shadow: inset 0 1px 0 #dceae254;
+  transform-origin: bottom center;
+  transition: transform .12s ease, filter .16s ease;
+}
+
+.key-face {
+  position: absolute;
+  inset: 2px 3px 8px;
+  display: grid;
+  place-items: center;
+  border-radius: 5px;
+  background: linear-gradient(152deg, var(--key-top), var(--key-tint) 79%);
+  box-shadow: inset 0 1px 0 #d4e7df40, 0 1px 1px #15222755;
+  font: 800 clamp(12px, 1.35vw, 17px) var(--mono);
+}
+
+.key-value {
+  white-space: nowrap;
+}
+
+.key-shift, .key-alt {
+  position: absolute;
+  top: 2px;
+  color: #b3c6c1;
+  font: 700 9px var(--mono);
+}
+
+.key-shift { left: 4px; }
+.key-alt { right: 4px; }
+.key.special .key-face { font-size: 13px; }
+
+.key.home-marker .key-face::after {
+  position: absolute;
+  inset: auto auto 3px;
+  width: 10px;
+  height: 2px;
+  border-radius: 5px;
+  background: #819b93;
+  box-shadow: 0 1px 0 #fff8;
+  content: "";
+}
+
+.key.enter-tail {
+  visibility: hidden;
+}
+
+.key.enter-head {
+  z-index: 1;
+  height: calc(var(--key-height) * 2 + var(--key-gutter));
+}
+
+.key.enter-head, .key.enter-head .keycap, .key.enter-head .key-face {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 17% 100%, 17% 47%, 0 47%);
+}
+
+.key.enter-head .key-value {
+  margin-inline-start: 15%;
+}
+
+.key.active {
+  --key-tint: var(--finger-color, #cee0d0);
+  --key-top: color-mix(in srgb, var(--key-tint) 87%, #d7e4da);
+  --key-wall: color-mix(in srgb, var(--key-tint) 70%, #819a90);
+  --key-floor: color-mix(in srgb, var(--key-tint) 59%, #637e75);
+  z-index: 2;
+  outline: 2px solid #c4dcca;
+  outline-offset: 1px;
+}
+
+.key.active .key-face {color:#26382f}
+.key.active .key-face :is(.key-shift, .key-alt) {color:#40574d}
+
+.key.active::after {
+  position: absolute;
+  inset: auto 24% 3px;
+  height: 3px;
+  border-radius: 6px;
+  background: #d8e6da;
+  box-shadow: 0 0 8px #b8d3be51;
+  content: "";
+}
+
+.key.modifier {
+  --key-tint: #4e6864;
+}
+
+.key.modifier .key-face {
+  outline: 1px dashed #b0c8bf;
+  outline-offset: -2px;
+}
+
+.key.pressed {
+  --key-tint: #527062;
+}
+
+.key.missed {
+  --key-tint: #775351;
+}
+
+.key.pressed .keycap, .key.missed .keycap {
+  transform: translateY(4px) scaleY(.94);
+  filter: saturate(1.3);
+}
+
+.key.missed {
+  outline: 2px solid #d9aba4;
+  outline-offset: 1px;
+}
+
+.neutral .key {
+  --finger-color: #57676a;
+}
+
+.key-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  margin-top: 16px;
+  color: #c1cfca;
+  font-size: 12px;
+}
+
+.key-legend span::before {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: 5px;
+  border-radius: 50%;
+  background: var(--finger-color);
+  content: "";
+}
+
+@keyframes key-beacon {
+  0%, 100% { box-shadow: 0 0 0 1px #c1dacc38, 0 0 7px #c1dacc35; }
+  50% { box-shadow: 0 0 0 2px #c1dacc88, 0 0 17px #a6c6b343; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  [data-flight-state=active] .key.active:not(.pressed):not(.missed),
+  [data-flight-state=idle] .key.active { animation: key-beacon 1.15s ease-in-out infinite; }
+}
+
+@media (max-width: 1000px) {
+  .keyboard { padding: 13px 14px; }
+  .keyboard-case { --key-height: 43px; --key-gutter: 4px; }
+  .key-shift, .key-alt { font-size: 8px; }
+}
+
+@media (max-width: 560px) {
+  .keyboard { padding: 11px 9px; }
+  .key-coach { gap: 8px; min-height: 56px; }
+  .key-coach-text span { font-size: 12px; }
+  .key-chord { display: none; }
+  .keyboard-case { --key-height: 33px; --key-gutter: 3px; padding-inline: 4px; }
+  .keyboard-well { padding: 4px 1px 6px; }
+  .keyboard-rail { min-height: 20px; }
+  .key { border-radius: 4px; }
+  .key-face { inset: 1px 1px 5px; border-radius: 3px; font-size: 11px; }
+  .key.special .key-face { font-size: 9px; }
+  .key-shift, .key-alt { top: 1px; font-size: 6px; }
+  .key-shift { left: 2px; }
+  .key-alt { right: 2px; }
+  .key.home-marker .key-face::after { width: 7px; bottom: 2px; }
+  .key.active::after { bottom: 2px; height: 2px; }
+}

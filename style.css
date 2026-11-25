@@ -1,0 +1,186 @@
+:root{color-scheme:dark;--bg:#0b0c13;--panel:#11131e;--panel2:#151827;--line:#262a3d;--muted:#a3a9bf;--dim:#8188a1;--text:#f3f2fa;--lime:#dcfc79;--purple:#b9a6ff;--rose:#ff9aab;--mono:ui-monospace,"DejaVu Sans Mono",Consolas,monospace;--sans:Inter,"Segoe UI",system-ui,sans-serif}
+*{box-sizing:border-box}body{margin:0;min-width:300px;background:radial-gradient(ellipse at 52% -20%,#1d1a33 0,transparent 53%),var(--bg);color:var(--text);font-family:var(--sans);font-size:16px}button,textarea{font:inherit}button{cursor:pointer}button:disabled{cursor:default;opacity:.48}[hidden]{display:none!important}button:focus-visible,.typing:focus-within{outline:2px solid var(--lime);outline-offset:3px}h1,h2,p{margin:0}p{line-height:1.55;color:var(--muted)}.shell{width:min(1232px,calc(100% - 64px));margin-inline:auto}
+.top{border-bottom:1px solid #28283b;background:#0e0f19}.top-inner{height:75px;display:flex;align-items:center;justify-content:space-between;gap:20px}.brand{display:flex;align-items:center;gap:12px}.brand strong{display:block;font-size:24px;font-weight:900;letter-spacing:.11em;line-height:1}.brand strong span,.page-title h1 span{color:var(--lime)}.brand small,.profile-label small{display:block;font:10px var(--mono);letter-spacing:.12em;color:var(--muted);margin-top:5px}.logo{width:39px;height:39px;border-radius:9px;background:var(--lime);color:#14180d;display:grid;place-items:center;box-shadow:0 0 24px #d5ff6430}.logo svg{width:30px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linejoin:round;stroke-linecap:round}
+nav{display:flex;gap:5px}nav button,.sound{background:transparent;border:1px solid transparent;color:var(--muted);border-radius:8px;padding:9px 13px;font-weight:650;font-size:14px;white-space:nowrap}nav button span{margin-right:4px;color:var(--purple)}nav button[aria-current]{color:var(--text);background:#1d2030;border-color:#2b2f46}nav button[aria-current] span{color:var(--lime)}nav button:hover,.sound:hover{color:var(--lime)}.sound{display:grid;place-items:center;padding:8px;border-color:var(--line);width:40px;height:40px}.sound svg{width:19px;fill:none;stroke:currentColor;stroke-width:1.55;stroke-linecap:round;stroke-linejoin:round}
+.page-title{padding:34px 0 25px;display:flex;align-items:end;justify-content:space-between;gap:15px}.eyebrow{display:flex;align-items:center;gap:8px;color:var(--lime);font:700 12px var(--mono);letter-spacing:.12em}.beam{width:14px;height:2px;background:var(--lime);display:inline-block;box-shadow:0 0 8px #dcfc7970}.page-title h1{font-size:clamp(2.4rem,5.2vw,4.45rem);font-weight:850;line-height:1.02;letter-spacing:-.075em;margin:8px 0 7px}.page-title p{font-size:16px}.profile-label{display:flex;align-items:center;gap:10px;padding:9px 13px;border:1px solid var(--line);border-radius:9px;background:#141626;white-space:nowrap;margin-bottom:2px}.profile-label>span{color:var(--lime);font-size:23px}.profile-label strong{font-size:14px}.profile-label small{margin-top:2px}
+.cockpit{display:grid;grid-template-columns:minmax(0,1fr) 289px;gap:18px;align-items:start}.flight-column,.flight-side{display:grid;gap:16px;min-width:0}.panel{border:1px solid var(--line);background:var(--panel);border-radius:12px;overflow:hidden}.flight-head{height:44px;padding:0 17px;display:flex;align-items:center;justify-content:space-between;gap:10px;color:var(--muted);font:12px var(--mono);letter-spacing:.075em;border-bottom:1px solid #31334b}.flight-head b{color:var(--text)}.flight-head i,.typing-head i{background:var(--lime);width:7px;height:7px;display:inline-block;border-radius:50%;margin-right:8px;box-shadow:0 0 10px #dcfc795c}.flight-head #phase{color:var(--purple);text-align:right}
+.scene{height:clamp(225px,24vw,310px);position:relative;background:#101226;overflow:hidden}.scene canvas{width:100%;height:100%;display:block}.scene-hud,.scene-bottom{position:absolute;left:17px;right:17px;display:flex;align-items:center;gap:10px;font:700 11px var(--mono);letter-spacing:.075em}.scene-hud{top:15px;justify-content:space-between}.scene-label,#combo{background:#111426d9;border:1px solid #44496c;border-radius:5px;padding:6px 8px;color:#eeebff}.scene-label b,#combo.hot{color:var(--lime)}.scene-bottom{bottom:14px;color:#e8e7f8}.scene-bottom>span:first-child{background:#111426bf;padding:4px;border-radius:4px}.scene-bottom b,.goal{color:var(--lime)}.goal{font-size:22px;line-height:1}.track{height:5px;flex:1;border-radius:30px;background:#666b95a0;position:relative}.track span{position:absolute;inset:0 auto 0 0;width:0;border-radius:30px;background:var(--lime);box-shadow:0 0 12px #dcfc79a0;transition:width .14s ease}.track i{position:absolute;top:-4px;height:13px;width:3px;border-radius:2px;background:var(--purple);box-shadow:0 0 8px var(--purple)}
+.typing{padding:15px 17px 17px;position:relative;outline-offset:-3px!important}.typing-head,.card-title,.record{display:flex;justify-content:space-between;align-items:center;gap:9px}.typing-head{font:11px var(--mono);color:var(--purple);letter-spacing:.07em}.typing-head i{width:5px;height:5px;margin-right:4px}.typing-head #finger{letter-spacing:0;text-align:right;color:var(--muted);font-size:12px}#input{position:absolute;width:1px;height:1px;left:17px;bottom:45px;opacity:0;resize:none;padding:0;border:0;pointer-events:none;font-size:16px}
+#prompt{padding:11px 13px;margin:11px 0 13px;background:#0b0d17;border:1px solid #2b3047;border-radius:8px;min-height:53px;display:flex;gap:0;align-content:center;flex-wrap:wrap;font:600 clamp(1.15rem,2.6vw,1.68rem)/1.48 var(--mono);color:#a5acc7;letter-spacing:.035em;cursor:text;overflow-wrap:anywhere}.word{white-space:nowrap;max-width:100%}.letter{display:inline-block;min-width:.61em;text-align:center;white-space:pre;border-radius:3px}.letter.done{color:#d7f393}.letter.current{background:var(--lime);color:#141809;box-shadow:0 0 15px #dcfc7945}.letter.current.bad{background:var(--rose);color:#260d16}.typing-actions,.report-buttons{display:flex;align-items:center;gap:13px;flex-wrap:wrap}.typing-actions #help{color:var(--muted);font-size:13px}.primary,.secondary{min-height:38px;border:1px solid transparent;border-radius:7px;padding:8px 13px;font-weight:750;font-size:14px}.primary{background:var(--lime);color:#171c0b}.primary:hover{background:#efffbb}.primary span{font-size:11px;margin-left:9px}.secondary{background:#191c2c;border-color:#333850;color:#e6e7f4}.secondary:hover:not(:disabled){border-color:var(--purple);background:#22253a}.wide{width:100%}kbd{font:11px var(--mono);background:#202338;border:1px solid #353b55;border-radius:4px;padding:2px 5px;color:#ebebf6}
+.briefing,.telemetry,.keyboard,.lab-card{padding:16px}.briefing{position:relative;background:radial-gradient(ellipse at 100% 0,#292149 0,transparent 57%),var(--panel)}.briefing .eyebrow{color:var(--purple)}.briefing .beam{background:var(--purple);box-shadow:none}.mission-glyph{height:59px;width:59px;border:1px solid #554673;background:#2a2243;border-radius:10px;margin:16px 0 12px;display:grid;place-items:center;color:var(--purple)}.mission-glyph svg{width:44px;stroke:currentColor;stroke-width:1.5;fill:none}.briefing h2{font-size:25px;letter-spacing:-.045em;margin-bottom:5px}.briefing p,.telemetry p{font-size:14px}.mission-target{display:flex;flex-wrap:wrap;gap:5px;margin:13px 0 15px}.badge,.mission-target span{font:11px var(--mono);letter-spacing:.035em;background:#202337;border:1px solid #343951;border-radius:5px;color:#d7d8ec;padding:4px 6px}.mission-target span{color:#ded3ff;background:#231e38;border-color:#433557}
+.card-title h2{font-size:15px;letter-spacing:-.015em}.metrics{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}.metrics>div,.report-metrics>div{background:#0d0f1a;border:1px solid #2b3044;border-radius:8px;padding:9px;min-width:0}.metrics strong,.report-metrics strong{display:block;font:700 24px var(--mono);color:var(--lime);letter-spacing:-.07em}.metrics span,.report-metrics span{display:block;font-size:12px;color:var(--muted);margin-top:3px}.record{margin:10px 0 13px;color:var(--muted);font-size:13px}.record strong{color:var(--text);white-space:nowrap}.telemetry p{margin-top:9px;font-size:12px}
+.lab-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.lab-card h2{font-size:22px;letter-spacing:-.04em}.lab-card p{font-size:14px}.lab-card p{margin:8px 0}.lab-card #drill{margin-top:12px}.history-row,.weak-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px}.history-row span,.weak-row span{color:var(--muted);text-align:right}.weak-row strong{font-family:var(--mono);color:var(--lime)}footer{color:var(--dim);display:flex;justify-content:space-between;gap:14px;padding:20px 0;font-size:12px}
+dialog{width:min(460px,calc(100% - 28px));border:1px solid #565076;border-radius:14px;background:#18192a;color:var(--text);padding:23px;box-shadow:0 20px 100px #000a}dialog::backdrop{background:#080913bd;backdrop-filter:blur(4px)}dialog h2{font-size:34px;letter-spacing:-.06em;margin:7px 0}dialog p{font-size:15px}.report-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:15px 0}.report-metrics strong{font-size:20px}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
+@media(max-width:950px){.shell{width:calc(100% - 36px)}.cockpit{grid-template-columns:minmax(0,1fr) 245px;gap:12px}.briefing,.telemetry,.keyboard{padding:13px}}
+@media(max-width:720px){.cockpit,.lab-grid{grid-template-columns:1fr}.flight-side{grid-template-columns:1fr 1fr;gap:10px}.scene{height:clamp(220px,43vw,290px)}.top-inner{height:auto;min-height:61px;flex-wrap:wrap;gap:8px;padding:9px 0}.top-inner nav{order:3;width:100%;justify-content:center}.page-title{padding:21px 0}.brand strong{font-size:20px}}
+@media(max-width:450px){.shell{width:calc(100% - 22px)}.flight-side{grid-template-columns:1fr}.scene{height:210px}.flight-head,.typing{padding-inline:11px}.scene-hud,.scene-bottom{left:10px;right:10px}.flight-head{font-size:10px}.profile-label{padding:6px 8px;gap:4px}.profile-label>span{font-size:15px}.profile-label strong{font-size:12px}.page-title p{font-size:14px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
+.primary span{font-family:var(--mono)}@media(max-width:450px){#beacons{left:10px;right:10px}.typing-actions #help{display:none}.typing-actions #start:not([hidden])+#pause[hidden]+#restart[hidden]+#help{display:inline}}
+
+/* Practice desk */
+.top-inner{height:66px}
+.page-title{padding:26px 0 20px}
+.page-title h1{font-size:clamp(2.25rem,5.2vw,3.55rem);margin-top:0}
+.page-title p{font-size:16px}
+.cockpit{grid-template-columns:minmax(0,1fr) minmax(287px,31%);gap:17px}
+.flight-column,.flight-side{gap:12px}
+.practice,.keyboard{background:#121420;border-color:#303349;border-radius:15px}
+.practice-header{padding:19px 20px 0;display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.practice-header .eyebrow{color:var(--purple);text-transform:uppercase;letter-spacing:.1em}
+.practice-header h2{font-size:clamp(1.6rem,3vw,2rem);letter-spacing:-.055em;margin:4px 0}
+.practice-header p{font-size:15px;max-width:57ch;min-height:2.9em}
+.lesson-picker{white-space:nowrap}
+#lessonSteps{padding:0;margin:12px 20px 0;list-style:none;display:flex;flex-wrap:wrap;gap:6px}
+#lessonSteps li{border:1px solid #37374f;border-radius:6px;color:#c4c7db;padding:4px 8px 4px 5px;display:flex;align-items:center;gap:5px;font-size:12px;font-weight:650}
+#lessonSteps span{font:700 11px var(--mono);border-radius:4px;min-width:17px;height:17px;display:grid;place-items:center;background:#242840}
+#lessonSteps [aria-current]{background:#30294a;border-color:#806dbc;color:#f2eaff}
+#lessonSteps [aria-current] span{background:var(--purple);color:#201534}
+#lessonSteps .complete span{background:#333e27;color:var(--lime)}
+.typing{padding:14px 20px 16px;margin-top:3px}
+.typing:focus-within{outline:0}
+.typing:focus-within #prompt{border-color:#706394}
+.typing-head{font-size:12px;color:#bec2d9}
+#letterCount{color:#c5f293}
+#prompt{border-radius:9px;padding:9px 12px;margin:7px 0 10px;background:#0b0d17;font-size:clamp(1.25rem,2.15vw,1.65rem)}
+#prompt .current{box-shadow:none;border-radius:4px;background:var(--finger-color,var(--lime));color:#141629}
+#prompt .current.bad{background:var(--rose);color:#260d16}
+#typingFeedback{color:#ffadba;font-size:13px;font-weight:650}
+.typing-actions:has(#typingFeedback:not(:empty)) #help{display:none}
+#typingFeedback:empty{display:none}
+.typing-actions #start{padding-inline:16px;min-width:115px}
+
+.flight{border-radius:15px}
+.flight-head{height:40px;font-size:11px;letter-spacing:.035em;padding-inline:12px}
+.scene{height:231px}
+.scene-hud,.scene-bottom{left:12px;right:12px}
+.scene-label,#combo{font-size:10px}
+.scene-bottom>span:first-child{white-space:nowrap}
+.briefing,.telemetry{border-radius:13px;padding:15px}
+.briefing h2{font-size:19px}
+.briefing p{margin:4px 0 11px}
+.metrics span{font-size:13px}
+#beacons{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+.beacon{padding:4px 8px;background:#242037;border:1px dashed #ab92f4;color:#eee6ff;border-radius:5px;font:600 13px var(--mono)}
+.beacon b{color:var(--lime)}
+.beacon.locked{background:#313e2a;border-style:solid;border-color:#bfd970}
+
+@media(max-width:1000px){.keyboard{padding:13px}.practice-header,.typing{padding-inline:15px}#lessonSteps{margin-inline:15px}.scene{height:201px}}
+@media(max-width:780px){
+  .cockpit{grid-template-columns:minmax(0,1fr)}
+  .flight-side{grid-template-columns:1fr 1fr}
+  .scene{height:218px}
+}
+@media(max-width:720px){.top-inner{height:auto}.page-title{padding:19px 0 16px}}
+@media(max-width:500px){
+  .page-title h1{font-size:clamp(1.8rem,7vw,2.35rem)}
+  .practice-header{display:block;padding-top:14px}
+  .lesson-picker{margin-top:8px;min-height:30px;font-size:12px;padding:4px 8px}
+  .practice-header p{min-height:0;font-size:14px}
+  #lessonSteps{margin-top:8px}
+  #lessonSteps li{font-size:10px;padding:3px 4px;gap:3px}
+  #lessonSteps span{min-width:14px;height:14px}
+  .keyboard{padding:10px}
+
+  .flight-side{grid-template-columns:1fr}
+  .scene{height:195px}
+}
+
+/* Twilight flight deck */
+:root {
+  --bg:#20283b;
+  --panel:#2b354a;
+  --panel2:#344057;
+  --line:#485671;
+  --muted:#d0d9e8;
+  --dim:#b6c3d6;
+  --text:#f7f8fc;
+  --lime:#e4ecb9;
+  --purple:#d9cdf4;
+  --rose:#ffc0c4;
+}
+body{background:radial-gradient(ellipse at 56% -16%,#46516c 0,transparent 53%),var(--bg)}
+.top{background:#242b3e;border-color:#515d77}
+.top-tools{display:flex;align-items:center;gap:9px}
+.top-tools #openGuide{font-size:13px}
+nav button[aria-current],.profile-label,.secondary{background:#354158;border-color:#52617d;color:var(--text)}
+.secondary:hover:not(:disabled){background:#43516b;border-color:var(--purple)}
+.logo{box-shadow:none}
+.primary:hover{background:#f0f6cf}
+.page-title h1 span{color:#e9e6bd}
+.page-title{padding-bottom:16px}
+#fly .page-title{padding-top:19px}
+#fly .page-title h1{font-size:clamp(2.15rem,4.2vw,3.25rem)}
+.flight{background:#29354c;border-color:#56637e;border-radius:17px;box-shadow:0 12px 30px #151c2f50}
+.flight-head{border-color:#515f7d;padding-inline:17px}
+.scene{height:clamp(196px,19vw,254px)}
+.scene-hud,.scene-bottom{left:18px;right:18px}
+.scene-label,#combo{font-size:11px;background:#1d2841dd;border-color:#667497}
+.track{background:#8d9cbd80}
+.cockpit{grid-template-columns:minmax(0,1fr) clamp(256px,26%,326px)}
+.practice,.keyboard{background:var(--panel);border-color:var(--line)}
+.practice-header p{min-height:0;max-width:78ch;font-size:14px}
+#lessonSteps li{color:#dce2f2;border-color:#5e6984}
+#lessonSteps span{background:#45516c}
+#lessonSteps [aria-current]{background:#4c4564;border-color:#a191c3}
+#lessonSteps .complete span{background:#59634e}
+.typing-head{color:#d4dced}
+#letterCount{color:var(--lime)}
+#prompt{background:#20293e;border-color:#495776;color:#c0cade;font-weight:650}
+#prompt .done{color:var(--lime)}
+#prompt .current{color:#1c2637}
+#prompt .current.bad{color:#401921}
+.typing:focus-within #prompt{border-color:#9ba8cc}
+.badge,kbd{color:#e8edf8;background:#3c4963;border-color:#5b6a85}
+.metrics>div,.report-metrics>div{background:#253047;border-color:#51607c}
+
+.flight-rules{margin:12px 20px 0;display:flex;flex-wrap:wrap;gap:5px 13px;align-items:center;min-height:25px}
+#lives{display:flex;align-items:center;gap:5px}
+.life{font-size:19px;line-height:1;color:#f0abb6;text-shadow:0 1px 3px #1b2238}
+.life.spent{color:#6b748a;text-shadow:none}
+#lives.critical .life:not(.spent){color:#ffc6c9}
+
+@keyframes next-letter{0%,100%{box-shadow:0 0 0 0 #d3e6d28a}50%{box-shadow:0 0 0 3px #d3e6d24d,0 0 14px #d3e6d230}}
+@media(prefers-reduced-motion:no-preference){
+  [data-flight-state=idle] #prompt .current,
+  [data-flight-state=active] #prompt .current:not(.bad){animation:next-letter 1.15s ease-in-out infinite}
+}
+@media(prefers-reduced-motion:reduce){#prompt .current{outline:2px solid #e8ecfb;outline-offset:1px}}
+
+.tier-overview{margin:20px 0 12px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.tier-overview h2{font-size:24px;letter-spacing:-.04em}
+.tier-overview p{font-size:14px}
+.tier-overview>strong{white-space:nowrap;color:var(--lime);font-size:13px}
+
+.mission-target span{background:#424963;border-color:#616a88;color:#e8e9f6}
+.mission-target .life-tag{color:#ffdce1}
+.beacon{background:#3e4565;color:#f0ebfc}
+
+dialog{background:#303a50;border-color:#73819d}
+dialog::backdrop{background:#151e32ad}
+#welcome{width:min(510px,calc(100% - 24px));max-height:calc(100% - 24px)}
+.welcome-art{display:flex;align-items:center;justify-content:center;gap:12px;min-height:105px;margin:0 0 18px;border:1px solid #65738e;border-radius:10px;background:radial-gradient(ellipse at 50% 60%,#617186,#3c4861 68%)}
+.welcome-art span{width:55px;height:52px;display:grid;place-items:center;background:linear-gradient(140deg,#f1e8fb,#bac5e7);color:#344058;font:800 24px var(--mono);border:1px solid #f1edf8;border-bottom:7px solid #8798be;border-radius:9px;box-shadow:0 5px 7px #27314790}
+.welcome-art span:last-child{background:linear-gradient(140deg,#e7f0d9,#b9d0c2);border-bottom-color:#819e9d}
+.welcome-steps{padding:0;list-style:none;counter-reset:guide;margin:15px 0;display:grid;gap:9px}
+.welcome-steps li{counter-increment:guide;display:flex;gap:9px;align-items:flex-start}
+.welcome-steps li::before{content:counter(guide);min-width:25px;height:25px;display:grid;place-items:center;background:#495976;color:#edf0fd;border-radius:6px;font:700 12px var(--mono)}
+.welcome-steps strong{font-size:14px}
+.welcome-steps p{font-size:13px}
+
+@media(max-width:780px){
+  .cockpit{grid-template-columns:minmax(0,1fr)}
+  .flight-side{grid-template-columns:1fr 1fr}
+  .scene{height:205px}
+}
+@media(max-width:540px){
+  .flight-side{grid-template-columns:1fr}
+  .scene{height:169px}
+  .scene-hud,.scene-bottom{left:10px;right:10px}
+  .flight-head{padding-inline:10px}
+
+  .top-tools{gap:5px}
+  .top-tools #openGuide{padding-inline:7px}
+  .flight-rules{margin-inline:15px}
+
+  .tier-overview{align-items:flex-start}
+}
