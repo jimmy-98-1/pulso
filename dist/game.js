@@ -1,5 +1,6 @@
 import {burst, drawOrbit} from "./orbit.js";
 import {flashKey, guideKey} from "./keyboard.js";
+import {initFreePractice} from "./free-practice.js";
 
 import {missions, tiers} from "./campaign.js";
 
@@ -427,8 +428,10 @@ input.addEventListener("keydown",event=>{
   if(event.repeat && !event.isComposing){event.preventDefault();return;}
   if(event.key==="Enter" && !event.isComposing){event.preventDefault();hit(" ");}
 });
+const freePractice=initFreePractice({onOpen:pause,onClose:paintHints});
+
 document.addEventListener("keydown",event=>{
-  if(report.open || welcome.open || event.isComposing || view!=="fly") return;
+  if(freePractice.open || report.open || welcome.open || event.isComposing || view!=="fly") return;
   if(event.key==="Escape" && state==="active"){event.preventDefault();pause();$("start").focus();return;}
   if(event.key==="Enter" && state!=="active" && !event.target.closest("button,textarea")){
     event.preventDefault();begin();

@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="keyboard.css">
   <link rel="stylesheet" href="flight-deck.css">
+  <link rel="stylesheet" href="free-practice.css">
   <script type="module" src="game.js"></script>
 </head>
 <body>
@@ -18,6 +19,7 @@
       <div class="brand"><span class="logo" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M4 16h6l4-8 4 16 4-8h6"/></svg></span><div><strong>PULSO<span>.</span></strong><small>MECANOGRAFÍA ARCADE</small></div></div>
       <nav aria-label="Secciones">
         <button type="button" data-view="fly" aria-current="page"><span aria-hidden="true">◈</span> Practicar</button>
+        <button type="button" id="openFree">Modo libre</button>
         <button type="button" data-view="map"><span aria-hidden="true">⌘</span> Misiones</button>
         <button type="button" data-view="lab"><span aria-hidden="true">⌁</span> Progreso</button>
       </nav>
@@ -67,7 +69,7 @@
               <div id="keyChord" class="key-chord" aria-hidden="true" hidden></div>
             </div>
             <div class="keyboard-case">
-              <div class="keyboard-rail"><span aria-hidden="true"></span><span>Español · ISO</span></div>
+              <div class="keyboard-rail"><span class="keyboard-indicator" aria-hidden="true"></span><button class="free-exit" id="closeFree" type="button" aria-label="Salir del modo libre" hidden>Esc</button><span>Español · ISO</span></div>
               <div class="keyboard-well"><div id="keys" aria-hidden="true"></div></div>
               <div class="keyboard-edge" aria-hidden="true"><i></i><i></i></div>
             </div>
@@ -130,6 +132,16 @@
     </section>
     <footer><span>PULSO / Mecanografía en español</span><span>Progreso guardado en este navegador</span></footer>
   </main>
+
+  <dialog id="freePractice" aria-label="Modo libre de mecanografía">
+    <div class="free-practice-content">
+      <textarea id="freeInput" aria-label="Escribe la palabra mostrada" aria-describedby="freeInstructions freeWord" rows="1" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
+      <p id="freeInstructions" class="sr-only">Escribe la palabra completa para que aparezca otra. Pulsa Esc para volver.</p>
+      <p id="freeWord" class="sr-only" aria-live="polite"></p>
+      <div id="freePrompt" aria-hidden="true"></div>
+      <div id="freeKeyboard"></div>
+    </div>
+  </dialog>
 
   <dialog id="welcome" aria-labelledby="welcomeTitle">
     <div class="welcome-art" aria-hidden="true"><span>F</span><span>J</span></div>

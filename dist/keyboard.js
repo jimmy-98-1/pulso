@@ -57,20 +57,33 @@ function identify(char){
   };
 }
 
-export function guideKey(char, enabled, finished){
+// The campaign and free practice share a single rendered keyboard.
+export function highlightKey(char,enabled=true){
   for(const tile of tiles.values()) tile.classList.remove("active","modifier");
+  byId("keys").classList.toggle("neutral",!enabled);
+  const hint=enabled?identify(char):null;
+  if(!hint) return null;
+  const {key,finger,shift,altGr,accent}=hint;
+  const tile=tiles.get(key);
+  if(tile) tile.classList.add("active");
+  if(accent) tiles.get("´")?.classList.add("modifier");
+  if(shift || accent==="¨") tiles.get(finger<4 && accent!=="¨"?"Mayús der.":"Mayús izq.")?.classList.add("modifier");
+  if(altGr) tiles.get("Alt Gr")?.classList.add("modifier");
+  return hint;
+}
+
+export function guideKey(char, enabled, finished){
   const next=byId("nextKey");
   const name=byId("finger");
   const action=byId("keyAction");
-  const hint=identify(char);
+  const hint=highlightKey(char,enabled);
   const chord=byId("keyChord");
   chord.hidden=true;
   chord.replaceChildren();
   const prompt=byId("prompt");
   prompt.removeAttribute("data-finger");
   next.dataset.finger="";
-  byId("keys").classList.toggle("neutral",!enabled);
-  if(!hint || !enabled){
+  if(!hint){
     next.textContent=finished?"✓":"·";
     name.textContent=finished?"Secuencia completa":enabled?"Posición de partida":"Modo sin pistas";
     action.textContent=finished?"Puedes repetir el ejercicio o elegir otro.":enabled?"Coloca los índices sobre F y J.":"Sigue la letra marcada en el ejercicio.";
@@ -78,11 +91,6 @@ export function guideKey(char, enabled, finished){
   }
   const {key,finger,shift,altGr,accent}=hint;
   const base=key.toUpperCase();
-  const tile=tiles.get(key);
-  if(tile) tile.classList.add("active");
-  if(accent) tiles.get("´")?.classList.add("modifier");
-  if(shift || accent==="¨") tiles.get(finger<4 && accent!=="¨"?"Mayús der.":"Mayús izq.")?.classList.add("modifier");
-  if(altGr) tiles.get("Alt Gr")?.classList.add("modifier");
   if(accent || shift || altGr){
     const parts=[];
     if(accent==="¨") parts.push("Mayús","+","´","·");
