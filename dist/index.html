@@ -69,7 +69,7 @@
               <div id="keyChord" class="key-chord" aria-hidden="true" hidden></div>
             </div>
             <div class="keyboard-case">
-              <div class="keyboard-rail"><span class="keyboard-indicator" aria-hidden="true"></span><button class="free-exit" id="closeFree" type="button" aria-label="Salir del modo libre" hidden>Esc</button><span>Español · ISO</span></div>
+              <div class="keyboard-rail"><span class="keyboard-indicator" aria-hidden="true"></span><span>Español · ISO</span></div>
               <div class="keyboard-well"><div id="keys" aria-hidden="true"></div></div>
               <div class="keyboard-edge" aria-hidden="true"><i></i><i></i></div>
             </div>
@@ -135,8 +135,32 @@
 
   <dialog id="freePractice" aria-label="Modo libre de mecanografía">
     <div class="free-practice-content">
+      <header class="free-practice-header">
+        <h1>Modo libre</h1>
+        <button class="secondary free-exit" id="closeFree" type="button">Salir <kbd aria-hidden="true">Esc</kbd></button>
+      </header>
+
+      <div class="free-dashboard">
+        <dl class="free-stats">
+          <div><dt>Tiempo</dt><dd id="freeTime">00:00</dd></div>
+          <div><dt>RPM</dt><dd id="freeRate">0</dd><span>Pulsaciones correctas/min</span></div>
+          <div><dt>Palabras</dt><dd id="freeCompleted">0</dd></div>
+        </dl>
+        <figure class="free-chart" aria-labelledby="freeChartTitle">
+          <figcaption id="freeChartTitle">Ritmo <span>Últimos 45 s</span></figcaption>
+          <div class="free-chart-plot">
+            <svg viewBox="0 0 450 76" preserveAspectRatio="none" aria-hidden="true">
+              <defs><linearGradient id="freeChartFill" x2="0" y2="1" gradientUnits="objectBoundingBox"><stop stop-color="#abd0b7" stop-opacity=".26"/><stop offset="1" stop-color="#abd0b7" stop-opacity="0"/></linearGradient></defs>
+              <path id="freeChartArea" fill="url(#freeChartFill)"></path>
+              <path id="freeChartLine" fill="none" stroke="#b5d5bf" stroke-width="2" vector-effect="non-scaling-stroke"></path>
+            </svg>
+            <span id="freeChartMax" aria-hidden="true">60</span>
+          </div>
+        </figure>
+      </div>
+
       <textarea id="freeInput" aria-label="Escribe la palabra mostrada" aria-describedby="freeInstructions freeWord" rows="1" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
-      <p id="freeInstructions" class="sr-only">Escribe la palabra completa para que aparezca otra. Pulsa Esc para volver.</p>
+      <p id="freeInstructions" class="sr-only">Cada palabra completa da paso a la siguiente. Pulsa Esc o Salir para volver.</p>
       <p id="freeWord" class="sr-only" aria-live="polite"></p>
       <div id="freePrompt" aria-hidden="true"></div>
       <div id="freeKeyboard"></div>
