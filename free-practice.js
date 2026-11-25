@@ -6,6 +6,10 @@ const words=[
 ].join(" ").split(" ");
 const vocabulary=[...new Set(words)];
 
+const queueSize=5;
+const graphSeconds=45;
+const rhythmWindowMs=15000;
+
 export function initFreePractice({onOpen,onClose}){
   const dialog=document.querySelector("#freePractice");
   const openButton=document.querySelector("#openFree");
@@ -17,31 +21,58 @@ export function initFreePractice({onOpen,onClose}){
   const keyboardHome=keyboard.parentElement;
   const afterKeyboard=keyboard.nextSibling;
   const keyboardSlot=document.querySelector("#freeKeyboard");
+  const timeLabel=document.querySelector("#freeTime");
+  const rateLabel=document.querySelector("#freeRate");
+  const countLabel=document.querySelector("#freeCompleted");
+  const chartLine=document.querySelector("#freeChartLine");
+  const chartArea=document.querySelector("#freeChartArea");
+  const chartMax=document.querySelector("#freeChartMax");
 
   let bag=[];
-  let word="";
+  let lastDrawn;
+  let queue=[];
   let position=0;
   let letters=[];
   let composing=false;
   let errorTimer;
+  let timer;
+  let started=null;
+  let hits=[];
+  let completed=0;
+  let samples=[];
+  let lastSample=0;
 
-  function nextWord(){
+  function drawWord(){
     if(!bag.length){
-      bag=vocabulary.filter(candidate=>candidate!==word);
+      bag=vocabulary.filter(candidate=>candidate!==lastDrawn);
       for(let index=bag.length-1;index>0;index--){
         const swap=Math.floor(Math.random()*(index+1));
         [bag[index],bag[swap]]=[bag[swap],bag[index]];
       }
     }
-    word=bag.pop();
+    lastDrawn=bag.pop();
+    return lastDrawn;
+  }
+
+  function paintWords(){
     position=0;
-    letters=Array.from(word,character=>{
+    letters=Array.from(queue[0],character=>{
       const letter=document.createElement("span");
       letter.textContent=character;
       return letter;
     });
-    prompt.replaceChildren(...letters);
-    spokenWord.textContent=word;
+    prompt.replaceChildren(...queue.map((word,index)=>{
+      const item=document.createElement("span");
+      if(index===0){
+        item.className="free-active-word";
+        item.append(...letters);
+      } else {
+        item.className="free-upcoming-word";
+        item.textContent=word;
+      }
+      return item;
+    }));
+    spokenWord.textContent=queue[0];
     markNext();
   }
 
@@ -50,11 +81,58 @@ export function initFreePractice({onOpen,onClose}){
     highlightKey(letters[position].textContent);
   }
 
+  function paintChart(){
+    const maximum=Math.max(60,Math.ceil(Math.max(0,...samples.map(sample=>sample.rate))/60)*60);
+    chartMax.textContent=maximum;
+    const finalSecond=samples.at(-1)?.second??0;
+    const firstSecond=Math.max(0,finalSecond-graphSeconds);
+    const points=samples.map(({second,rate})=>[
+      ((second-firstSecond)*450/graphSeconds).toFixed(2),
+      (72-rate*66/maximum).toFixed(2)
+    ]);
+    const path=points.map(([x,y],index)=>(index?"L":"M")+x+","+y).join(" ");
+    chartLine.setAttribute("d",path);
+    chartArea.setAttribute("d",points.length>1?path+` L${points.at(-1)[0]},72 L${points[0][0]},72 Z`:"");
+  }
+
+  function refreshStats(now=performance.now()){
+    const elapsed=started===null?0:now-started;
+    const seconds=Math.floor(elapsed/1000);
+    const hours=Math.floor(seconds/3600);
+    const clock=[Math.floor(seconds/60)%60,seconds%60].map(value=>String(value).padStart(2,"0")).join(":");
+    timeLabel.textContent=hours?hours+":"+clock:clock;
+
+    hits=hits.filter(hit=>now-hit<rhythmWindowMs);
+    const windowMs=Math.max(3000,Math.min(elapsed,rhythmWindowMs));
+    const rate=Math.round(hits.length*60000/windowMs);
+    rateLabel.textContent=rate;
+
+    if(seconds>lastSample){
+      samples=samples.filter(sample=>seconds-sample.second<=graphSeconds);
+      samples.push({second:seconds,rate});
+      lastSample=seconds;
+      paintChart();
+    }
+  }
+
+  function resetStats(){
+    started=null;
+    hits=[];
+    completed=0;
+    lastSample=0;
+    samples=[{second:0,rate:0}];
+    countLabel.textContent="0";
+    paintChart();
+    refreshStats();
+  }
+
   function consume(){
     const value=input.value.normalize("NFC");
     input.value="";
     for(const character of value){
       if(/\s/u.test(character)) continue;
+      const now=performance.now();
+      started??=now;
       const current=letters[position];
       const correct=character===current.textContent;
       flashKey(character,correct);
@@ -64,28 +142,36 @@ export function initFreePractice({onOpen,onClose}){
         errorTimer=setTimeout(()=>current.classList.remove("bad"),220);
         continue;
       }
+      hits.push(now);
       current.classList.remove("current");
       current.classList.add("done");
       position++;
-      if(position===letters.length) nextWord();
-      else markNext();
+      if(position===letters.length){
+        countLabel.textContent=++completed;
+        queue.shift();
+        queue.push(drawWord());
+        paintWords();
+      } else markNext();
     }
+    refreshStats();
   }
 
   openButton.addEventListener("click",()=>{
     onOpen();
     keyboardSlot.append(keyboard);
-    exitButton.hidden=false;
-    nextWord();
+    queue=Array.from({length:queueSize},drawWord);
+    resetStats();
+    paintWords();
     dialog.showModal();
     input.focus({preventScroll:true});
+    timer=setInterval(()=>refreshStats(),250);
   });
 
   function closePractice(){
+    clearInterval(timer);
     clearTimeout(errorTimer);
     composing=false;
     input.value="";
-    exitButton.hidden=true;
     keyboardHome.insertBefore(keyboard,afterKeyboard);
     dialog.close();
     onClose();
