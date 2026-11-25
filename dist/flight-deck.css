@@ -266,7 +266,7 @@ dialog::backdrop { background:#131b20ba; }
 .waypoint-panel { margin-top:14px; padding:17px 18px; }
 .tier-overview { margin:0 0 14px; }
 #stagePicker, #waypoints { display:grid; gap:6px; }
-#stagePicker { grid-template-columns:repeat(4,minmax(0,1fr)); margin-bottom:10px; }
+#stagePicker { grid-template-columns:repeat(5,minmax(0,1fr)); margin-bottom:10px; }
 #waypoints { grid-template-columns:repeat(5,minmax(0,1fr)); }
 .stage-button {
   display:grid;
@@ -342,3 +342,31 @@ dialog::backdrop { background:#131b20ba; }
   .mission-brief { align-items:start; flex-direction:column; }
   .planet-button strong { font-size:12px; }
 }
+
+.pilot-form {
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px 20px;
+  margin-bottom:14px;
+  padding:18px;
+}
+.pilot-form label { color:var(--text); font-size:18px; font-weight:750; }
+.pilot-form p { margin-top:3px; font-size:13px; }
+.pilot-controls { display:flex; flex-wrap:wrap; gap:8px; min-width:0; }
+#pilotName {
+  min-width:0;
+  width:min(225px,100%);
+  padding:9px 11px;
+  border:1px solid #61766f;
+  border-radius:7px;
+  background:#1d282b;
+  color:var(--text);
+  font:inherit;
+}
+#pilotName:focus-visible { outline:2px solid var(--lime); outline-offset:2px; }
+#pilotStatus { flex-basis:100%; color:var(--lime); }
+#pilotStatus:empty { display:none; }
+#coach .report-buttons { margin-top:18px; }
+#coachTitle { overflow-wrap:anywhere; }

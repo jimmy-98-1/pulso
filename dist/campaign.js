@@ -42,6 +42,13 @@ const sections = [
         ["faro-base", "Última parada del hangar", "Frases de la fila central", "sal a la sala halla la falda hala la faja", "Separa los grupos con el espacio y deja los dedos cerca de su base."],
         ["certifica-base", "Certificación de la fila central", "Repaso de toda la fila", "asdf jklñ gh hg sal a la sala halla la falda las alas la daga", "Reúne todos los dedos de la fila central antes de pasar al resto del teclado."],
       ]},
+      {name:"Órbita fina", pace:9, lives:6, entries:[
+        ["aleteo-base", "Aleteo", "Índices y alternancia", "fghj jhgf gaha fhjf hada saga haga faja", "Vuelve a F y J cada vez que cambies de dedo."],
+        ["relevo-base", "Relevo del hangar", "Anulares y meñiques", "as sa al la añ ña sal sala las alas la saña", "Deja los índices en sus marcas mientras alcanzas A y Ñ."],
+        ["eco-base", "Eco doble", "Eles y espacios", "halla la llaga falla la faja", "Pulsa cada ele por separado y conserva una pausa regular en los espacios."],
+        ["senal-base", "Señal corta", "Cadenas con Ñ", "daña la falda la saña daña la sala halla las alas", "Usa el meñique derecho para la Ñ y vuelve a la fila base."],
+        ["salida-base", "Salida del hangar", "Fila central sostenida", "asdf jklñ la gala las faldas las gasas la sala las alas halla la daga", "Mantén el mismo ritmo desde el primer grupo de letras hasta el final."],
+      ]},
     ]
   },
   {
@@ -75,6 +82,13 @@ const sections = [
         ["senales-n", "Señales del muelle", "Ñ y letras de las tres filas", "la nave se acerca a la cabina y el equipo enseña el camino", "Distingue N de Ñ al alternar filas."],
         ["ritmo-tres", "Cruce sin pausa", "Frases en minúsculas", "la bruma baja sobre el valle y la nave cruza la zona por un puente de luz", "Agrupa las palabras y mantén los pulgares cerca del espacio."],
         ["certifica-tres", "Certificación de las tres filas", "Alfabeto y espacio", "la nave vuelve al puerto con el mapa del cruce y una caja de cuarzo para el equipo", "Recorre las tres filas en una secuencia sostenida antes de añadir símbolos."],
+      ]},
+      {name:"Cruce de filas", pace:16, lives:5, entries:[
+        ["ventana-pr", "Ventana orbital", "Superior y central", "el equipo quiere revisar la cubierta antes de partir", "Nota el regreso a la fila base después de cada palabra."],
+        ["motores-pr", "Motores cruzados", "Inferior y central", "cada nave avanza con su carga bajo la sombra del planeta", "Usa ambas manos en los cambios a la fila inferior."],
+        ["paquete-pr", "Paquete de muestras", "Tres filas y eñe", "la tripulante recoge una piña y una caja de cuarzo para la base", "Presta atención a las palabras que combinan varias filas."],
+        ["baliza-pr", "Baliza vecina", "Letras poco frecuentes", "el kayak de prueba lleva un taxi de juguete y un mapa de la zona", "Localiza K y X sin levantar toda la mano."],
+        ["enlace-pr", "Enlace de las tres filas", "Minúsculas y continuidad", "el equipo cruza la zona de bruma y deja el viejo robot junto a la pequeña antena del valle", "Mantén el ritmo al pasar de las palabras cortas a las largas."],
       ]},
     ]
   },
@@ -110,6 +124,13 @@ const sections = [
         "protocol",
         ["certifica-radio", "Certificación de radio", "Mayúsculas, tildes y cifras", "¿Base 21? A las 08:46, Begoña confirmó la señal. ¡El módulo 9 está listo!", "Completa un mensaje que mezcla todos los recursos de este planeta."],
       ]},
+      {name:"Comunicaciones en directo", pace:23, lives:4, entries:[
+        ["muelle-int", "Turno de muelle", "Tildes y horas", "A las 06:45, Lucía revisó el muelle 8 y cambió la batería.", "Usa los dos puntos para separar la hora de los minutos."],
+        ["radar-int", "Radar pingüino", "Diéresis y mayúsculas", "El radar Pingüino vio a 4 cigüeñas. ¿A qué altura volaban?", "Compón la diéresis y vuelve a la posición base."],
+        ["archivo-int", "Archivo de la estación", "Cifras y puntuación", "Guarda 3 fotos, 12 mapas y 6 vídeos. Después, llama a Raúl.", "Mantén la cadencia entre las cifras de una y dos pulsaciones."],
+        ["contacto-int", "Contacto con la Tierra", "Preguntas y exclamaciones", "¡Atención, estación 09! ¿Llegará Óscar a las 18:30 por la vía 7?", "Distingue los signos de apertura y cierre antes de escribir."],
+        ["diario-int", "Diario lunar", "Cambios de registro", "Inés anotó 2 avisos en el diario. A las 21:05, el satélite volvió a la órbita. ¡Qué día!", "Encadena tildes, mayúsculas y cifras sin soltar el ritmo."],
+      ]},
     ]
   },
   {
@@ -143,6 +164,13 @@ const sections = [
         ["solicitud-av", "Permiso de salida", "Comillas y Alt Gr", "\"¿Listos en [B-08]?\" Si la presión es menor del 67%, responde a control@pulso.es con la clave {R-27}.", "Mantén el ritmo entre el diálogo y la clave de control."],
         ["ronda-av", "Ronda de verificación", "Texto técnico y tildes", "A las 22:14, Iván confirmó el código {A-17} en el canal #6. Begoña revisó el panel (39%) y activó la señal.", "Usa el tiempo para corregir un cambio de fila sin perder el hilo."],
         "storm",
+      ]},
+      {name:"Consola orbital", pace:31, lives:3, entries:[
+        ["etiqueta-av", "Etiquetas de carga", "Corchetes y guiones", "A las 08:10, mueve [Q-7] y [Ñ-12] al módulo norte. Responde por el canal #4.", "Prepara la combinación de teclas antes de abrir cada corchete."],
+        ["paquetes-av", "Ruta de paquetes", "Barras y guiones bajos", "Copia /datos/orbita_7 en /archivo/sector_3 y confirma con Óscar en radio@pulso.es.", "Anticipa el guion bajo y cambia de mano para la siguiente letra."],
+        ["presupuesto-av", "Presupuesto de a bordo", "Divisas y porcentajes", "La reparación de [R-8] costó 42,75 €. Reserva el 18% y anota {saldo: 93,40 €}.", "Separa el trabajo de precisión del ritmo de las palabras."],
+        ["registro-av", "Registro de desvíos", "Llaves y grupos de datos", "[13:29] {rumbo: 145º; margen: 5%}. Si cambia el viento, activa [B-6] y pulsa #9.", "Practica las transiciones entre números y grupos de signos."],
+        ["despacho-av", "Despacho orbital", "Comandos y correo", "¡Entrega urgente! Envía a guía@pulso.es el archivo /rutas/vuelo_12 con {salida: 07:45; peso: 8,2 kg}.", "Lee cada bloque por adelantado y evita acelerar al final."],
       ]},
     ]
   },
@@ -178,6 +206,13 @@ const sections = [
         ["informe-ex", "Informe de regreso", "Texto técnico largo", "Cuando la baliza [C-12] se apague, gira 15,75º a babor y registra la altura. Si la lectura cae por debajo del 31%, cambia al canal #08 y transmite la clave {X-52, Z-09}. A las 08:55, envía el informe a ruta@pulso.es.", "Une los segmentos cortos sin perder la estructura del mensaje."],
         ["certifica-ex", "Certificación de espacio profundo", "Resistencia y precisión", "[23:58] {módulo: Ñ-04, reserva: 67,84%, cargo: 2.706,18 €}. \"¿Podemos girar 135º?\", preguntó Begoña. Úrsula confirmó el canal #17, pidió cerrar [X-07] y envió el parte a órbita@pulso.es. [23:59] {estado: listo}.", "Supera el último vuelo con dos vidas antes de entrar en Demencial."],
       ]},
+      {name:"Travesía larga", pace:41, lives:2, entries:[
+        ["guardia-ex", "Guardia nocturna", "Prosa larga y puntuación", "Tras la segunda alarma, la capitana abrió la esclusa. Íñigo recogió el equipo, anotó el cambio de presión y dejó un aviso: \"Volvemos a las 22:15\".", "Sostén el ritmo a lo largo de dos frases, incluso tras una pausa."],
+        ["inventario-ex", "Inventario a ciegas", "Datos de precisión", "[06:17] {motor A: 17,8%; motor B: 93,25%}. El técnico facturó 1.739,12 € y envió la orden #34 a soporte@pulso.es antes de cerrar [Q-81].", "Mantén la vista en el texto cuando alternes símbolos y cifras."],
+        ["enlace-ex", "Enlace sin relevo", "Diálogo y signos", "\"¿Quién abrió [Ñ-4]?\", preguntó Úrsula. El piloto contestó: \"Fue Güell, a las 17:09\". ¡Verifica el registro #27 y guarda /enlace/turno_2 antes de despegar!", "Ajusta el pulso en cada cambio entre diálogo y datos."],
+        ["zarpe-ex", "Zarpe de emergencia", "Resistencia y números", "El agua golpeó el casco durante 45 segundos. A las 04:09, el equipo fijó un nuevo rumbo de 238,75º y cerró el conducto [X-4]. Quedaba un 12% de energía.", "Conserva la regularidad cuando se acumulan las cifras."],
+        ["dossier-ex", "Dossier de la travesía", "Informe mixto sostenido", "[19:43] {zona: WQ-12; reserva: 8,15%; coste: 902,17 €}. \"¡Ya veo el puerto!\", dijo Rocío. Envía el informe /rutas/sector_7 a guía@pulso.es y marca #A-18.", "Termina la lectura de un grupo antes de encadenar el siguiente."],
+      ]},
     ]
   },
   {
@@ -210,6 +245,13 @@ const sections = [
         ["sombra-dm", "Protocolo de sombra", "Alt Gr y diálogo rápido", "¡ALERTA! A las 22:58, Güell cerró [WX-83] y dejó la clave {QZ-16; Ñ-04; 291,7º}. \"¿Se mantiene el 89,06%?\", preguntó Íñigo. Usa #51 y confirma en radio@pulso.es.", "Prepara el modificador adecuado antes de cada signo."],
         ["nexo-dm", "Nexo de los tres módulos", "Tres registros encadenados", "[03:18] {Ñ-7: 94,17%; WX-52: 6,94%}. [03:19] {QZ-08: 7,62%; XQ-91: 51,09%}. [03:20] {canal: #62; cargo: 8.041,72 €}. Óscar responde a guía@pulso.es: \"¡Ya!\".", "Controla las transiciones entre los tres bloques sin quedarte atrás."],
         ["preludio-dm", "Antes del último pulso", "Prueba de precisión completa", "[23:58] {WQ-19: 72,46º; ÑX-07: 17,93%; Z-81: 2.801,04 €}. \"¿Listos, Íñigo y Úrsula?\". ¡Canal #49 abierto! Envía la clave a órbita@pulso.es y cierra [QZ-6].", "Conserva la calma con una vida y un mensaje lleno de cambios de fila."],
+        ["umbral-dm","Umbral de vacío","Señales de alta densidad","[23:59] {QZ-17: 37,09%; Ñ-42: 273,41º}. ¡Cierra #WX-8 y abre [XQ-74]! Güell envía el parte de 2.871,24 € a radio@pulso.es.","Enlaza grupos de datos y palabras con una sola vida."],
+      ]},
+      {name:"Singularidad", pace:59, lives:1, entries:[
+        ["pulso-roto-dm", "Pulso quebrado", "Cuatro grupos mixtos", "[01:27] {WQ-9: 8,13%; ÑX-7: 97,61%; coste: 1.804,02 €}. ¡Gira 293,75º! Óscar cambia a #Z-11, archiva /traza/z_04 y confirma en radio@pulso.es.", "Conserva una sola vida al cruzar los cuatro grupos."],
+        ["anillo-negro-dm", "Anillo negro", "Rumbo, cifras y símbolos", "¿Canal #WX-81? Güell abrió [Ñ-06] a las 23:47. {Giro: 297,41º; carga: 36,74%; total: 2.302,91 €}. Corrige /QZ/órbita_08 y da paso a Úrsula.", "Sostén la cadencia cuando cambien la mano y el modificador."],
+        ["dorsal-dm", "Dorsal inestable", "Registro de doble enlace", "[00:51] {QX-18: 97,08%; ÑZ-71: 6,34%}. [00:52] {WX-5: 283,29º; coste: 7.630,17 €}. ¿Llega la orden #42? Envía /dorsal/eje_9 a guía@pulso.es. ¡Ya!", "Alterna las dos manos sin perder el hilo del informe."],
+        ["null-dm", "Campo nulo", "Cadenas de máxima densidad", "¡ALERTA #XQ-8! Íñigo anotó [23:54] {WZ-7: 193,42º; ÑX-9: 8,47%; QX-27: 3.461,28 €}. Óscar revisó /nulo/vía_11, cambió a #QZ-04 y respondió: \"¡Hecho!\".", "Encadena cambios de fila y de modificador con una vida."],
         ["ultimo","Último pulso","Prueba final","¡PULSO-O! A las 23:59, Íñigo y Úrsula cruzaron el anillo [Z-07]. ¿Clave? {XQ-9: 7,25º; Ñ-2: 99,9%}. Escribe ya a radio@pulso.es, abre #48 y gira 270º.","Completa el mensaje final con una vida y el reloj en marcha."],
       ]},
     ]

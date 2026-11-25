@@ -21,7 +21,7 @@
         <button type="button" data-view="fly" aria-current="page"><span aria-hidden="true">◈</span> Practicar</button>
         <button type="button" id="openFree">Modo libre</button>
         <button type="button" data-view="map"><span aria-hidden="true">⌘</span> Misiones</button>
-        <button type="button" data-view="lab"><span aria-hidden="true">⌁</span> Progreso</button>
+        <button type="button" data-view="lab"><span aria-hidden="true">⌁</span> Perfil</button>
       </nav>
       <div class="top-tools"><button id="openGuide" class="secondary" type="button">Cómo jugar</button><button id="sound" class="sound" type="button" aria-pressed="false" aria-label="Activar sonido"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path id="waves" d="m16 10 5 5m0-5-5 5"/></svg></button></div>
     </div>
@@ -124,7 +124,15 @@
     </section>
 
     <section id="lab" hidden aria-labelledby="labTitle">
-      <div class="page-title"><div><div class="eyebrow"><span class="beam"></span> ENTRENAMIENTO ADAPTATIVO</div><h1 id="labTitle">Tu progreso<span>.</span></h1><p>Revisa tus vuelos y practica las teclas que más te cuestan.</p></div></div>
+      <div class="page-title"><div><div class="eyebrow"><span class="beam"></span> ENTRENAMIENTO ADAPTATIVO</div><h1 id="labTitle">Tu perfil<span>.</span></h1><p>Revisa tus vuelos y practica las teclas que más te cuestan.</p></div></div>
+      <form id="pilotForm" class="panel pilot-form">
+        <div><label for="pilotName">Nombre de quien practica</label><p id="pilotHelp">Se usará en los mensajes al superar una misión.</p></div>
+        <div class="pilot-controls">
+          <input id="pilotName" type="text" maxlength="32" autocomplete="given-name" aria-describedby="pilotHelp" placeholder="Tu nombre">
+          <button class="primary" type="submit">Guardar nombre</button>
+        </div>
+        <p id="pilotStatus" role="status"></p>
+      </form>
       <div class="lab-grid">
         <section class="panel lab-card"><h2>Laboratorio de teclas</h2><p id="labCopy"></p><div id="weakKeys"></div><button class="primary" id="drill" type="button" disabled>Entrenar mis teclas <span aria-hidden="true">▶︎</span></button></section>
         <section class="panel lab-card"><h2>Historial de vuelo</h2><div id="history"></div></section>
@@ -162,7 +170,7 @@
       <textarea id="freeInput" aria-label="Escribe la palabra mostrada" aria-describedby="freeInstructions freeWord" rows="1" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
       <p id="freeInstructions" class="sr-only">Cada palabra completa da paso a la siguiente. Pulsa Esc o Salir para volver.</p>
       <p id="freeWord" class="sr-only" aria-live="polite"></p>
-      <div id="freePrompt" aria-hidden="true"></div>
+      <div id="freePrompt" aria-hidden="true"><div id="freeTrack"></div></div>
       <div id="freeKeyboard"></div>
     </div>
   </dialog>
@@ -186,6 +194,12 @@
     <p id="reportCopy"></p>
     <div class="report-metrics" id="reportMetrics"></div>
     <div class="report-buttons"><button class="primary" id="next" type="button"></button><button class="secondary" id="closeReport" type="button">Volver a práctica</button></div>
+  </dialog>
+  <dialog id="coach" aria-labelledby="coachTitle" aria-describedby="coachMessage">
+    <div class="eyebrow"><span class="beam"></span> MENSAJE DE CABINA</div>
+    <h2 id="coachTitle"></h2>
+    <p id="coachMessage"></p>
+    <div class="report-buttons"><button class="primary" id="dismissCoach" type="button">Continuar</button></div>
   </dialog>
 </body>
 </html>

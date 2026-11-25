@@ -6,7 +6,8 @@ const words=[
 ].join(" ").split(" ");
 const vocabulary=[...new Set(words)];
 
-const queueSize=5;
+const historySlots=2;
+const upcomingSlots=3;
 const graphSeconds=45;
 const rhythmWindowMs=15000;
 
@@ -16,6 +17,8 @@ export function initFreePractice({onOpen,onClose}){
   const exitButton=document.querySelector("#closeFree");
   const input=document.querySelector("#freeInput");
   const prompt=document.querySelector("#freePrompt");
+  const track=document.querySelector("#freeTrack");
+  const reducedMotion=matchMedia("(prefers-reduced-motion: reduce)");
   const spokenWord=document.querySelector("#freeWord");
   const keyboard=document.querySelector(".keyboard-case");
   const keyboardHome=keyboard.parentElement;
@@ -30,7 +33,8 @@ export function initFreePractice({onOpen,onClose}){
 
   let bag=[];
   let lastDrawn;
-  let queue=[];
+  let activeIndex=historySlots;
+  let slide;
   let position=0;
   let letters=[];
   let composing=false;
@@ -54,26 +58,73 @@ export function initFreePractice({onOpen,onClose}){
     return lastDrawn;
   }
 
-  function paintWords(){
-    position=0;
-    letters=Array.from(queue[0],character=>{
+  function wordSlot(word){
+    const slot=document.createElement("span");
+    const text=document.createElement("span");
+    slot.className="free-word";
+    text.className="free-word-text";
+    text.style.setProperty("--letter-count",word.length);
+    text.append(...Array.from(word,character=>{
       const letter=document.createElement("span");
       letter.textContent=character;
       return letter;
-    });
-    prompt.replaceChildren(...queue.map((word,index)=>{
-      const item=document.createElement("span");
-      if(index===0){
-        item.className="free-active-word";
-        item.append(...letters);
-      } else {
-        item.className="free-upcoming-word";
-        item.textContent=word;
-      }
-      return item;
     }));
-    spokenWord.textContent=queue[0];
+    slot.append(text);
+    return slot;
+  }
+
+  function centerActive(){
+    track.style.setProperty("--center-offset",-(activeIndex+.5));
+  }
+
+  function paintActive(){
+    position=0;
+    const slot=track.children[activeIndex];
+    slot.classList.add("free-active-word");
+    letters=[...slot.firstElementChild.children];
+    spokenWord.textContent=slot.textContent;
     markNext();
+  }
+
+  function settleTrack(){
+    while(activeIndex>historySlots){
+      track.firstElementChild.remove();
+      activeIndex--;
+    }
+    centerActive();
+  }
+
+  function advanceWord(){
+    const from=getComputedStyle(track).transform;
+    slide?.cancel();
+    slide=undefined;
+    track.children[activeIndex].classList.remove("free-active-word");
+    activeIndex++;
+    track.append(wordSlot(drawWord()));
+    centerActive();
+    paintActive();
+    if(reducedMotion.matches){
+      settleTrack();
+      return;
+    }
+    const to=getComputedStyle(track).transform;
+    slide=track.animate([{transform:from},{transform:to}],{
+      duration:430,easing:"cubic-bezier(.18,.7,.24,1)"
+    });
+    slide.onfinish=()=>{
+      slide=undefined;
+      settleTrack();
+    };
+  }
+
+  function resetTrack(){
+    activeIndex=historySlots;
+    track.replaceChildren(
+      ...Array.from({length:historySlots},()=>wordSlot("")),
+      ...Array.from({length:upcomingSlots+1},()=>wordSlot(drawWord()))
+    );
+    centerActive();
+    paintActive();
   }
 
   function markNext(){
@@ -148,9 +199,7 @@ export function initFreePractice({onOpen,onClose}){
       position++;
       if(position===letters.length){
         countLabel.textContent=++completed;
-        queue.shift();
-        queue.push(drawWord());
-        paintWords();
+        advanceWord();
       } else markNext();
     }
     refreshStats();
@@ -159,9 +208,8 @@ export function initFreePractice({onOpen,onClose}){
   openButton.addEventListener("click",()=>{
     onOpen();
     keyboardSlot.append(keyboard);
-    queue=Array.from({length:queueSize},drawWord);
     resetStats();
-    paintWords();
+    resetTrack();
     dialog.showModal();
     input.focus({preventScroll:true});
     timer=setInterval(()=>refreshStats(),250);
@@ -169,6 +217,8 @@ export function initFreePractice({onOpen,onClose}){
 
   function closePractice(){
     clearInterval(timer);
+    slide?.cancel();
+    slide=undefined;
     clearTimeout(errorTimer);
     composing=false;
     input.value="";
