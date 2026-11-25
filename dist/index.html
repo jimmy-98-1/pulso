@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="#1b2225">
+  <meta name="theme-color" content="#1d2631">
   <meta name="description" content="Un simulador de vuelo para aprender mecanografía en español.">
   <title>Pulso — Mecanografía arcade</title>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='9' fill='%23b9d1bb'/%3E%3Cpath d='M7 21h8l4-9 4 16 4-7h6' fill='none' stroke='%2312150b' stroke-width='2.5'/%3E%3C/svg%3E">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='9' fill='%23aed9c7'/%3E%3Cpath d='M7 21h8l4-9 4 16 4-7h6' fill='none' stroke='%2312150b' stroke-width='2.5'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="keyboard.css">
   <link rel="stylesheet" href="flight-deck.css">
@@ -158,9 +158,9 @@
           <figcaption id="freeChartTitle">Ritmo <span>Últimos 45 s</span></figcaption>
           <div class="free-chart-plot">
             <svg viewBox="0 0 450 76" preserveAspectRatio="none" aria-hidden="true">
-              <defs><linearGradient id="freeChartFill" x2="0" y2="1" gradientUnits="objectBoundingBox"><stop stop-color="#abd0b7" stop-opacity=".26"/><stop offset="1" stop-color="#abd0b7" stop-opacity="0"/></linearGradient></defs>
+              <defs><linearGradient id="freeChartFill" x2="0" y2="1" gradientUnits="objectBoundingBox"><stop stop-color="#84cbb9" stop-opacity=".26"/><stop offset="1" stop-color="#84cbb9" stop-opacity="0"/></linearGradient></defs>
               <path id="freeChartArea" fill="url(#freeChartFill)"></path>
-              <path id="freeChartLine" fill="none" stroke="#b5d5bf" stroke-width="2" vector-effect="non-scaling-stroke"></path>
+              <path id="freeChartLine" fill="none" stroke="#a2decd" stroke-width="2" vector-effect="non-scaling-stroke"></path>
             </svg>
             <span id="freeChartMax" aria-hidden="true">60</span>
           </div>
@@ -168,9 +168,13 @@
       </div>
 
       <textarea id="freeInput" aria-label="Escribe la palabra mostrada" aria-describedby="freeInstructions freeWord" rows="1" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
-      <p id="freeInstructions" class="sr-only">Cada palabra completa da paso a la siguiente. Pulsa Esc o Salir para volver.</p>
+      <p id="freeInstructions" class="sr-only">Escribe la palabra del centro y pulsa Espacio para pasar a la siguiente. Pulsa Esc o Salir para volver.</p>
       <p id="freeWord" class="sr-only" aria-live="polite"></p>
-      <div id="freePrompt" aria-hidden="true"><div id="freeTrack"></div></div>
+      <div class="free-word-panel">
+        <div id="freePrompt" aria-hidden="true"><div id="freeTrack"></div></div>
+        <p class="free-word-hint" aria-hidden="true"><kbd>Espacio</kbd> para pasar a la siguiente</p>
+      </div>
+      <p id="freeReady" class="sr-only" role="status"></p>
       <div id="freeKeyboard"></div>
     </div>
   </dialog>
@@ -189,17 +193,18 @@
   </dialog>
 
   <dialog id="report" aria-labelledby="reportTitle">
-    <div class="eyebrow"><span class="beam"></span> INFORME DE VUELO</div>
-    <h2 id="reportTitle"></h2>
-    <p id="reportCopy"></p>
-    <div class="report-metrics" id="reportMetrics"></div>
-    <div class="report-buttons"><button class="primary" id="next" type="button"></button><button class="secondary" id="closeReport" type="button">Volver a práctica</button></div>
-  </dialog>
-  <dialog id="coach" aria-labelledby="coachTitle" aria-describedby="coachMessage">
-    <div class="eyebrow"><span class="beam"></span> MENSAJE DE CABINA</div>
-    <h2 id="coachTitle"></h2>
-    <p id="coachMessage"></p>
-    <div class="report-buttons"><button class="primary" id="dismissCoach" type="button">Continuar</button></div>
+    <div class="report-main">
+      <div class="eyebrow"><span class="beam"></span> INFORME DE VUELO</div>
+      <h2 id="reportTitle"></h2>
+      <p id="reportCopy"></p>
+      <div class="report-metrics" id="reportMetrics"></div>
+      <div class="report-buttons"><button class="primary" id="next" type="button"></button><button class="secondary" id="closeReport" type="button">Volver a práctica</button></div>
+    </div>
+    <aside id="coach" aria-labelledby="coachTitle" hidden>
+      <div class="eyebrow"><span class="beam"></span> MENSAJE DE CABINA</div>
+      <h3 id="coachTitle"></h3>
+      <p id="coachMessage"></p>
+    </aside>
   </dialog>
 </body>
 </html>

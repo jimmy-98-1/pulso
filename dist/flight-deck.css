@@ -1,33 +1,36 @@
 :root {
-  --bg: #1b2225;
-  --panel: #252e32;
-  --panel2: #303a3e;
-  --line: #465357;
-  --muted: #c4cfcd;
-  --dim: #aebbb9;
-  --text: #e9efed;
-  --lime: #b9d1bb;
-  --purple: #c1cdca;
-  --rose: #e4aaa2;
+  --bg: #1d2631;
+  --panel: #283644;
+  --panel2: #334353;
+  --line: #4a5e70;
+  --muted: #c9d6e1;
+  --dim: #afc2d1;
+  --text: #edf3f7;
+  --lime: #aed9c7;
+  --purple: #c7b9df;
+  --rose: #e9aeb8;
+  --gold: #ecd0a0;
 }
-body { min-height:100vh; background: radial-gradient(ellipse at 38% 0,#2b3839,transparent 52%),var(--bg); }
-.top { background: #21292c; border-color: #3e4b4e; }
-nav button[aria-current], .profile-label, .secondary { background: #2c373a; border-color: #4a585c; }
-.secondary:hover:not(:disabled) { background: #394644; }
-.primary:hover { background: #c9dfca; }
+body { min-height:100vh; background: radial-gradient(ellipse at 30% 0,#304858,transparent 56%),var(--bg); }
+.top { background: #23313d; border-color: #41586b; }
+nav button[aria-current], .profile-label, .secondary { background: #314453; border-color: #506877; }
+.secondary:hover:not(:disabled) { background: #3d5360; }
+.primary:hover { background: #c3e7d6; }
 .page-title h1 span { color: var(--lime); }
+nav button[aria-current] { border-color:#6f9b94; }
+.logo { background:linear-gradient(145deg,#cae5d8,#93c9b7); }
 #fly .page-title { align-items: center; padding-block: 16px; }
 #fly .page-title h1 { font-size:clamp(1.8rem,4.2vw,3.15rem); }
 .practice, .keyboard, .flight { border-color: var(--line); }
 .practice-header { padding-top: 14px; }
 .practice-header p { color: var(--muted); }
 .typing-head { color: var(--dim); }
-#prompt { background: #1b2428; border-color: #536367; color: #c2cfcc; }
+#prompt { background: #202c3a; border-color: #5b7282; color: #c8d5df; }
 .typing:focus-within #prompt { border-color: #819b90; }
 #letterCount { color: var(--lime); }
 .typing-actions #help { color: var(--muted); }
 .badge, kbd { background: #344043; border-color: #526166; color: #dce6e1; }
-.flight { background: #232d30; box-shadow: none; }
+.flight { background: #263848; box-shadow: none; }
 .flight-head { border-color: #414f54; }
 .scene { height: clamp(158px,15.3vw,208px); }
 .scene-label, #combo { font-size:10px; background:#233138dd; border-color:#60757b; }
@@ -36,9 +39,9 @@ nav button[aria-current], .profile-label, .secondary { background: #2c373a; bord
 .track i { box-shadow:0 0 5px #c1cdca50; }
 .flight-rules { margin-top:7px; }
 #ghostCopy:empty { display:none; }
-.life { color:#d6a9a5; text-shadow:none; }
+.life { color:var(--rose); text-shadow:none; }
 .life.spent { color:#706366; }
-.metrics > div, .report-metrics > div { background:#21292d; border-color:#465357; }
+.metrics > div, .report-metrics > div { background:#24313f; border-color:var(--line); }
 .metrics { margin:9px 0; }
 .record { margin:8px 0 10px; }
 .telemetry { padding:12px 14px; }
@@ -47,7 +50,7 @@ nav button[aria-current], .profile-label, .secondary { background: #2c373a; bord
 #lessonSteps span { background:#3e4d4f; }
 #lessonSteps [aria-current] { background:#3c4f47; border-color:#789388; }
 #lessonSteps .complete span { background:#455c51; }
-dialog { background:#293336; border-color:#607176; }
+dialog { background:#2b3b49; border-color:#617786; }
 dialog::backdrop { background:#131b20ba; }
 .welcome-art { background:radial-gradient(ellipse at 52% 80%,#405853,#293638 73%); border-color:#4e6262; }
 .welcome-art span, .welcome-art span:last-child { background:linear-gradient(145deg,#d2dfd4,#9fb9a7); color:#23342d; border-color:#c9d8cf; border-bottom-color:#677f74; }
@@ -55,9 +58,9 @@ dialog::backdrop { background:#131b20ba; }
 
 .chrono {
   --sweep: 360deg;
-  --dial-fill: #a3bdab;
+  --dial-fill: var(--gold);
   padding: 11px 12px 15px;
-  background: radial-gradient(ellipse at 50% 72%,#293739 0%,#20282b 65%);
+  background: radial-gradient(ellipse at 50% 72%,#3a3b3d 0%,#273340 70%);
   text-align: center;
 }
 .chrono h2 { margin:0 0 8px; font-size:14px; font-weight:700; }
@@ -73,7 +76,7 @@ dialog::backdrop { background:#131b20ba; }
   margin-inline:auto;
   border:1px solid #4c5f60;
   border-radius:50%;
-  background:radial-gradient(circle at 40% 37%,#303e40,#192225 72%);
+  background:radial-gradient(circle at 40% 37%,#3a4148,#202a35 72%);
   box-shadow:0 7px 11px #11191d99, inset 0 0 0 4px #283438, inset 0 0 0 5px #576b6c;
 }
 .chrono-dial::before{
@@ -95,7 +98,7 @@ dialog::backdrop { background:#131b20ba; }
 }
 #deadline {
   grid-row:2;
-  color:#dce9e0;
+  color:var(--gold);
   font:750 clamp(30px,3.4vw,41px)/1 var(--mono);
   letter-spacing:-.09em;
   padding-right:.09em;
@@ -109,8 +112,8 @@ dialog::backdrop { background:#131b20ba; }
   letter-spacing:.12em;
   text-transform:uppercase;
 }
-.chrono.urgent { --dial-fill:#d0ac76; }
-.chrono.urgent #deadline, #compactTime.urgent { color:#e8cb99; }
+.chrono.urgent { --dial-fill:var(--rose); }
+.chrono.urgent #deadline, #compactTime.urgent { color:var(--rose); }
 #compactTime { display:none; font:700 13px var(--mono); color:#c8dacf; }
 
 /* The orbital map is also the difficulty picker. */
@@ -124,8 +127,8 @@ dialog::backdrop { background:#131b20ba; }
   border:1px solid #4b5d60;
   border-radius:16px;
   background:
-    radial-gradient(ellipse at 75% 24%,#35485670,transparent 60%),
-    radial-gradient(ellipse at 28% 80%,#354b4777,transparent 65%),#202a31;
+    radial-gradient(ellipse at 75% 24%,#4c42677d,transparent 60%),
+    radial-gradient(ellipse at 28% 80%,#2e635b82,transparent 65%),#202a31;
   box-shadow:inset 0 0 28px #101c2390;
 }
 .stellar-map::before {
@@ -158,8 +161,8 @@ dialog::backdrop { background:#131b20ba; }
 }
 .planet-picker { display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); gap:6px; }
 .planet-button {
-  --orb-light:#d1dcd2;
-  --orb-middle:#7c9b8b;
+  --orb-light:#b7e0ce;
+  --orb-middle:#6fada0;
   --orb-shadow:#304147;
   --bands:repeating-linear-gradient(-21deg,transparent 0 7px,#546b6668 9px,transparent 11px 17px);
   display:grid;
@@ -175,11 +178,11 @@ dialog::backdrop { background:#131b20ba; }
   color:var(--text);
   text-align:center;
 }
-.planet-button:nth-child(2) { --orb-light:#c9d2d3; --orb-middle:#7a8e95; --orb-shadow:#283b48; }
-.planet-button:nth-child(3) { --orb-light:#bdcdd5; --orb-middle:#718592; --orb-shadow:#2b3b49; }
-.planet-button:nth-child(4) { --orb-light:#d8d2c0; --orb-middle:#9c9580; --orb-shadow:#484744; }
-.planet-button:nth-child(5) { --orb-light:#c9c7d1; --orb-middle:#858392; --orb-shadow:#353b48; }
-.planet-button:nth-child(6) { --orb-light:#d3c0b2; --orb-middle:#9a7c71; --orb-shadow:#423941; }
+.planet-button:nth-child(2) { --orb-light:#ecd2a8; --orb-middle:#ae8969; --orb-shadow:#283b48; }
+.planet-button:nth-child(3) { --orb-light:#a9c9e4; --orb-middle:#6389ab; --orb-shadow:#2b3b49; }
+.planet-button:nth-child(4) { --orb-light:#edc4ae; --orb-middle:#ad7f71; --orb-shadow:#484744; }
+.planet-button:nth-child(5) { --orb-light:#d3c2e7; --orb-middle:#9584b1; --orb-shadow:#353b48; }
+.planet-button:nth-child(6) { --orb-light:#e0aeba; --orb-middle:#a2677c; --orb-shadow:#423941; }
 .planet-button[aria-pressed=true] { background:#3e5a517a; border-color:#789789; }
 .planet-button:hover { background:#3a514775; }
 .planet-button strong { font-size:14px; }
@@ -368,5 +371,24 @@ dialog::backdrop { background:#131b20ba; }
 #pilotName:focus-visible { outline:2px solid var(--lime); outline-offset:2px; }
 #pilotStatus { flex-basis:100%; color:var(--lime); }
 #pilotStatus:empty { display:none; }
-#coach .report-buttons { margin-top:18px; }
-#coachTitle { overflow-wrap:anywhere; }
+#report[open]:has(#coach:not([hidden])) {
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(170px,34%);
+  align-items:start;
+  gap:18px;
+  width:min(680px,calc(100% - 28px));
+}
+.report-main { min-width:0; }
+#coach {
+  padding:14px;
+  border:1px solid #6f6488;
+  border-left:3px solid #b29dcc;
+  border-radius:11px;
+  background:#373649;
+}
+#coach .eyebrow { color:#dac9ef; font-size:10px; letter-spacing:.06em; }
+#coachTitle { margin:8px 0 6px; font-size:16px; overflow-wrap:anywhere; }
+#coachMessage { color:#e0d9e9; font-size:13px; line-height:1.5; }
+@media (max-width:560px) {
+  #report[open]:has(#coach:not([hidden])) { grid-template-columns:1fr; gap:14px; }
+}
